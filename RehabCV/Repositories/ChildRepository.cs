@@ -1,0 +1,75 @@
+﻿using RehabCV.Database;
+using RehabCV.Models;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace RehabCV.Repositories
+{
+    public class ChildRepository : IRepository<Child>
+    {
+        private readonly RehabCVContext _context;
+
+        public ChildRepository(RehabCVContext context)
+        {
+            _context = context;
+        }
+
+        public IEnumerable<Child> FindAll()
+        {
+            if (_context != null)
+            {
+                return _context.Children;
+            }
+
+            return null;
+        }
+
+        public async Task<string> CreateAsync(Child child)
+        {
+            if (_context != null)
+            {
+                await _context.Children.AddAsync(child);
+                await _context.SaveChangesAsync();
+
+                return child.Id;
+            }
+
+            return null;
+        }
+
+        public async Task UpdateAsync(string id, Child child)
+        {
+            if (_context != null)
+            {
+                child.Id = id;
+                _context.Children.Update(child);
+
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task<int> DeleteAsync(string id)
+        {
+            var result = 0;
+
+            if (_context != null)
+            {
+                var child = _context.Children.FirstOrDefault(x => x.Id == id);
+
+                if (child != null)
+                {
+                    _context.Children.Remove(child);
+
+                    result =  await _context.SaveChangesAsync();
+                }
+
+                return result;
+            }
+
+            return result;
+        }
+    }
+}

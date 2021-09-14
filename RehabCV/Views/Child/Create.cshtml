@@ -1,0 +1,62 @@
+﻿@model RehabCV.DTO.ChildDTO
+@{
+    ViewData["Title"] = "Додати дитину";
+}
+<h2>@ViewData["Title"]</h2>
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" asp-controller="Child" asp-action="Create" id="child">
+            <hr />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="FirstNameOfChild"></label>
+                <input asp-for="FirstNameOfChild" class="form-control" />
+                <span asp-validation-for="FirstNameOfChild" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MiddleNameOfChild"></label>
+                <input asp-for="MiddleNameOfChild" class="form-control" />
+                <span asp-validation-for="MiddleNameOfChild" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastNameOfChild"></label>
+                <input asp-for="LastNameOfChild" class="form-control" />
+                <span asp-validation-for="LastNameOfChild" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BirthdayOfChild"></label>
+                <input asp-for="BirthdayOfChild" class="form-control" />
+                <span asp-validation-for="BirthdayOfChild" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Diagnosis"></label>
+                <select name="Diagnosis" id="Diagnosis" form="child">
+                    <option value="авітаміноз">Авітаміноз</option>
+                    <option value="бронхіт">Бронхіт</option>
+                    <option value="віспа">Віспа</option>
+                    <option value="гепатит">Гепатит</option>
+                </select>
+                <span asp-validation-for="Diagnosis" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Priority"></label>
+                <select name="Priority" id="Priority" form="child">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="інше">Інше</option>
+                </select>
+                <span asp-validation-for="Priority" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HomeAddress"></label>
+                <input asp-for="HomeAddress" class="form-control" />
+                <span asp-validation-for="HomeAddress" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-default">Додати</button>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
