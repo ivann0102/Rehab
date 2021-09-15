@@ -2,7 +2,8 @@
 using RehabCV.Models;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
+//using System.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,11 +18,45 @@ namespace RehabCV.Repositories
             _context = context;
         }
 
-        public IEnumerable<Child> FindAll()
+        /*public async Task<IEnumerable<Child>> FindAll()
         {
             if (_context != null)
             {
-                return _context.Children;
+                return await _context.Children.ToListAsync();
+            }
+
+            return null;
+        }
+        */
+
+        public async Task<IEnumerable<Child>> FindAll()
+        {
+            if (_context != null)
+            {
+                return await _context.Children.ToListAsync();
+            }
+
+            return null;
+        }
+
+        public async Task<Child> FindById(string id)
+        {
+            if (_context != null)
+            {
+                return await _context.Children.FirstOrDefaultAsync(x => x.Id == id);
+            }
+
+            return null;
+        }
+
+        public async Task<IEnumerable<Child>> FindByParentId(string parentId)
+        {
+            if (_context != null)
+            {
+                return await _context.Children
+                                    .AsNoTracking()
+                                    .AsQueryable()
+                                    .Where(x => x.UserId == parentId).ToListAsync();
             }
 
             return null;
@@ -45,6 +80,7 @@ namespace RehabCV.Repositories
             if (_context != null)
             {
                 child.Id = id;
+
                 _context.Children.Update(child);
 
                 await _context.SaveChangesAsync();

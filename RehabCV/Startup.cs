@@ -14,7 +14,6 @@ using RehabCV.Models;
 using Microsoft.AspNetCore.Identity;
 using AutoMapper;
 using RehabCV.Repositories;
-using RehabCV.Services;
 using RehabCV.DTO;
 
 namespace RehabCV
@@ -40,10 +39,6 @@ namespace RehabCV
             .AddDefaultTokenProviders();
 
             services.AddScoped<IRepository<Child>, ChildRepository>();
-            services.AddScoped<IService<ChildDTO>, ChildService>();
-
-            var config = new Mapping().Configure();
-            services.AddSingleton<IMapper>(sp => config.CreateMapper());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
