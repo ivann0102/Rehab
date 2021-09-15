@@ -9,5 +9,7 @@ namespace RehabCV.Services
     {
         List<TEntity> FindById(string id);
         void Create(TEntity entity, string id);
+        void Update(string id, TEntity entity);
+        void Delete(string id);
     }
 }
