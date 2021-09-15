@@ -4,11 +4,12 @@
     ViewData["Title"] = "Видалити";
 }
 
-<h1>Видалити</h1>
+@await Html.PartialAsync("_IndexHeader")
 
 <div>
     <div class="modal-content">
-        <div class="modal-body">
+        <div class="modal-body" style="margin: auto">
+            <h2 style="text-align: center">@ViewData["Title"]</h2>
             <dl class="row">
                 <dt class="col-sm-2">
                     @Html.DisplayNameFor(model => model.FirstNameOfChild)
@@ -33,9 +34,11 @@
 
             <form asp-action="Delete">
                 <input type="hidden" asp-for="Id" />
-                <input type="submit" value="Видалити" class="btn btn-danger" />
+                <input type="submit" value="Видалити" class="btn btn-danger" style="width: 100%" />
             </form>
         </div>
         <a asp-action="Index">Назад до списку</a>
     </div>
 </div>
+
+@await Html.PartialAsync("_IndexFooter")

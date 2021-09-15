@@ -2,7 +2,6 @@
 using RehabCV.Models;
 using System;
 using System.Collections.Generic;
-//using System.Data.Entity;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,17 +16,6 @@ namespace RehabCV.Repositories
         {
             _context = context;
         }
-
-        /*public async Task<IEnumerable<Child>> FindAll()
-        {
-            if (_context != null)
-            {
-                return await _context.Children.ToListAsync();
-            }
-
-            return null;
-        }
-        */
 
         public async Task<IEnumerable<Child>> FindAll()
         {
@@ -67,6 +55,7 @@ namespace RehabCV.Repositories
             if (_context != null)
             {
                 await _context.Children.AddAsync(child);
+
                 await _context.SaveChangesAsync();
 
                 return child.Id;

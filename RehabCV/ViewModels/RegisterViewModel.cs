@@ -11,17 +11,17 @@ namespace RehabCV.ViewModels
     {
         [Required(AllowEmptyStrings = false, ErrorMessage = "Вкажіть ім'я.")]
         [StringLength(100, ErrorMessage = "В полі ім'я має бути мінімум 1 символ і максимум 100", MinimumLength = 1)]
-        [Display(Name = "Ім'я батька/матері")]
+        [Display(Name = "Ім'я")]
         public string FirstNameOfUser { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Вкажіть по батькові.")]
         [StringLength(100, ErrorMessage = "В полі по батькові має бути мінімум 1 символ і максимум 100", MinimumLength = 1)]
-        [Display(Name = "По батькові батька/матері")]
+        [Display(Name = "По батькові")]
         public string MiddleNameOfUser { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Вкажіть прізвище.")]
         [StringLength(100, ErrorMessage = "В полі прізвище має бути мінімум 1 символ і максимум 100", MinimumLength = 1)]
-        [Display(Name = "Прізвище батька/матері")]
+        [Display(Name = "Прізвище")]
         public string LastNameOfUser { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Вкажіть електронну пошту.")]

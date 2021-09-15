@@ -1,29 +1,40 @@
 ﻿@if (User.Identity.IsAuthenticated)
 {
 <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">
-    <ul class="nav navbar-nav navbar-right">
-        <li class="nav-item">
-            <a class="nav-link text-dark"> @User.Identity.Name </a>
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+            <a class="nav-link"> @User.Identity.Name </a>
         </li>
-        <li class="nav-item">
-            <button type="submit" class="btn btn-link navbar-btn navbar-link">Log out</button>
-        </li>
-    </ul>
-    <ul class="navbar-nav flex-grow-1">
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Child" asp-action="Index">Children</a>
+        <li class="nav-item active">
+            <button type="submit" class="btn btn-primary ml-lg-3">Log out</button>
         </li>
     </ul>
+    @if (User.IsInRole("Parent"))
+    {
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-controller="Child" asp-action="Index">Діти</a>
+            </li>
+        </ul>
+    }
+    @if (User.IsInRole("Doctor") || User.IsInRole("Admin"))
+    {
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-controller="Event" asp-action="Index">Календар</a>
+            </li>
+        </ul>
+    }
 </form>
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right">
-        <li>
-            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+            <a class="btn btn-primary ml-lg-3" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
         </li>
-        <li>
-            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Log in</a>
+        <li class="nav-item">
+            <a class="btn btn-primary ml-lg-3" asp-area="" asp-controller="Account" asp-action="Login">Log in</a>
         </li>
     </ul>
 }

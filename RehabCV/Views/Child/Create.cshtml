@@ -1,10 +1,11 @@
 ﻿@model RehabCV.DTO.ChildDTO
-@{
-    ViewData["Title"] = "Додати дитину";
-}
-<h2>@ViewData["Title"]</h2>
+@{ ViewData["Title"] = "Додати дитину"; }
+
+@await Html.PartialAsync("_IndexHeader")
+
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-4" style="margin: auto">
+        <h2 style="text-align: center">@ViewData["Title"]</h2>
         <form method="post" asp-controller="Child" asp-action="Create" id="child">
             <hr />
             <div asp-validation-summary="All" class="text-danger"></div>
@@ -25,26 +26,26 @@
             </div>
             <div class="form-group">
                 <label asp-for="BirthdayOfChild"></label>
-                <input asp-for="BirthdayOfChild" class="form-control" />
+                <input type="date" asp-for="BirthdayOfChild" class="form-control" />
                 <span asp-validation-for="BirthdayOfChild" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Diagnosis"></label>
-                <select name="Diagnosis" id="Diagnosis" form="child">
-                    <option value="авітаміноз">Авітаміноз</option>
-                    <option value="бронхіт">Бронхіт</option>
-                    <option value="віспа">Віспа</option>
-                    <option value="гепатит">Гепатит</option>
+                <select name="Diagnosis" id="Diagnosis" form="child" class="custom-select">
+                    <option value="неврологія">Неврологія</option>
+                    <option value="генетика">Генетика</option>
+                    <option value="Психіатрія">Віспа</option>
+                    <option value="інше">Інше</option>
                 </select>
                 <span asp-validation-for="Diagnosis" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Priority"></label>
-                <select name="Priority" id="Priority" form="child">
+                <select name="Priority" id="Priority" form="child" class="custom-select">
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
-                    <option value="інше">Інше</option>
+                    <option value="4">Інше</option>
                 </select>
                 <span asp-validation-for="Priority" class="text-danger"></span>
             </div>
@@ -53,10 +54,13 @@
                 <input asp-for="HomeAddress" class="form-control" />
                 <span asp-validation-for="HomeAddress" class="text-danger"></span>
             </div>
-            <button type="submit" class="btn btn-default">Додати</button>
+            <button type="submit" class="btn btn-primary" style="width: 100%">Додати</button>
         </form>
     </div>
 </div>
+
+@await Html.PartialAsync("_IndexFooter")
+
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
 }

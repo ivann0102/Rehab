@@ -1,10 +1,11 @@
 ﻿@model RehabCV.ViewModels.RegisterViewModel
-@{
-    ViewData["Title"] = "Реєстрація";
-}
-<h2>@ViewData["Title"]</h2>
+@{ ViewData["Title"] = "Реєстрація"; }
+
+@await Html.PartialAsync("_IndexHeader")
+
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-4" style="margin: auto">
+        <h2 style="text-align: center">@ViewData["Title"]</h2>
         <form method="post" asp-controller="Account" asp-action="Register" autocomplete="off">
             <hr />
             <div asp-validation-summary="All" class="text-danger"></div>
@@ -56,10 +57,13 @@
                 <input asp-for="ConfirmPassword" class="form-control" />
                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
             </div>
-            <button type="submit" class="btn btn-default">Зареєструватись</button>
+            <button type="submit" class="btn btn-primary" style="width: 100%">Зареєструватись</button>
         </form>
     </div>
 </div>
+
+@await Html.PartialAsync("_IndexFooter")
+
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
     <script>

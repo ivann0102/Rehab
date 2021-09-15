@@ -1,20 +1,17 @@
 ﻿@model IEnumerable<RehabCV.Models.Child>
 
-@{
-    ViewData["Title"] = "Index";
-}
+@{ ViewData["Title"] = "Список дітей"; }
 
-<h1>Index</h1>
+@await Html.PartialAsync("_IndexHeader")
+
+<h2 style="text-align: center">@ViewData["Title"]</h2>
 
 <p>
-    <a asp-action="Create">Додати дитину</a>
+    <a asp-action="Create" class="btn btn-primary">Додати дитину</a>
 </p>
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
             <th>
                 @Html.DisplayNameFor(model => model.FirstName)
             </th>
@@ -44,9 +41,6 @@
         {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.FirstName)
             </td>
             <td>
@@ -68,10 +62,12 @@
                 @Html.DisplayFor(modelItem => item.HomeAddress)
             </td>
             <td>
-                <a asp-action="Update" asp-route-id="@item.Id">Редагувати</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
+                <a asp-action="Update" asp-route-id="@item.Id" class="btn btn-info" style="width: 60%">Редагувати</a> 
+                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger" style="width: 60%">Видалити</a>
             </td>
         </tr>
-        }
+    }
     </tbody>
 </table>
+
+@await Html.PartialAsync("_IndexFooter")

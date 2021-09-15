@@ -6,15 +6,18 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Text.Json;
 using RehabCV.Models;
+using RehabCV.Repositories;
 
 namespace RehabCV.Controllers
 {
     public class EventController : Controller
     {
         private readonly RehabCVContext _context;
-        public EventController(RehabCVContext context)
+        private readonly IEvent<Event> _eventRepository;
+        public EventController(RehabCVContext context, IEvent<Event> eventRepository)
         {
             _context = context;
+            _eventRepository = eventRepository;
         }
         public ActionResult Index()
         {
@@ -22,9 +25,10 @@ namespace RehabCV.Controllers
         }
 
         [HttpGet]
-        public JsonResult GetEvents()
+        public async Task<JsonResult> GetEvents()
         {
-            var events = _context.Events.ToList();
+            var events = await _eventRepository.FindAll();
+            //var events = _context.Events.ToList();
 
             return Json(events, new JsonSerializerOptions
             {
@@ -33,53 +37,55 @@ namespace RehabCV.Controllers
         }
 
         [HttpPost]
-        public JsonResult SaveEvent(Event e)
+        public async Task<JsonResult> SaveEvent(Event e)
         {
             var status = false;
-            if (_context != null)
+            if (_eventRepository != null)
             {
                 if (!String.IsNullOrEmpty(e.Id))
                 {
-                    //Update the event
-                    var v = _context.Events.Where(a => a.Id == e.Id).FirstOrDefault();
-                    if (v != null)
-                    {
-                        v.Subject = e.Subject;
-                        v.Start = e.Start;
-                        v.End = e.End;
-                        v.Description = e.Description;
-                        v.IsFullDay = e.IsFullDay;
-                        v.ThemeColor = e.ThemeColor;
-                    }
+                    var v = await _eventRepository.FindById(e.Id);
+
+                    v.Subject = e.Subject;
+                    v.Start = e.Start;
+                    v.End = e.End;
+                    v.Description = e.Description;
+                    v.IsFullDay = e.IsFullDay;
+                    v.ThemeColor = e.ThemeColor;
+
+                    await _eventRepository.UpdateAsync(e.Id, v);
                 }
                 else
                 {
                     e.Id = Guid.NewGuid().ToString();
-                    _context.Events.Add(e);
+
+                    await _eventRepository.CreateAsync(e);
                 }
-                _context.SaveChanges();
 
                 status = true;
             }
-
-            return Json(status, new JsonSerializerOptions
+            return Json(status);
+            /*return Json(status, new JsonSerializerOptions
             {
                 WriteIndented = true,
-            });
+            });*/
         }
 
         [HttpPost]
-        public JsonResult DeleteEvent(string id)
+        public async Task<JsonResult> DeleteEvent(string id)
         {
             var status = false;
-            if (_context != null)
+            if (_eventRepository != null)
             {
-                var v = _context.Events.Where(a => a.Id == id).FirstOrDefault();
+                var v = await _eventRepository.FindById(id);
                 if (v != null)
                 {
-                    _context.Events.Remove(v);
-                    _context.SaveChanges();
-                    status = true;
+                    var result = await _eventRepository.DeleteAsync(id);
+
+                    if (result != 0)
+                    {
+                        status = true;
+                    }
                 }
             }
 

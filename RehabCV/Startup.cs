@@ -39,6 +39,7 @@ namespace RehabCV
             .AddDefaultTokenProviders();
 
             services.AddScoped<IRepository<Child>, ChildRepository>();
+            services.AddScoped<IEvent<Event>, EventRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
