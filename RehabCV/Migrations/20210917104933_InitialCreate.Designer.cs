@@ -10,7 +10,7 @@ using RehabCV.Database;
 namespace RehabCV.Migrations
 {
     [DbContext(typeof(RehabCVContext))]
-    [Migration("20210907192834_InitialCreate")]
+    [Migration("20210917104933_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -287,10 +287,10 @@ namespace RehabCV.Migrations
 
             modelBuilder.Entity("RehabCV.Models.Queue", b =>
                 {
-                    b.Property<int>("ChildId")
-                        .HasColumnType("integer");
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
 
-                    b.Property<string>("ChildId1")
+                    b.Property<string>("ChildId")
                         .HasColumnType("text");
 
                     b.Property<int>("NumberInQueue")
@@ -299,17 +299,19 @@ namespace RehabCV.Migrations
                     b.Property<string>("TypeOfRehab")
                         .HasColumnType("text");
 
-                    b.HasIndex("ChildId1");
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChildId");
 
                     b.ToTable("Queues");
                 });
 
             modelBuilder.Entity("RehabCV.Models.Rehabilitation", b =>
                 {
-                    b.Property<int>("ChildId")
-                        .HasColumnType("integer");
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
 
-                    b.Property<string>("ChildId1")
+                    b.Property<string>("ChildId")
                         .HasColumnType("text");
 
                     b.Property<DateTime>("DateOfRehab")
@@ -321,23 +323,27 @@ namespace RehabCV.Migrations
                     b.Property<string>("Form")
                         .HasColumnType("text");
 
-                    b.HasIndex("ChildId1");
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChildId");
 
                     b.ToTable("Rehabilitations");
                 });
 
             modelBuilder.Entity("RehabCV.Models.Reserve", b =>
                 {
-                    b.Property<int>("ChildId")
-                        .HasColumnType("integer");
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
 
-                    b.Property<string>("ChildId1")
+                    b.Property<string>("ChildId")
                         .HasColumnType("text");
 
                     b.Property<int>("NumberInQueue")
                         .HasColumnType("integer");
 
-                    b.HasIndex("ChildId1");
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChildId");
 
                     b.ToTable("Reserves");
                 });
@@ -428,7 +434,7 @@ namespace RehabCV.Migrations
                 {
                     b.HasOne("RehabCV.Models.Child", "Child")
                         .WithMany()
-                        .HasForeignKey("ChildId1");
+                        .HasForeignKey("ChildId");
 
                     b.Navigation("Child");
                 });
@@ -437,7 +443,7 @@ namespace RehabCV.Migrations
                 {
                     b.HasOne("RehabCV.Models.Child", "Child")
                         .WithMany()
-                        .HasForeignKey("ChildId1");
+                        .HasForeignKey("ChildId");
 
                     b.Navigation("Child");
                 });
@@ -446,7 +452,7 @@ namespace RehabCV.Migrations
                 {
                     b.HasOne("RehabCV.Models.Child", "Child")
                         .WithMany()
-                        .HasForeignKey("ChildId1");
+                        .HasForeignKey("ChildId");
 
                     b.Navigation("Child");
                 });

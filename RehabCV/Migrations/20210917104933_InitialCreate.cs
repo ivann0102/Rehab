@@ -205,16 +205,17 @@ namespace RehabCV.Migrations
                 name: "Queues",
                 columns: table => new
                 {
-                    ChildId = table.Column<int>(type: "integer", nullable: false),
-                    ChildId1 = table.Column<string>(type: "text", nullable: true),
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    ChildId = table.Column<string>(type: "text", nullable: true),
                     TypeOfRehab = table.Column<string>(type: "text", nullable: true),
                     NumberInQueue = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_Queues", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Queues_Children_ChildId1",
-                        column: x => x.ChildId1,
+                        name: "FK_Queues_Children_ChildId",
+                        column: x => x.ChildId,
                         principalTable: "Children",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -224,17 +225,18 @@ namespace RehabCV.Migrations
                 name: "Rehabilitations",
                 columns: table => new
                 {
-                    ChildId = table.Column<int>(type: "integer", nullable: false),
-                    ChildId1 = table.Column<string>(type: "text", nullable: true),
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    ChildId = table.Column<string>(type: "text", nullable: true),
                     Form = table.Column<string>(type: "text", nullable: true),
                     Duration = table.Column<string>(type: "text", nullable: true),
                     DateOfRehab = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_Rehabilitations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Rehabilitations_Children_ChildId1",
-                        column: x => x.ChildId1,
+                        name: "FK_Rehabilitations_Children_ChildId",
+                        column: x => x.ChildId,
                         principalTable: "Children",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -244,15 +246,16 @@ namespace RehabCV.Migrations
                 name: "Reserves",
                 columns: table => new
                 {
-                    ChildId = table.Column<int>(type: "integer", nullable: false),
-                    ChildId1 = table.Column<string>(type: "text", nullable: true),
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    ChildId = table.Column<string>(type: "text", nullable: true),
                     NumberInQueue = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_Reserves", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Reserves_Children_ChildId1",
-                        column: x => x.ChildId1,
+                        name: "FK_Reserves_Children_ChildId",
+                        column: x => x.ChildId,
                         principalTable: "Children",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -301,19 +304,19 @@ namespace RehabCV.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Queues_ChildId1",
+                name: "IX_Queues_ChildId",
                 table: "Queues",
-                column: "ChildId1");
+                column: "ChildId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Rehabilitations_ChildId1",
+                name: "IX_Rehabilitations_ChildId",
                 table: "Rehabilitations",
-                column: "ChildId1");
+                column: "ChildId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reserves_ChildId1",
+                name: "IX_Reserves_ChildId",
                 table: "Reserves",
-                column: "ChildId1");
+                column: "ChildId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

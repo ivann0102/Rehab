@@ -26,7 +26,9 @@ namespace RehabCV.Controllers
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
+
             var children = await _repository.FindByParentId(user.Id);
+
             return View(children);
         }
         public IActionResult Create()
@@ -55,9 +57,13 @@ namespace RehabCV.Controllers
                     HomeAddress = childDTO.HomeAddress
                 };
 
-                await _repository.CreateAsync(child);
+                var result = await _repository.CreateAsync(child);
 
-                return RedirectToAction("Index", "Child");
+                if (result != null)
+                {
+                    return RedirectToAction("Index", "Child");
+                }
+                
             }
             return View(childDTO);
         }

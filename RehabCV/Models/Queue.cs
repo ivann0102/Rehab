@@ -7,7 +7,8 @@ namespace RehabCV.Models
 {
     public class Queue
     {
-        public int ChildId { get; set; }
+        public string Id { get; set; }
+        public string ChildId { get; set; }
         public Child Child { get; set; }
         public string TypeOfRehab { get; set; }
         public int NumberInQueue { get; set; }

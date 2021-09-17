@@ -59,10 +59,13 @@ namespace RehabCV.Controllers
                 {
                     e.Id = Guid.NewGuid().ToString();
 
-                    await _eventRepository.CreateAsync(e);
-                }
+                    var result = await _eventRepository.CreateAsync(e);
 
-                status = true;
+                    if (result != null)
+                    {
+                        status = true;
+                    }
+                }
             }
             return Json(status);
             /*return Json(status, new JsonSerializerOptions

@@ -63,7 +63,7 @@
             <div class="collapse navbar-collapse" id="navbarSupport">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Головна</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="about.html">About Us</a>
@@ -74,8 +74,8 @@
                     <li class="nav-item">
                         <a class="nav-link" href="contact.html">Contact</a>
                     </li>
+                    @await Html.PartialAsync("_LoginPartial")
                 </ul>
-                @await Html.PartialAsync("_LoginPartial")
             </div> <!-- .navbar-collapse -->
         </div> <!-- .container -->
     </nav>

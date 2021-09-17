@@ -1,0 +1,62 @@
+﻿@model IEnumerable<RehabCV.ViewModels.RehabViewModel>
+
+@{ ViewData["Title"] = "Реабілітація"; }
+
+@await Html.PartialAsync("_IndexHeader")
+
+<h2 style="text-align: center">@ViewData["Title"]</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary" >Створити реабілітацію</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstNameOfChild)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MiddleNameOfChild)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastNameOfChild)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Form)
+            </th>  
+            <th>
+                @Html.DisplayNameFor(model => model.Duration)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfRehab)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.FirstNameOfChild)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.MiddleNameOfChild)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.LastNameOfChild)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Form)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Duration)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.DateOfRehab)
+    </td>
+</tr>}
+    </tbody>
+</table>
+
+@await Html.PartialAsync("_IndexFooter")

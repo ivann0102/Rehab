@@ -22,12 +22,6 @@ namespace RehabCV.Database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Queue>()
-                .HasNoKey();
-            modelBuilder.Entity<Rehabilitation>()
-                .HasNoKey();
-            modelBuilder.Entity<Reserve>()
-                .HasNoKey();
         }
     }
 }
