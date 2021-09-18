@@ -37,8 +37,6 @@ namespace RehabCV.Controllers
 
             var rehabViewModel = rehabilitations.GetRehabViewModel(children);
 
-           
-
             return View(rehabViewModel);
         }
 

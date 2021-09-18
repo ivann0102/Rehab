@@ -13,18 +13,20 @@ namespace RehabCV.Extension
                                                                     IEnumerable<Child> children)
         {
             var rehabs = new List<RehabViewModel>();
-            var rehab = new RehabViewModel();
 
             if (rehabilitations != null)
             {
                 foreach (var value in rehabilitations)
                 {
-                    rehab.FirstNameOfChild = children.FirstOrDefault(x => x.Id == value.ChildId).FirstName;
-                    rehab.MiddleNameOfChild = children.FirstOrDefault(x => x.Id == value.ChildId).MiddleName;
-                    rehab.LastNameOfChild = children.FirstOrDefault(x => x.Id == value.ChildId).LastName;
-                    rehab.Form = value.Form;
-                    rehab.Duration = value.Duration;
-                    rehab.DateOfRehab = value.DateOfRehab;
+                    var rehab = new RehabViewModel
+                    {
+                        FirstNameOfChild = children.FirstOrDefault(x => x.Id == value.ChildId).FirstName,
+                        MiddleNameOfChild = children.FirstOrDefault(x => x.Id == value.ChildId).MiddleName,
+                        LastNameOfChild = children.FirstOrDefault(x => x.Id == value.ChildId).LastName,
+                        Form = value.Form,
+                        Duration = value.Duration,
+                        DateOfRehab = value.DateOfRehab
+                    };
 
                     rehabs.Add(rehab);
                 }
