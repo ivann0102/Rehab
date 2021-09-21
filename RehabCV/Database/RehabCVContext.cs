@@ -22,6 +22,22 @@ namespace RehabCV.Database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Child>()
+                .HasOne(x => x.Rehabilitation)
+                .WithOne(x => x.Child)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Child>()
+                .HasOne(x => x.Reserve)
+                .WithOne(x => x.Child)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Rehabilitation>()
+                .HasOne(x => x.Queue)
+                .WithOne(x => x.Rehabilitation)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<User>()
+                .HasMany(x => x.Child)
+                .WithOne(x => x.User)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

@@ -14,5 +14,7 @@ namespace RehabCV.Models
         public string Diagnosis { get; set; }
         public string Priority { get; set; }
         public string HomeAddress { get; set; }
+        public Rehabilitation Rehabilitation { get; set; }
+        public Reserve Reserve { get; set; }
     }
 }

@@ -10,7 +10,7 @@ using RehabCV.Database;
 namespace RehabCV.Migrations
 {
     [DbContext(typeof(RehabCVContext))]
-    [Migration("20210917104933_InitialCreate")]
+    [Migration("20210921203413_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -290,18 +290,19 @@ namespace RehabCV.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
-                    b.Property<string>("ChildId")
-                        .HasColumnType("text");
-
                     b.Property<int>("NumberInQueue")
                         .HasColumnType("integer");
+
+                    b.Property<string>("RehabilitationId")
+                        .HasColumnType("text");
 
                     b.Property<string>("TypeOfRehab")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ChildId");
+                    b.HasIndex("RehabilitationId")
+                        .IsUnique();
 
                     b.ToTable("Queues");
                 });
@@ -325,7 +326,8 @@ namespace RehabCV.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ChildId");
+                    b.HasIndex("ChildId")
+                        .IsUnique();
 
                     b.ToTable("Rehabilitations");
                 });
@@ -343,7 +345,8 @@ namespace RehabCV.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ChildId");
+                    b.HasIndex("ChildId")
+                        .IsUnique();
 
                     b.ToTable("Reserves");
                 });
@@ -425,25 +428,28 @@ namespace RehabCV.Migrations
                 {
                     b.HasOne("RehabCV.Models.User", "User")
                         .WithMany("Child")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("RehabCV.Models.Queue", b =>
                 {
-                    b.HasOne("RehabCV.Models.Child", "Child")
-                        .WithMany()
-                        .HasForeignKey("ChildId");
+                    b.HasOne("RehabCV.Models.Rehabilitation", "Rehabilitation")
+                        .WithOne("Queue")
+                        .HasForeignKey("RehabCV.Models.Queue", "RehabilitationId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
-                    b.Navigation("Child");
+                    b.Navigation("Rehabilitation");
                 });
 
             modelBuilder.Entity("RehabCV.Models.Rehabilitation", b =>
                 {
                     b.HasOne("RehabCV.Models.Child", "Child")
-                        .WithMany()
-                        .HasForeignKey("ChildId");
+                        .WithOne("Rehabilitation")
+                        .HasForeignKey("RehabCV.Models.Rehabilitation", "ChildId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Child");
                 });
@@ -451,10 +457,23 @@ namespace RehabCV.Migrations
             modelBuilder.Entity("RehabCV.Models.Reserve", b =>
                 {
                     b.HasOne("RehabCV.Models.Child", "Child")
-                        .WithMany()
-                        .HasForeignKey("ChildId");
+                        .WithOne("Reserve")
+                        .HasForeignKey("RehabCV.Models.Reserve", "ChildId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Child");
+                });
+
+            modelBuilder.Entity("RehabCV.Models.Child", b =>
+                {
+                    b.Navigation("Rehabilitation");
+
+                    b.Navigation("Reserve");
+                });
+
+            modelBuilder.Entity("RehabCV.Models.Rehabilitation", b =>
+                {
+                    b.Navigation("Queue");
                 });
 
             modelBuilder.Entity("RehabCV.Models.User", b =>

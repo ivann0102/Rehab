@@ -198,27 +198,7 @@ namespace RehabCV.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Queues",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "text", nullable: false),
-                    ChildId = table.Column<string>(type: "text", nullable: true),
-                    TypeOfRehab = table.Column<string>(type: "text", nullable: true),
-                    NumberInQueue = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Queues", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Queues_Children_ChildId",
-                        column: x => x.ChildId,
-                        principalTable: "Children",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -239,7 +219,7 @@ namespace RehabCV.Migrations
                         column: x => x.ChildId,
                         principalTable: "Children",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -258,7 +238,27 @@ namespace RehabCV.Migrations
                         column: x => x.ChildId,
                         principalTable: "Children",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Queues",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    RehabilitationId = table.Column<string>(type: "text", nullable: true),
+                    TypeOfRehab = table.Column<string>(type: "text", nullable: true),
+                    NumberInQueue = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Queues", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Queues_Rehabilitations_RehabilitationId",
+                        column: x => x.RehabilitationId,
+                        principalTable: "Rehabilitations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -304,19 +304,22 @@ namespace RehabCV.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Queues_ChildId",
+                name: "IX_Queues_RehabilitationId",
                 table: "Queues",
-                column: "ChildId");
+                column: "RehabilitationId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Rehabilitations_ChildId",
                 table: "Rehabilitations",
-                column: "ChildId");
+                column: "ChildId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reserves_ChildId",
                 table: "Reserves",
-                column: "ChildId");
+                column: "ChildId",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -343,13 +346,13 @@ namespace RehabCV.Migrations
                 name: "Queues");
 
             migrationBuilder.DropTable(
-                name: "Rehabilitations");
-
-            migrationBuilder.DropTable(
                 name: "Reserves");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Rehabilitations");
 
             migrationBuilder.DropTable(
                 name: "Children");

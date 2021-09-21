@@ -17,14 +17,17 @@ namespace RehabCV.Controllers
         private readonly IRehabilitation<Rehabilitation> _rehabilitation;
         private readonly UserManager<User> _userManager;
         private readonly IRepository<Child> _child;
+        private readonly IQueue<Queue> _queue;
 
         public RehabController(IRehabilitation<Rehabilitation> rehabilitation, 
                                UserManager<User> userManager,
-                               IRepository<Child> child)
+                               IRepository<Child> child,
+                               IQueue<Queue> queue)
         {
             _rehabilitation = rehabilitation;
             _userManager = userManager;
             _child = child;
+            _queue = queue;
         }
 
         public async Task<IActionResult> Index()
@@ -65,9 +68,21 @@ namespace RehabCV.Controllers
                     DateOfRehab = rehabDTO.DateOfRehab
                 };
 
-                var result = await _rehabilitation.CreateAsync(rehab);
+                var resultRehab = await _rehabilitation.CreateAsync(rehab);
 
-                if (result != null)
+                var lastNumberInQueue = _queue.GetLastNumberOfQueue();
+
+                var queue = new Queue
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    RehabilitationId = rehab.Id,
+                    TypeOfRehab = rehab.Form,
+                    NumberInQueue = lastNumberInQueue + 1
+                };
+
+                var resultQueue = await _queue.AddToQueue(queue);
+
+                if (resultRehab != null && resultQueue != null)
                 {
                     return RedirectToAction("Index", "Rehab");
                 }

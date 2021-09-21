@@ -41,6 +41,7 @@ namespace RehabCV
             services.AddScoped<IRepository<Child>, ChildRepository>();
             services.AddScoped<IEvent<Event>, EventRepository>();
             services.AddScoped<IRehabilitation<Rehabilitation>, RehabRepository>();
+            services.AddScoped<IQueue<Queue>, QueueRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
