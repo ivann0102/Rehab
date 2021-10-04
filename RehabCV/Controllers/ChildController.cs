@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using RehabCV.Database;
 using RehabCV.DTO;
 using RehabCV.Models;
@@ -17,27 +18,35 @@ namespace RehabCV.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly IRepository<Child> _repository;
+        private readonly IDisease<Disease> _disease;
 
-        public ChildController(UserManager<User> userManager, IRepository<Child> repository)
+        public ChildController(UserManager<User> userManager, 
+                               IRepository<Child> repository,
+                               IDisease<Disease> disease)
         {
             _userManager = userManager;
             _repository = repository;
+            _disease = disease;
         }
         public async Task<IActionResult> Index()
         {
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            //var user = await _userManager.FindByNameAsync(User.Identity.Name);
 
-            var children = await _repository.FindByParentId(user.Id);
+            //var children = await _repository.FindByParentId(user.Id);
+            var children = await _repository.FindAll();
 
             return View(children);
         }
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var diseases = await _disease.FindAll();
+
+            ViewBag.diseases = new SelectList(diseases, "Id", "Name");
+
             return View();
         }
 
         [HttpPost, ActionName("Create")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ChildDTO childDTO)
         {
             if (ModelState.IsValid)
@@ -52,8 +61,7 @@ namespace RehabCV.Controllers
                     MiddleName = childDTO.MiddleNameOfChild,
                     LastName = childDTO.LastNameOfChild,
                     Birthday = childDTO.BirthdayOfChild,
-                    Diagnosis = childDTO.Diagnosis,
-                    Priority = childDTO.Priority,
+                    DiseaseId = childDTO.DiseaseId,
                     HomeAddress = childDTO.HomeAddress
                 };
 
@@ -61,10 +69,11 @@ namespace RehabCV.Controllers
 
                 if (result != null)
                 {
-                    return RedirectToAction("Index", "Child");
+                    return RedirectToAction("Create", "Rehab");
                 }
                 
             }
+
             return View(childDTO);
         }
 
@@ -84,8 +93,7 @@ namespace RehabCV.Controllers
                 LastNameOfChild = child.LastName,
                 MiddleNameOfChild = child.MiddleName,
                 BirthdayOfChild = child.Birthday,
-                Diagnosis = child.Diagnosis,
-                Priority = child.Priority,
+                DiseaseId = child.DiseaseId,
                 HomeAddress = child.HomeAddress
             };
 
@@ -103,8 +111,7 @@ namespace RehabCV.Controllers
                 child.LastName = childViewModel.LastNameOfChild;
                 child.MiddleName = childViewModel.MiddleNameOfChild;
                 child.Birthday = childViewModel.BirthdayOfChild;
-                child.Diagnosis = childViewModel.Diagnosis;
-                child.Priority = childViewModel.Priority;
+                child.DiseaseId = childViewModel.DiseaseId;
                 child.HomeAddress = childViewModel.HomeAddress;
 
                 await _repository.UpdateAsync(id, child);

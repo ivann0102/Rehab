@@ -54,6 +54,18 @@ namespace RehabCV.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Diseases",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Diseases", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Events",
                 columns: table => new
                 {
@@ -186,8 +198,7 @@ namespace RehabCV.Migrations
                     MiddleName = table.Column<string>(type: "text", nullable: true),
                     LastName = table.Column<string>(type: "text", nullable: true),
                     Birthday = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    Diagnosis = table.Column<string>(type: "text", nullable: true),
-                    Priority = table.Column<string>(type: "text", nullable: true),
+                    DiseaseId = table.Column<string>(type: "text", nullable: true),
                     HomeAddress = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
@@ -199,6 +210,12 @@ namespace RehabCV.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Children_Diseases_DiseaseId",
+                        column: x => x.DiseaseId,
+                        principalTable: "Diseases",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -299,6 +316,12 @@ namespace RehabCV.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Children_DiseaseId",
+                table: "Children",
+                column: "DiseaseId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Children_UserId",
                 table: "Children",
                 column: "UserId");
@@ -359,6 +382,9 @@ namespace RehabCV.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Diseases");
         }
     }
 }

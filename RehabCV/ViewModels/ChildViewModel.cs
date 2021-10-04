@@ -22,11 +22,8 @@ namespace RehabCV.ViewModels
         [Display(Name = "Дата народження дитини")]
         public DateTime BirthdayOfChild { get; set; }
 
-        [Display(Name = "Виберіть діагноз")]
-        public string Diagnosis { get; set; }
-
-        [Display(Name = "Виберіть пріоритет")]
-        public string Priority { get; set; }
+        [Display(Name = "Виберіть групу захворювання")]
+        public string DiseaseId { get; set; }
 
         [Display(Name = "Домашня адреса")]
         public string HomeAddress { get; set; }

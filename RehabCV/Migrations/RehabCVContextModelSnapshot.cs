@@ -227,7 +227,7 @@ namespace RehabCV.Migrations
                     b.Property<DateTime>("Birthday")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<string>("Diagnosis")
+                    b.Property<string>("DiseaseId")
                         .HasColumnType("text");
 
                     b.Property<string>("FirstName")
@@ -242,17 +242,30 @@ namespace RehabCV.Migrations
                     b.Property<string>("MiddleName")
                         .HasColumnType("text");
 
-                    b.Property<string>("Priority")
-                        .HasColumnType("text");
-
                     b.Property<string>("UserId")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DiseaseId")
+                        .IsUnique();
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Children");
+                });
+
+            modelBuilder.Entity("RehabCV.Models.Disease", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Diseases");
                 });
 
             modelBuilder.Entity("RehabCV.Models.Event", b =>
@@ -424,10 +437,16 @@ namespace RehabCV.Migrations
 
             modelBuilder.Entity("RehabCV.Models.Child", b =>
                 {
+                    b.HasOne("RehabCV.Models.Disease", "Disease")
+                        .WithOne("Child")
+                        .HasForeignKey("RehabCV.Models.Child", "DiseaseId");
+
                     b.HasOne("RehabCV.Models.User", "User")
                         .WithMany("Child")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Disease");
 
                     b.Navigation("User");
                 });
@@ -467,6 +486,11 @@ namespace RehabCV.Migrations
                     b.Navigation("Rehabilitation");
 
                     b.Navigation("Reserve");
+                });
+
+            modelBuilder.Entity("RehabCV.Models.Disease", b =>
+                {
+                    b.Navigation("Child");
                 });
 
             modelBuilder.Entity("RehabCV.Models.Rehabilitation", b =>

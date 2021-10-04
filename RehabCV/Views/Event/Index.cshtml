@@ -5,7 +5,7 @@
 <h2>Календар</h2>
 <div id="calender"></div>
 
-<div id="myModal" class="modal fade" role="dialog">
+<div id="myModal" class="modal" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -229,7 +229,7 @@
                     $('#ddThemeColor').val(selectedEvent.color);
                 }
                 $('#myModal').modal('hide');
-                $('#myModalSave').modal();
+                $('#myModalSave').modal('show');
             }
             $('#btnSave').click(function () {
                 //Validation/
