@@ -30,9 +30,18 @@ namespace RehabCV.Controllers
             _queue = queue;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Parent()
         {
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var parents = await _userManager.GetUsersInRoleAsync("Parent");
+
+            return View(parents);
+        }
+
+        public async Task<IActionResult> Index(string id)
+        {
+            //var user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            var user = await _userManager.FindByIdAsync(id);
 
             var rehabilitations = await _rehabilitation.FindAllByParentId(user.Id);
 

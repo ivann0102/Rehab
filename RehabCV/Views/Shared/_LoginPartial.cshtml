@@ -15,9 +15,6 @@
             <li class="nav-item">
                 <a class="nav-link" asp-area="" asp-controller="Child" asp-action="Create">Записати дитину на реабілітацію</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" asp-area="" asp-controller="Rehab" asp-action="Index">Реабілітація</a>
-            </li>
         </ul>
     }
     @if (User.IsInRole("Doctor") || User.IsInRole("Admin"))
@@ -28,6 +25,12 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" asp-area="" asp-controller="Child" asp-action="Index">Діти</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-controller="Disease" asp-action="Index">Групи захворювань</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-controller="Rehab" asp-action="Parent">Реабілітація</a>
             </li>
         </ul>
     }

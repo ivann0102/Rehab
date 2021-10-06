@@ -86,9 +86,8 @@ namespace RehabCV.Controllers
                 return BadRequest();
             }
 
-            var childViewModel = new ChildViewModel
+            var childDTO = new ChildDTO
             {
-                Id = id,
                 FirstNameOfChild = child.FirstName,
                 LastNameOfChild = child.LastName,
                 MiddleNameOfChild = child.MiddleName,
@@ -97,29 +96,33 @@ namespace RehabCV.Controllers
                 HomeAddress = child.HomeAddress
             };
 
-            return View(childViewModel);
+            var diseases = await _disease.FindAll();
+
+            ViewBag.diseases = new SelectList(diseases, "Id", "Name");
+
+            return View(childDTO);
         }
 
         [HttpPost, ActionName("Update")]
-        public async Task<IActionResult> Update(string id, ChildViewModel childViewModel)
+        public async Task<IActionResult> Update(string id, ChildDTO childDTO)
         {
             if (ModelState.IsValid)
             {
                 var child = await _repository.FindById(id);
 
-                child.FirstName = childViewModel.FirstNameOfChild;
-                child.LastName = childViewModel.LastNameOfChild;
-                child.MiddleName = childViewModel.MiddleNameOfChild;
-                child.Birthday = childViewModel.BirthdayOfChild;
-                child.DiseaseId = childViewModel.DiseaseId;
-                child.HomeAddress = childViewModel.HomeAddress;
+                child.FirstName = childDTO.FirstNameOfChild;
+                child.LastName = childDTO.LastNameOfChild;
+                child.MiddleName = childDTO.MiddleNameOfChild;
+                child.Birthday = childDTO.BirthdayOfChild;
+                child.DiseaseId = childDTO.DiseaseId;
+                child.HomeAddress = childDTO.HomeAddress;
 
                 await _repository.UpdateAsync(id, child);
 
                 return RedirectToAction("Index", "Child");
             }
 
-            return View(childViewModel);
+            return View(childDTO);
         }
 
         [HttpGet]
@@ -127,15 +130,14 @@ namespace RehabCV.Controllers
         {
             var child = await _repository.FindById(id);
 
-            var childViewModel = new ChildViewModel
+            var childDTO = new ChildDTO
             {
-                Id = id,
                 FirstNameOfChild = child.FirstName,
                 LastNameOfChild = child.LastName,
                 MiddleNameOfChild = child.MiddleName
             };
 
-            return View(childViewModel);
+            return View(childDTO);
         }
 
         [HttpPost, ActionName("Delete")]

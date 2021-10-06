@@ -25,7 +25,7 @@ namespace RehabCV.Controllers
             return View(diseases);
         }
 
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
             return View();
         }
@@ -45,7 +45,7 @@ namespace RehabCV.Controllers
 
                 if (result != null)
                 {
-                    RedirectToAction("Index", "Disease");
+                    return RedirectToAction("Index", "Disease");
                 }
             }
 

@@ -1,4 +1,4 @@
-﻿@model RehabCV.ViewModels.ChildViewModel
+﻿@model RehabCV.DTO.ChildDTO
 
 @{
     ViewData["Title"] = "Видалити";
@@ -33,7 +33,6 @@
             </dl>
 
             <form asp-action="Delete">
-                <input type="hidden" asp-for="Id" />
                 <input type="submit" value="Видалити" class="btn btn-danger" style="width: 100%" />
             </form>
         </div>
