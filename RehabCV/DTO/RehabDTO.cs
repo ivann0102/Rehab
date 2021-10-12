@@ -9,8 +9,6 @@ namespace RehabCV.DTO
 {
     public class RehabDTO
     {
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Виберіть для котрої дитини реабілітація.")]
-        [Display(Name = "Реабілітація дитини")]
         public string ChildId { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Вкажіть форму реабілітації.")]

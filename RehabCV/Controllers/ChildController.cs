@@ -69,7 +69,7 @@ namespace RehabCV.Controllers
 
                 if (result != null)
                 {
-                    return RedirectToAction("Create", "Rehab");
+                    return RedirectToAction("Create", "Rehab", new {id = child.Id});
                 }
                 
             }

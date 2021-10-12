@@ -10,70 +10,67 @@
         <form method="post" asp-controller="Rehab" asp-action="Create" id="rehab">
             <hr />
             <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="ChildId"></label>
-                <select name="ChildId" id="ChildId" form="rehab" class="custom-select" asp-items="ViewBag.children">
-                </select>
-                <span asp-validation-for="ChildId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Form"></label>
-                <select name="Form" id="viewOption" form="rehab" class="custom-select" onclick="show()">
-                    <option value="Амбулаторна">Амбулаторна</option>
-                    <option value="Стаціонарна">Стаціонарна</option>
-                </select>
-                <span asp-validation-for="Form" class="text-danger"></span>
-            </div>
-            <div class="form-group" id="ambylator" style="display:none">
-                <label asp-for="Duration"></label>
-                <select name="Duration" form="rehab" class="custom-select">
-                    <option value="2 тижні">2 тижні</option>
-                    <option value="1 місяць">1 місяць</option>
-                    <option value="2 місяці">2 місяці</option>
-                    <option value="3 місяці">3 місяці</option>
-                </select>
-                <span asp-validation-for="Duration" class="text-danger"></span>
-            </div>
-            <div class="form-group" id="statsionar" style="display:none">
-                <label asp-for="Duration"></label>
-                <select name="Duration" form="rehab" class="custom-select">
-                    <option value="2 тижні">2 тижні</option>
-                    <option value="4 тижні">4 тижні</option>
-                    <option value="8 тижні">8 тижні</option>
-                </select>
-                <span asp-validation-for="Duration" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DateOfRehab"></label>
-                <input type="date" asp-for="DateOfRehab" class="form-control" />
-                <span asp-validation-for="DateOfRehab" class="text-danger"></span>
-            </div>
-            <button type="submit" class="btn btn-primary" style="width: 100%">Додати</button>
-        </form>
+
+            <input type="hidden" name="ChildId" value="@ViewBag.children" />
+   
+                <div class="form-group">
+                    <label asp-for="Form"></label>
+                    <select name="Form" id="viewOption" form="rehab" class="custom-select" onclick="show()">
+                        <option value="Амбулаторна">Амбулаторна</option>
+                        <option value="Стаціонарна">Стаціонарна</option>
+                    </select>
+                    <span asp-validation-for="Form" class="text-danger"></span>
+                </div>
+                <div class="form-group" id="ambylator">
+                    <label asp-for="Duration"></label>
+                    <select name="Duration" form="rehab" class="custom-select">
+                        <option value="2 тижні">2 тижні</option>
+                        <option value="1 місяць">1 місяць</option>
+                        <option value="2 місяці">2 місяці</option>
+                        <option value="3 місяці">3 місяці</option>
+                    </select>
+                    <span asp-validation-for="Duration" class="text-danger"></span>
+                </div>
+                <div class="form-group" id="statsionar" style="display:none">
+                    <label asp-for="Duration"></label>
+                    <select name="Duration" form="rehab" class="custom-select">
+                        <option value="2 тижні">2 тижні</option>
+                        <option value="4 тижні">4 тижні</option>
+                        <option value="8 тижні">8 тижні</option>
+                    </select>
+                    <span asp-validation-for="Duration" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DateOfRehab"></label>
+                    <input type="date" asp-for="DateOfRehab" class="form-control" />
+                    <span asp-validation-for="DateOfRehab" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%">Додати</button>
+            </form>
+        </div>
     </div>
-</div>
 
-@await Html.PartialAsync("_IndexFooter")
+    @await Html.PartialAsync("_IndexFooter")
 
-@section Scripts {
-    @await Html.PartialAsync("_ValidationScriptsPartial")
-    <script>
-        function show() {
-            var view = document.getElementById("viewOption");
-            var amb = document.getElementById("ambylator");
-            var sts = document.getElementById("statsionar");
-            var strUser = view.options[view.selectedIndex].text;
-            if (strUser == "Амбулаторна") {
-                amb.style.display = "block";
-            } else {
-                amb.style.display = "none";
+    @section Scripts {
+        @await Html.PartialAsync("_ValidationScriptsPartial")
+        <script>
+            function show() {
+                var view = document.getElementById("viewOption");
+                var amb = document.getElementById("ambylator");
+                var sts = document.getElementById("statsionar");
+                var strUser = view.options[view.selectedIndex].text;
+                if (strUser == "Амбулаторна") {
+                    amb.style.display = "block";
+                } else {
+                    amb.style.display = "none";
+                }
+                if (strUser == "Стаціонарна") {
+                    sts.style.display = "block";
+                } else {
+                    sts.style.display = "none";
+                }
             }
-            if (strUser == "Стаціонарна") {
-                sts.style.display = "block";
-            } else {
-                sts.style.display = "none";
-            }
-        }
-    </script>
-}
+        </script>
+    }
 

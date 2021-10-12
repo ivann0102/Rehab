@@ -52,13 +52,9 @@ namespace RehabCV.Controllers
             return View(rehabViewModel);
         }
 
-        public async Task<IActionResult> Create()
+        public IActionResult Create(string id)
         {
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
-
-            var children = await _child.FindByParentId(user.Id);
-
-            ViewBag.children = new SelectList(children, "Id", "FirstName");
+            ViewBag.children = id;
 
             return View();
         }
@@ -93,8 +89,10 @@ namespace RehabCV.Controllers
 
                 if (resultRehab != null && resultQueue != null)
                 {
-                    return RedirectToAction("Index", "Rehab");
+                    return RedirectToAction("Index", "Home");
                 }
+
+                await _child.DeleteAsync(rehabDTO.ChildId);
             }
     
             return View(rehabDTO);
