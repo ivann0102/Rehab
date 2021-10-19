@@ -318,8 +318,7 @@ namespace RehabCV.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Children_DiseaseId",
                 table: "Children",
-                column: "DiseaseId",
-                unique: true);
+                column: "DiseaseId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Children_UserId",

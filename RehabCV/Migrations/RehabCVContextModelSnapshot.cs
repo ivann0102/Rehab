@@ -247,8 +247,7 @@ namespace RehabCV.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DiseaseId")
-                        .IsUnique();
+                    b.HasIndex("DiseaseId");
 
                     b.HasIndex("UserId");
 
@@ -438,8 +437,8 @@ namespace RehabCV.Migrations
             modelBuilder.Entity("RehabCV.Models.Child", b =>
                 {
                     b.HasOne("RehabCV.Models.Disease", "Disease")
-                        .WithOne("Child")
-                        .HasForeignKey("RehabCV.Models.Child", "DiseaseId");
+                        .WithMany()
+                        .HasForeignKey("DiseaseId");
 
                     b.HasOne("RehabCV.Models.User", "User")
                         .WithMany("Child")
@@ -486,11 +485,6 @@ namespace RehabCV.Migrations
                     b.Navigation("Rehabilitation");
 
                     b.Navigation("Reserve");
-                });
-
-            modelBuilder.Entity("RehabCV.Models.Disease", b =>
-                {
-                    b.Navigation("Child");
                 });
 
             modelBuilder.Entity("RehabCV.Models.Rehabilitation", b =>
