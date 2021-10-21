@@ -17,7 +17,11 @@ namespace RehabCV.DTO
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Вкажіть тривалість реабілітації.")]
         [Display(Name = "Тривалість реабілітації")]
-        public string Duration { get; set; }
+        public string DurationAmbylator { get; set; }
+
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Вкажіть тривалість реабілітації.")]
+        [Display(Name = "Тривалість реабілітації")]
+        public string DurationStatsionar { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Вкажіть дату початку реабілітації.")]
         [Display(Name = "Дата початку реабілітації")]

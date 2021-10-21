@@ -16,29 +16,32 @@
                 <div class="form-group">
                     <label asp-for="Form"></label>
                     <select name="Form" id="viewOption" form="rehab" class="custom-select" onclick="show()">
+                        <option>Виберіть форму</option>
                         <option value="Амбулаторна">Амбулаторна</option>
                         <option value="Стаціонарна">Стаціонарна</option>
                     </select>
                     <span asp-validation-for="Form" class="text-danger"></span>
                 </div>
                 <div class="form-group" id="ambylator">
-                    <label asp-for="Duration"></label>
-                    <select name="Duration" form="rehab" class="custom-select">
+                    <label asp-for="DurationAmbylator"></label>
+                    <select name="DurationAmbylator" form="rehab" class="custom-select">
+                        <option>Виберіть тривалість</option>
                         <option value="2 тижні">2 тижні</option>
                         <option value="1 місяць">1 місяць</option>
                         <option value="2 місяці">2 місяці</option>
                         <option value="3 місяці">3 місяці</option>
                     </select>
-                    <span asp-validation-for="Duration" class="text-danger"></span>
+                    <span asp-validation-for="DurationAmbylator" class="text-danger"></span>
                 </div>
                 <div class="form-group" id="statsionar" style="display:none">
-                    <label asp-for="Duration"></label>
-                    <select name="Duration" form="rehab" class="custom-select">
+                    <label asp-for="DurationStatsionar"></label>
+                    <select name="DurationStatsionar" form="rehab" class="custom-select">
+                        <option>Виберіть тривалість</option>
                         <option value="2 тижні">2 тижні</option>
                         <option value="4 тижні">4 тижні</option>
-                        <option value="8 тижні">8 тижні</option>
+                        <option value="8 тижнів">8 тижнів</option>
                     </select>
-                    <span asp-validation-for="Duration" class="text-danger"></span>
+                    <span asp-validation-for="DurationStatsionar" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="DateOfRehab"></label>

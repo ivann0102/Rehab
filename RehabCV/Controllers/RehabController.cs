@@ -64,12 +64,14 @@ namespace RehabCV.Controllers
         {
             if (ModelState.IsValid)
             {
+                var duration = rehabDTO.Form == "Амбулаторна" ? rehabDTO.DurationAmbylator : rehabDTO.DurationStatsionar;
+
                 var rehab = new Rehabilitation
                 {
                     Id = Guid.NewGuid().ToString(),
                     ChildId = rehabDTO.ChildId,
                     Form = rehabDTO.Form,
-                    Duration = rehabDTO.Duration,
+                    Duration = duration,
                     DateOfRehab = rehabDTO.DateOfRehab
                 };
 
