@@ -77,19 +77,7 @@ namespace RehabCV.Controllers
 
                 var resultRehab = await _rehabilitation.CreateAsync(rehab);
 
-                var lastNumberInQueue = _queue.GetLastNumberOfQueue();
-
-                var queue = new Queue
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    RehabilitationId = rehab.Id,
-                    TypeOfRehab = rehab.Form,
-                    NumberInQueue = lastNumberInQueue + 1
-                };
-
-                var resultQueue = await _queue.AddToQueue(queue);
-
-                if (resultRehab != null && resultQueue != null)
+                if (resultRehab != null)
                 {
                     return RedirectToAction("Index", "Home");
                 }

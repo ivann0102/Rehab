@@ -27,7 +27,7 @@ namespace RehabCV.DTO
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Виберіть групу захворювання.")]
         [Display(Name = "Виберіть групу захворювання")]
-        public string DiseaseId { get; set; }
+        public string GroupId { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Вкажіть домашню адресу.")]
         [StringLength(100, ErrorMessage = "В полі домашня адреса має бути мінімум 1 символ і максимум 100", MinimumLength = 1)]

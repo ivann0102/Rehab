@@ -1,4 +1,4 @@
-﻿@model RehabCV.DTO.DiseaseDTO
+﻿@model RehabCV.DTO.GroupDTO
 
 @{
     ViewData["Title"] = "Видалити";
@@ -12,10 +12,10 @@
             <h2 style="text-align: center">@ViewData["Title"]</h2>
             <dl class="row">
                 <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Name)
+                    @Html.DisplayNameFor(model => model.NameOfDisease)
                 </dt>
                 <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Name)
+                    @Html.DisplayFor(model => model.NameOfDisease)
                 </dd>
             </dl>
 

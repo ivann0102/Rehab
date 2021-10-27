@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace RehabCV.DTO
 {
-    public class DiseaseDTO
+    public class GroupDTO
     {
         [Required(AllowEmptyStrings = false, ErrorMessage = "Вкажіть групу захворювання.")]
         [Display(Name = "Група захворювання")]
-        public string Name { get; set; }
+        public string NameOfDisease { get; set; }
     }
 }

@@ -54,15 +54,15 @@ namespace RehabCV.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Diseases",
+                name: "CountOfChildren",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: true)
+                    CountOfChildrenInGroup = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Diseases", x => x.Id);
+                    table.PrimaryKey("PK_CountOfChildren", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -80,6 +80,19 @@ namespace RehabCV.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Events", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Groups",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    NameOfDisease = table.Column<string>(type: "text", nullable: true),
+                    CountOfChildren = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Groups", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -198,7 +211,7 @@ namespace RehabCV.Migrations
                     MiddleName = table.Column<string>(type: "text", nullable: true),
                     LastName = table.Column<string>(type: "text", nullable: true),
                     Birthday = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    DiseaseId = table.Column<string>(type: "text", nullable: true),
+                    GroupId = table.Column<string>(type: "text", nullable: true),
                     HomeAddress = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
@@ -211,9 +224,9 @@ namespace RehabCV.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Children_Diseases_DiseaseId",
-                        column: x => x.DiseaseId,
-                        principalTable: "Diseases",
+                        name: "FK_Children_Groups_GroupId",
+                        column: x => x.GroupId,
+                        principalTable: "Groups",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -316,9 +329,9 @@ namespace RehabCV.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Children_DiseaseId",
+                name: "IX_Children_GroupId",
                 table: "Children",
-                column: "DiseaseId");
+                column: "GroupId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Children_UserId",
@@ -362,6 +375,9 @@ namespace RehabCV.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "CountOfChildren");
+
+            migrationBuilder.DropTable(
                 name: "Events");
 
             migrationBuilder.DropTable(
@@ -383,7 +399,7 @@ namespace RehabCV.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Diseases");
+                name: "Groups");
         }
     }
 }

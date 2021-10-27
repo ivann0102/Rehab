@@ -8,47 +8,59 @@ using System.Threading.Tasks;
 
 namespace RehabCV.Repositories
 {
-    public class DiseaseRepository : IDisease<Disease>
+    public class GroupRepository : IGroup<Group>
     {
         private readonly RehabCVContext _context;
 
-        public DiseaseRepository(RehabCVContext context)
+        public GroupRepository(RehabCVContext context)
         {
             _context = context;
         }
 
-        public async Task<IEnumerable<Disease>> FindAll()
+        public async Task<IEnumerable<Group>> FindAll()
         {
             if (_context != null)
             {
-                return await _context.Diseases.ToListAsync();
+                return await _context.Groups.ToListAsync();
             }
 
             return null;
         }
 
-        public async Task<Disease> FindById(string id)
+        public async Task<Group> FindById(string id)
         {
             if (_context != null)
             {
-                return await _context.Diseases.FirstOrDefaultAsync(x => x.Id == id);
+                return await _context.Groups.FirstOrDefaultAsync(x => x.Id == id);
             }
 
             return null;
         }
 
-        public async Task<string> CreateAsync(Disease disease)
+        public async Task<string> CreateAsync(Group group)
         {
             if (_context != null)
             {
-                await _context.Diseases.AddAsync(disease);
+                await _context.Groups.AddAsync(group);
 
                 await _context.SaveChangesAsync();
 
-                return disease.Id;
+                return group.Id;
             }
 
             return null;
+        }
+
+        public async Task UpdateAsync(string id, Group group)
+        {
+            if (_context != null)
+            {
+                group.Id = id;
+
+                _context.Groups.Update(group);
+
+                await _context.SaveChangesAsync();
+            }
         }
 
         public async Task<int> DeleteAsync(string id)
@@ -56,11 +68,11 @@ namespace RehabCV.Repositories
             var result = 0;
             if (_context != null)
             {
-                var disease = _context.Diseases.FirstOrDefault(x => x.Id == id);
+                var group = _context.Groups.FirstOrDefault(x => x.Id == id);
 
-                if (disease != null)
+                if (group != null)
                 {
-                    _context.Diseases.Remove(disease);
+                    _context.Groups.Remove(group);
 
                     result = await _context.SaveChangesAsync();
                 }

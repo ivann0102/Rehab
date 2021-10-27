@@ -18,15 +18,15 @@ namespace RehabCV.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly IRepository<Child> _repository;
-        private readonly IDisease<Disease> _disease;
+        private readonly IGroup<Group> _group;
 
         public ChildController(UserManager<User> userManager, 
                                IRepository<Child> repository,
-                               IDisease<Disease> disease)
+                               IGroup<Group> group)
         {
             _userManager = userManager;
             _repository = repository;
-            _disease = disease;
+            _group = group;
         }
         public async Task<IActionResult> Index()
         {
@@ -39,9 +39,9 @@ namespace RehabCV.Controllers
         }
         public async Task<IActionResult> Create()
         {
-            var diseases = await _disease.FindAll();
+            var groups = await _group.FindAll();
 
-            ViewBag.diseases = new SelectList(diseases, "Id", "Name");
+            ViewBag.groups = new SelectList(groups, "Id", "Name");
 
             return View();
         }
@@ -53,6 +53,10 @@ namespace RehabCV.Controllers
             {
                 var user = await _userManager.FindByNameAsync(User.Identity.Name);
 
+                var group = await _group.FindById(childDTO.GroupId);
+                var countChildren = group.Children.Count();
+                //дальше дивимось по кількості можливого наповнення підгруп і додаємо до певної підгрупи 
+
                 var child = new Child
                 {
                     Id = Guid.NewGuid().ToString(),
@@ -61,7 +65,7 @@ namespace RehabCV.Controllers
                     MiddleName = childDTO.MiddleNameOfChild,
                     LastName = childDTO.LastNameOfChild,
                     Birthday = childDTO.BirthdayOfChild,
-                    DiseaseId = childDTO.DiseaseId,
+                    GroupId = childDTO.GroupId,
                     HomeAddress = childDTO.HomeAddress
                 };
 
@@ -92,13 +96,13 @@ namespace RehabCV.Controllers
                 LastNameOfChild = child.LastName,
                 MiddleNameOfChild = child.MiddleName,
                 BirthdayOfChild = child.Birthday,
-                DiseaseId = child.DiseaseId,
+                GroupId = child.GroupId,
                 HomeAddress = child.HomeAddress
             };
 
-            var diseases = await _disease.FindAll();
+            var groups = await _group.FindAll();
 
-            ViewBag.diseases = new SelectList(diseases, "Id", "Name");
+            ViewBag.groups = new SelectList(groups, "Id", "Name");
 
             return View(childDTO);
         }
@@ -114,7 +118,7 @@ namespace RehabCV.Controllers
                 child.LastName = childDTO.LastNameOfChild;
                 child.MiddleName = childDTO.MiddleNameOfChild;
                 child.Birthday = childDTO.BirthdayOfChild;
-                child.DiseaseId = childDTO.DiseaseId;
+                child.GroupId = childDTO.GroupId;
                 child.HomeAddress = childDTO.HomeAddress;
 
                 await _repository.UpdateAsync(id, child);

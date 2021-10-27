@@ -11,8 +11,8 @@ namespace RehabCV.Models
         public string MiddleName { get; set; }
         public string LastName { get; set; }
         public DateTime Birthday { get; set; }
-        public string DiseaseId { get; set; }
-        public Disease Disease { get; set; }
+        public string GroupId { get; set; }
+        public Group Group { get; set; }
         public string HomeAddress { get; set; }
         public Rehabilitation Rehabilitation { get; set; }
         public Reserve Reserve { get; set; }

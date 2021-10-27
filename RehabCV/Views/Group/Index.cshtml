@@ -1,4 +1,4 @@
-﻿@model IEnumerable<RehabCV.Models.Disease>
+﻿@model IEnumerable<RehabCV.Models.Group>
 
 @{ ViewData["Title"] = "Групи захворювань"; }
 
@@ -7,14 +7,16 @@
 <h2 style="text-align: center">@ViewData["Title"]</h2>
 
 <p>
-    <a asp-action="Create" class="btn btn-primary">Додати групу захворювання</a>
+    <a asp-action="Create" class="btn btn-primary">Додати групу захворювання</a> 
+    <br><br>
+    <a asp-controller="CountOfCh" asp-action="Index" class="btn btn-primary">Кількість дітей в групі</a>
 </p>
 
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                @Html.DisplayNameFor(model => model.NameOfDisease)
             </th>
             <th></th>
         </tr>
@@ -24,7 +26,7 @@
         {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                @Html.DisplayFor(modelItem => item.NameOfDisease)
             </td>
     
             <td>

@@ -1,4 +1,5 @@
 ﻿using RehabCV.Models;
+using RehabCV.Repositories;
 using RehabCV.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -33,6 +34,30 @@ namespace RehabCV.Extension
             }
 
             return rehabs;
+        }
+
+        public static Group DivisionChildrenInGroups(this Group group, int countOfChildren)
+        {
+            switch (group.NameOfDisease)
+            {
+                case "Неврологія":
+                    group.CountOfChildren = (int)Math.Round(countOfChildren * 0.4, MidpointRounding.AwayFromZero);
+                    break;
+                case "Ортопедія":
+                    group.CountOfChildren = (int)Math.Round(countOfChildren * 0.08, MidpointRounding.AwayFromZero);
+                    break;
+                case "Інше":
+                    group.CountOfChildren = (int)Math.Round(countOfChildren * 0.02, MidpointRounding.AwayFromZero);
+                    break;
+                case "Генетика":
+                    group.CountOfChildren = (int)Math.Round(countOfChildren * 0.2, MidpointRounding.AwayFromZero);
+                    break;
+                case "Психіатрія":
+                    group.CountOfChildren = (int)Math.Round(countOfChildren * 0.3, MidpointRounding.AwayFromZero);
+                    break;
+            }
+
+            return group;
         }
     }
 }

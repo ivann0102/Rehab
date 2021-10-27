@@ -227,10 +227,10 @@ namespace RehabCV.Migrations
                     b.Property<DateTime>("Birthday")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<string>("DiseaseId")
+                    b.Property<string>("FirstName")
                         .HasColumnType("text");
 
-                    b.Property<string>("FirstName")
+                    b.Property<string>("GroupId")
                         .HasColumnType("text");
 
                     b.Property<string>("HomeAddress")
@@ -247,24 +247,24 @@ namespace RehabCV.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DiseaseId");
+                    b.HasIndex("GroupId");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("Children");
                 });
 
-            modelBuilder.Entity("RehabCV.Models.Disease", b =>
+            modelBuilder.Entity("RehabCV.Models.CountOfChildren", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
+                    b.Property<int>("CountOfChildrenInGroup")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Diseases");
+                    b.ToTable("CountOfChildren");
                 });
 
             modelBuilder.Entity("RehabCV.Models.Event", b =>
@@ -293,6 +293,22 @@ namespace RehabCV.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Events");
+                });
+
+            modelBuilder.Entity("RehabCV.Models.Group", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<int>("CountOfChildren")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("NameOfDisease")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Groups");
                 });
 
             modelBuilder.Entity("RehabCV.Models.Queue", b =>
@@ -436,16 +452,16 @@ namespace RehabCV.Migrations
 
             modelBuilder.Entity("RehabCV.Models.Child", b =>
                 {
-                    b.HasOne("RehabCV.Models.Disease", "Disease")
-                        .WithMany()
-                        .HasForeignKey("DiseaseId");
+                    b.HasOne("RehabCV.Models.Group", "Group")
+                        .WithMany("Children")
+                        .HasForeignKey("GroupId");
 
                     b.HasOne("RehabCV.Models.User", "User")
                         .WithMany("Child")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.Navigation("Disease");
+                    b.Navigation("Group");
 
                     b.Navigation("User");
                 });
@@ -485,6 +501,11 @@ namespace RehabCV.Migrations
                     b.Navigation("Rehabilitation");
 
                     b.Navigation("Reserve");
+                });
+
+            modelBuilder.Entity("RehabCV.Models.Group", b =>
+                {
+                    b.Navigation("Children");
                 });
 
             modelBuilder.Entity("RehabCV.Models.Rehabilitation", b =>

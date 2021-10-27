@@ -1,0 +1,30 @@
+﻿@model RehabCV.Models.CountOfChildren
+
+@{ ViewData["Title"] = "Кількість дітей в групі"; }
+
+@await Html.PartialAsync("_IndexHeader")
+
+<h2 style="text-align: center">@ViewData["Title"]</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Додати кількість дітей</a>
+</p>
+
+<div>
+    <div class="modal-content">
+        <div class="modal-body" style="margin: auto">
+            <dl class="row">
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.CountOfChildrenInGroup) 
+                </dd>
+            </dl>
+
+            <td>
+                <a asp-action="Update" class="btn btn-info" style="width: 60%">Редагувати кількість</a>
+            </td>
+        </div>
+        <a asp-controller="Group" asp-action="Index">Назад до списку</a>
+    </div>
+</div>
+
+@await Html.PartialAsync("_IndexFooter")
