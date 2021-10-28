@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace RehabCV.Repositories
 {
-    public interface ICountOfCh<TEntity>
+    public interface INumberOfCh<TEntity>
     {
-        public Task<TEntity> GetCount();
+        public Task<TEntity> GetNumber();
         public Task<string> CreateAsync(TEntity entity);
         public Task UpdateAsync(TEntity entity);
     }

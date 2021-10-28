@@ -10,7 +10,7 @@ using RehabCV.Database;
 namespace RehabCV.Migrations
 {
     [DbContext(typeof(RehabCVContext))]
-    [Migration("20211026203458_InitialCreate")]
+    [Migration("20211028204019_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -256,19 +256,6 @@ namespace RehabCV.Migrations
                     b.ToTable("Children");
                 });
 
-            modelBuilder.Entity("RehabCV.Models.CountOfChildren", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.Property<int>("CountOfChildrenInGroup")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CountOfChildren");
-                });
-
             modelBuilder.Entity("RehabCV.Models.Event", b =>
                 {
                     b.Property<string>("Id")
@@ -302,15 +289,28 @@ namespace RehabCV.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
-                    b.Property<int>("CountOfChildren")
-                        .HasColumnType("integer");
-
                     b.Property<string>("NameOfDisease")
                         .HasColumnType("text");
+
+                    b.Property<int>("NumberOfChildren")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.ToTable("Groups");
+                });
+
+            modelBuilder.Entity("RehabCV.Models.NumberOfChildren", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<int>("NumberOfChildrenInGroup")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("NumberOfChildren");
                 });
 
             modelBuilder.Entity("RehabCV.Models.Queue", b =>

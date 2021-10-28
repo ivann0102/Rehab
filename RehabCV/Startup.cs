@@ -43,7 +43,7 @@ namespace RehabCV
             services.AddScoped<IRehabilitation<Rehabilitation>, RehabRepository>();
             services.AddScoped<IQueue<Queue>, QueueRepository>();
             services.AddScoped<IGroup<Group>, GroupRepository>();
-            services.AddScoped<ICountOfCh<CountOfChildren>, CountOfChRepository>();
+            services.AddScoped<INumberOfCh<NumberOfChildren>, NumberOfChRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

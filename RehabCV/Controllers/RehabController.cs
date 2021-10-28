@@ -18,16 +18,19 @@ namespace RehabCV.Controllers
         private readonly UserManager<User> _userManager;
         private readonly IRepository<Child> _child;
         private readonly IQueue<Queue> _queue;
+        private readonly IGroup<Group> _group;
 
         public RehabController(IRehabilitation<Rehabilitation> rehabilitation, 
                                UserManager<User> userManager,
                                IRepository<Child> child,
-                               IQueue<Queue> queue)
+                               IQueue<Queue> queue,
+                               IGroup<Group> group)
         {
             _rehabilitation = rehabilitation;
             _userManager = userManager;
             _child = child;
             _queue = queue;
+            _group = group;
         }
 
         public async Task<IActionResult> Parent()
@@ -76,6 +79,15 @@ namespace RehabCV.Controllers
                 };
 
                 var resultRehab = await _rehabilitation.CreateAsync(rehab);
+
+                var child = await _child.FindById(rehabDTO.ChildId);
+
+                var group = await _group.FindById(child.GroupId);
+
+                group.AddChildToQueue(_queue);
+
+                
+                //дальше дивимось по кількості можливого наповнення підгруп і додаємо до певної підгрупи 
 
                 if (resultRehab != null)
                 {

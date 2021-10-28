@@ -54,18 +54,6 @@ namespace RehabCV.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CountOfChildren",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "text", nullable: false),
-                    CountOfChildrenInGroup = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CountOfChildren", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Events",
                 columns: table => new
                 {
@@ -88,11 +76,23 @@ namespace RehabCV.Migrations
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
                     NameOfDisease = table.Column<string>(type: "text", nullable: true),
-                    CountOfChildren = table.Column<int>(type: "integer", nullable: false)
+                    NumberOfChildren = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Groups", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "NumberOfChildren",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    NumberOfChildrenInGroup = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NumberOfChildren", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -375,10 +375,10 @@ namespace RehabCV.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "CountOfChildren");
+                name: "Events");
 
             migrationBuilder.DropTable(
-                name: "Events");
+                name: "NumberOfChildren");
 
             migrationBuilder.DropTable(
                 name: "Queues");

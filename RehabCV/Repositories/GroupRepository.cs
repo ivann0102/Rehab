@@ -31,7 +31,11 @@ namespace RehabCV.Repositories
         {
             if (_context != null)
             {
-                return await _context.Groups.FirstOrDefaultAsync(x => x.Id == id);
+                return await _context.Groups
+                                 .AsNoTracking()
+                                 .AsQueryable()
+                                 .Include(c => c.Children)
+                                 .FirstOrDefaultAsync(x => x.Id == id);
             }
 
             return null;

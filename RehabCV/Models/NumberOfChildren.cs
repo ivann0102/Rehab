@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace RehabCV.Models
 {
-    public class CountOfChildren
+    public class NumberOfChildren
     {
         public string Id { get; set; }
-        public int CountOfChildrenInGroup { get; set; }
+        public int NumberOfChildrenInGroup { get; set; }
     }
 }

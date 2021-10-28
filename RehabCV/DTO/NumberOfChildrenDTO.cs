@@ -6,10 +6,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace RehabCV.DTO
 {
-    public class CountOfChildrenDTO
+    public class NumberOfChildrenDTO
     {
         [Required(AllowEmptyStrings = false, ErrorMessage = "Вкажіть кількість дітей в групі.")]
         [Display(Name = "Кількість дітей в групі")]
-        public int CountOfChildren { get; set; }
+        public int NumberOfChildren { get; set; }
     }
 }

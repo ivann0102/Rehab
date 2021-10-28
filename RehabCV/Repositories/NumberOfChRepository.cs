@@ -8,44 +8,44 @@ using System.Threading.Tasks;
 
 namespace RehabCV.Repositories
 {
-    public class CountOfChRepository : ICountOfCh<CountOfChildren>
+    public class NumberOfChRepository : INumberOfCh<NumberOfChildren>
     {
         private readonly RehabCVContext _context;
 
-        public CountOfChRepository(RehabCVContext context)
+        public NumberOfChRepository(RehabCVContext context)
         {
             _context = context;
         }
 
-        public async Task<CountOfChildren> GetCount()
+        public async Task<NumberOfChildren> GetNumber()
         {
             if (_context != null)
             {
-                return await _context.CountOfChildren.FirstOrDefaultAsync();
+                return await _context.NumberOfChildren.FirstOrDefaultAsync();
             }
 
             return null;
         }
 
-        public async Task<string> CreateAsync(CountOfChildren countOfChildren)
+        public async Task<string> CreateAsync(NumberOfChildren numberOfChildren)
         {
             if (_context != null)
             {
-                await _context.CountOfChildren.AddAsync(countOfChildren);
+                await _context.NumberOfChildren.AddAsync(numberOfChildren);
 
                 await _context.SaveChangesAsync();
 
-                return countOfChildren.Id;
+                return numberOfChildren.Id;
             }
 
             return null;
         }
 
-        public async Task UpdateAsync(CountOfChildren countOfChildren)
+        public async Task UpdateAsync(NumberOfChildren numberOfChildren)
         {
             if (_context != null)
             {
-                _context.CountOfChildren.Update(countOfChildren);
+                _context.NumberOfChildren.Update(numberOfChildren);
 
                 await _context.SaveChangesAsync();
             }

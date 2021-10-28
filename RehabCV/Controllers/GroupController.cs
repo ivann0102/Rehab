@@ -13,13 +13,13 @@ namespace RehabCV.Controllers
     public class GroupController : Controller
     {
         private readonly IGroup<Group> _group;
-        private readonly ICountOfCh<CountOfChildren> _countOfCh;
+        private readonly INumberOfCh<NumberOfChildren> _numberOfCh;
 
         public GroupController(IGroup<Group> group,
-                               ICountOfCh<CountOfChildren> countOfCh)
+                               INumberOfCh<NumberOfChildren> numberOfCh)
         {
             _group = group;
-            _countOfCh = countOfCh;
+            _numberOfCh = numberOfCh;
         }
 
         public async Task<IActionResult> Index()
@@ -39,7 +39,7 @@ namespace RehabCV.Controllers
         {
             if (ModelState.IsValid)
             {
-                var countOfChildren = await _countOfCh.GetCount();
+                var numberOfChildren = await _numberOfCh.GetNumber();
 
                 var group = new Group
                 {
@@ -47,7 +47,7 @@ namespace RehabCV.Controllers
                     NameOfDisease = groupDTO.NameOfDisease
                 };
 
-                group = group.DivisionChildrenInGroups(countOfChildren.CountOfChildrenInGroup);
+                group = group.DivisionChildrenInGroups(numberOfChildren.NumberOfChildrenInGroup);
 
                 var result = await _group.CreateAsync(group);
 

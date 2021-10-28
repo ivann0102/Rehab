@@ -36,28 +36,34 @@ namespace RehabCV.Extension
             return rehabs;
         }
 
-        public static Group DivisionChildrenInGroups(this Group group, int countOfChildren)
+        public static Group DivisionChildrenInGroups(this Group group, int numberOfChildren)
         {
             switch (group.NameOfDisease)
             {
                 case "Неврологія":
-                    group.CountOfChildren = (int)Math.Round(countOfChildren * 0.4, MidpointRounding.AwayFromZero);
+                    group.NumberOfChildren = (int)Math.Round(numberOfChildren * 0.4, MidpointRounding.AwayFromZero);
                     break;
                 case "Ортопедія":
-                    group.CountOfChildren = (int)Math.Round(countOfChildren * 0.08, MidpointRounding.AwayFromZero);
+                    group.NumberOfChildren = (int)Math.Round(numberOfChildren * 0.08, MidpointRounding.AwayFromZero);
                     break;
                 case "Інше":
-                    group.CountOfChildren = (int)Math.Round(countOfChildren * 0.02, MidpointRounding.AwayFromZero);
+                    group.NumberOfChildren = (int)Math.Round(numberOfChildren * 0.02, MidpointRounding.AwayFromZero);
                     break;
                 case "Генетика":
-                    group.CountOfChildren = (int)Math.Round(countOfChildren * 0.2, MidpointRounding.AwayFromZero);
+                    group.NumberOfChildren = (int)Math.Round(numberOfChildren * 0.2, MidpointRounding.AwayFromZero);
                     break;
                 case "Психіатрія":
-                    group.CountOfChildren = (int)Math.Round(countOfChildren * 0.3, MidpointRounding.AwayFromZero);
+                    group.NumberOfChildren = (int)Math.Round(numberOfChildren * 0.3, MidpointRounding.AwayFromZero);
                     break;
             }
 
             return group;
+        }
+
+        public static void AddChildToQueue(this Group group, IQueue<Queue> queue)
+        {
+            var numberOfChildren = group.Children.Count();
+            var numberOfAllSeats = group.NumberOfChildren;
         }
     }
 }

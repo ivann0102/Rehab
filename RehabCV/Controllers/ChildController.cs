@@ -53,10 +53,6 @@ namespace RehabCV.Controllers
             {
                 var user = await _userManager.FindByNameAsync(User.Identity.Name);
 
-                var group = await _group.FindById(childDTO.GroupId);
-                //var countChildren = group.Children.Count();
-                //дальше дивимось по кількості можливого наповнення підгруп і додаємо до певної підгрупи 
-
                 var child = new Child
                 {
                     Id = Guid.NewGuid().ToString(),
