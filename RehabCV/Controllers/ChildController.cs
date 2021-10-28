@@ -41,7 +41,7 @@ namespace RehabCV.Controllers
         {
             var groups = await _group.FindAll();
 
-            ViewBag.groups = new SelectList(groups, "Id", "Name");
+            ViewBag.groups = new SelectList(groups, "Id", "NameOfDisease");
 
             return View();
         }
@@ -54,7 +54,7 @@ namespace RehabCV.Controllers
                 var user = await _userManager.FindByNameAsync(User.Identity.Name);
 
                 var group = await _group.FindById(childDTO.GroupId);
-                var countChildren = group.Children.Count();
+                //var countChildren = group.Children.Count();
                 //дальше дивимось по кількості можливого наповнення підгруп і додаємо до певної підгрупи 
 
                 var child = new Child
