@@ -48,7 +48,7 @@ namespace RehabCV.Controllers
                 };
 
                 group = group.DivisionChildrenInGroups(numberOfChildren.NumberOfChildrenInGroup);
-
+                
                 var result = await _group.CreateAsync(group);
 
                 if (result != null)

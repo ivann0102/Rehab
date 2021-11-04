@@ -10,7 +10,7 @@ using RehabCV.Database;
 namespace RehabCV.Migrations
 {
     [DbContext(typeof(RehabCVContext))]
-    [Migration("20211028204019_InitialCreate")]
+    [Migration("20211103204429_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -318,13 +318,13 @@ namespace RehabCV.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
+                    b.Property<string>("GroupOfDisease")
+                        .HasColumnType("text");
+
                     b.Property<int>("NumberInQueue")
                         .HasColumnType("integer");
 
                     b.Property<string>("RehabilitationId")
-                        .HasColumnType("text");
-
-                    b.Property<string>("TypeOfRehab")
                         .HasColumnType("text");
 
                     b.HasKey("Id");

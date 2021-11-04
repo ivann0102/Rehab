@@ -316,13 +316,13 @@ namespace RehabCV.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
+                    b.Property<string>("GroupOfDisease")
+                        .HasColumnType("text");
+
                     b.Property<int>("NumberInQueue")
                         .HasColumnType("integer");
 
                     b.Property<string>("RehabilitationId")
-                        .HasColumnType("text");
-
-                    b.Property<string>("TypeOfRehab")
                         .HasColumnType("text");
 
                     b.HasKey("Id");

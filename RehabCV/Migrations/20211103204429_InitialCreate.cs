@@ -277,7 +277,7 @@ namespace RehabCV.Migrations
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
                     RehabilitationId = table.Column<string>(type: "text", nullable: true),
-                    TypeOfRehab = table.Column<string>(type: "text", nullable: true),
+                    GroupOfDisease = table.Column<string>(type: "text", nullable: true),
                     NumberInQueue = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>

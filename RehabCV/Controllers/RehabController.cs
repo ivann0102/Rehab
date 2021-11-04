@@ -50,7 +50,7 @@ namespace RehabCV.Controllers
 
             var children = await _child.FindByParentId(user.Id);
 
-            var rehabViewModel = rehabilitations.GetRehabViewModel(children);
+            var rehabViewModel = await rehabilitations.GetRehabViewModel(children, _group);
 
             return View(rehabViewModel);
         }
@@ -84,7 +84,7 @@ namespace RehabCV.Controllers
 
                 var group = await _group.FindById(child.GroupId);
 
-                group.AddChildToQueue(_queue);
+                await group.AddChildToQueue(_queue, rehab, _group, _child);
 
                 
                 //дальше дивимось по кількості можливого наповнення підгруп і додаємо до певної підгрупи 

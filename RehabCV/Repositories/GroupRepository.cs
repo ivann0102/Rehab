@@ -41,6 +41,20 @@ namespace RehabCV.Repositories
             return null;
         }
 
+        public async Task<Group> FindByName(string name)
+        {
+            if (_context != null)
+            {
+                return await _context.Groups
+                                 .AsNoTracking()
+                                 .AsQueryable()
+                                 .Include(c => c.Children)
+                                 .FirstOrDefaultAsync(x => x.NameOfDisease == name);
+            }
+
+            return null;
+        }
+
         public async Task<string> CreateAsync(Group group)
         {
             if (_context != null)
