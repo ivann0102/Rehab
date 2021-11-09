@@ -45,7 +45,8 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="DateOfRehab"></label>
-                    <input type="date" asp-for="DateOfRehab" class="form-control" />
+                    <select name="DateOfRehab" form="child" class="custom-select" asp-items="ViewBag.dates">
+                    </select>
                     <span asp-validation-for="DateOfRehab" class="text-danger"></span>
                 </div>
                 <button type="submit" class="btn btn-primary" style="width: 100%">Додати</button>

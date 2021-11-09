@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RehabCV.DTO;
 using RehabCV.Extension;
+using RehabCV.Interfaces;
 using RehabCV.Models;
 using RehabCV.Repositories;
 using System;
@@ -19,18 +20,24 @@ namespace RehabCV.Controllers
         private readonly IRepository<Child> _child;
         private readonly IQueue<Queue> _queue;
         private readonly IGroup<Group> _group;
+        private readonly IReserv<Reserve> _reserv;
+        private readonly IEvent<Event> _event;
 
         public RehabController(IRehabilitation<Rehabilitation> rehabilitation, 
                                UserManager<User> userManager,
                                IRepository<Child> child,
                                IQueue<Queue> queue,
-                               IGroup<Group> group)
+                               IGroup<Group> group,
+                               IReserv<Reserve> reserv,
+                               IEvent<Event> @event)
         {
             _rehabilitation = rehabilitation;
             _userManager = userManager;
             _child = child;
             _queue = queue;
             _group = group;
+            _reserv = reserv;
+            _event = @event;
         }
 
         public async Task<IActionResult> Parent()
@@ -55,8 +62,12 @@ namespace RehabCV.Controllers
             return View(rehabViewModel);
         }
 
-        public IActionResult Create(string id)
+        public async Task<IActionResult> Create(string id)
         {
+            var @event = await _event.FindAll();
+
+            ViewBag.dates = new SelectList(@event, "Id", "Start");
+
             ViewBag.children = id;
 
             return View();
@@ -84,10 +95,7 @@ namespace RehabCV.Controllers
 
                 var group = await _group.FindById(child.GroupId);
 
-                await group.AddChildToQueue(_queue, rehab, _group, _child);
-
-                
-                //дальше дивимось по кількості можливого наповнення підгруп і додаємо до певної підгрупи 
+                await group.AddChildToQueue(_queue, rehab, _group, _child, _reserv);
 
                 if (resultRehab != null)
                 {
