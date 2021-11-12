@@ -79,7 +79,7 @@ namespace RehabCV.Extension
                 GroupOfDisease = group.NameOfDisease
             };
 
-            if (await _group.AreSeats(group.NameOfDisease))
+            if (await _group.AreSeats(group.NameOfDisease, null))
             {
                 await _queue.AddToQueue(queue);
             }
@@ -90,11 +90,16 @@ namespace RehabCV.Extension
             
         }
 
-        public static async Task<bool> AreSeats(this IGroup<Group> _group, string nameOfDisease)
+        public static async Task<bool> AreSeats(this IGroup<Group> _group, string nameOfDisease, string reserv)
         {
             var group = await _group.FindByName(nameOfDisease);
             var numberOfBusySeats = group.Children.Count;
             var numberOfAllSeats = group.NumberOfChildren;
+
+            if (reserv != null)
+            {
+                return numberOfAllSeats > numberOfBusySeats;
+            }
 
             return numberOfAllSeats >= numberOfBusySeats;
         }
@@ -102,15 +107,15 @@ namespace RehabCV.Extension
         public static async Task ChangeDisease(this IGroup<Group> _group, 
                                                IRepository<Child> _child,
                                                Child child,
-                                               string childId, 
                                                string nameOfDisease)
         {
             var group = await _group.FindByName(nameOfDisease);
 
             child.GroupId = group.Id;
+            child.Reserve = null;
             child.ReserveId = null;
 
-            await _child.UpdateAsync(childId, child);
+            await _child.UpdateAsync(child.Id, child);
         }
 
         public static async Task AddToReserv(this IReserv<Reserve> _reserv, 

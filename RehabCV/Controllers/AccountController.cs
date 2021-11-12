@@ -98,14 +98,7 @@ namespace RehabCV.Controllers
 
                     if (result.Succeeded)
                     {
-                        if (model.Doctor)
-                        {
-                            await _userManager.AddToRoleAsync(user, "Doctor");
-                        }
-                        else
-                        {
-                            await _userManager.AddToRoleAsync(user, "Parent");
-                        }
+                        await _userManager.AddToRoleAsync(user, "Parent");
 
                         // установка куки
                         await _signInManager.SignInAsync(user, false);

@@ -34,14 +34,6 @@
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Doctor"></label>
-                <input asp-for="Doctor" type="checkbox" id="doctor" onclick="checkDoctor()" />
-            </div>
-            <div class="form-group">
-                <label asp-for="Parent"></label>
-                <input asp-for="Parent" type="checkbox" />
-            </div>
             <div class="form-group" id="specialization" style="display:none">
                 <label asp-for="Specialization"></label>
                 <input asp-for="Specialization" class="form-control" />
@@ -64,18 +56,4 @@
 
 @await Html.PartialAsync("_IndexFooter")
 
-@section Scripts {
-    @await Html.PartialAsync("_ValidationScriptsPartial")
-    <script>
-        function checkDoctor() {
-            var checkBox = document.getElementById("doctor");
-            var spec = document.getElementById("specialization");
-            if (checkBox.checked == true) {
-                spec.style.display = "block";
-            } else {
-                spec.style.display = "none";
-            }
-        }
-    </script>
-}
 

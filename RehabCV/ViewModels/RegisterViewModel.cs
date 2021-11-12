@@ -37,12 +37,6 @@ namespace RehabCV.ViewModels
         [Display(Name = "Вкажіть спеціалізацію")]
         public string Specialization { get; set; }
 
-        [Display(Name = "Ви лікар?")]
-        public bool Doctor { get; set; }
-
-        [Display(Name = "Ви батько/мати?")]
-        public bool Parent { get; set; }
-
         [Required(AllowEmptyStrings = false, ErrorMessage = "Вкажіть пароль.")]
         [StringLength(100, ErrorMessage = "Пароль має містити мінімум {2} символів верхнього та нижнього регістру, спеціальні символи та цифри.", MinimumLength = 6)]
         [DataType(DataType.Password)]

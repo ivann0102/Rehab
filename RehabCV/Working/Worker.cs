@@ -13,14 +13,10 @@ namespace RehabCV.Working
 {
     public class Worker : IWorker
     {
-        private readonly ILogger<Worker> _logger;
         private readonly IServiceScopeFactory _serviceScopeFactory;
 
-        private int number = 0;
-        public Worker(ILogger<Worker> logger,
-                      IServiceScopeFactory serviceScopeFactory)
+        public Worker(IServiceScopeFactory serviceScopeFactory)
         {
-            _logger = logger;
             _serviceScopeFactory = serviceScopeFactory;
         }
 
@@ -43,9 +39,6 @@ namespace RehabCV.Working
                 {
                     if (DateTime.UtcNow.AddDays(7) >= item.Start)
                     {
-                        Interlocked.Increment(ref number);
-                        _logger.LogInformation($"Worker printing number: {number}");
-
                         var reserv = await _reserv.GetReserv();
 
                         if (reserv == null)
@@ -70,28 +63,32 @@ namespace RehabCV.Working
                                     GroupOfDisease = group.NameOfDisease
                                 };
 
-                                if (await _group.AreSeats("Неврологія"))
+                                if (await _group.AreSeats("Неврологія", "reserv"))
                                 {
                                     queue.GroupOfDisease = "Неврологія";
                                 }
-                                else if (await _group.AreSeats("Ортопедія"))
+                                else if (await _group.AreSeats("Ортопедія", "reserv"))
                                 {
                                     queue.GroupOfDisease = "Ортопедія";
                                 }
-                                else if (await _group.AreSeats("Інше"))
+                                else if (await _group.AreSeats("Інше", "reserv"))
                                 {
                                     queue.GroupOfDisease = "Інше";
                                 }
-                                else if (await _group.AreSeats("Генетика"))
+                                else if (await _group.AreSeats("Генетика", "reserv"))
                                 {
                                     queue.GroupOfDisease = "Генетика";
                                 }
-                                else
+                                else if (await _group.AreSeats("Психіатрія", "reserv"))
                                 {
                                     queue.GroupOfDisease = "Психіатрія";
                                 }
+                                else
+                                {
+                                    break;
+                                }
 
-                                await _group.ChangeDisease(_child, child, child.Id, queue.GroupOfDisease);
+                                await _group.ChangeDisease(_child, child, queue.GroupOfDisease);
 
                                 await _queue.AddToQueue(queue);
                             }

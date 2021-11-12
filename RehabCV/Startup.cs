@@ -90,7 +90,7 @@ namespace RehabCV
         {
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var UserManager = serviceProvider.GetRequiredService<UserManager<User>>();
-            string[] roleNames = { "Admin", "Parent", "Doctor" };
+            string[] roleNames = { "Admin", "Parent" };
             IdentityResult roleResult;
 
             foreach (var roleName in roleNames)
