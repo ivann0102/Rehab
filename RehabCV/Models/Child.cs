@@ -15,6 +15,7 @@ namespace RehabCV.Models
         public Group Group { get; set; }
         public string HomeAddress { get; set; }
         public Rehabilitation Rehabilitation { get; set; }
+        public string ReserveId { get; set; }
         public Reserve Reserve { get; set; }
     }
 }

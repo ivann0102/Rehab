@@ -242,12 +242,17 @@ namespace RehabCV.Migrations
                     b.Property<string>("MiddleName")
                         .HasColumnType("text");
 
+                    b.Property<string>("ReserveId")
+                        .HasColumnType("text");
+
                     b.Property<string>("UserId")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
                     b.HasIndex("GroupId");
+
+                    b.HasIndex("ReserveId");
 
                     b.HasIndex("UserId");
 
@@ -363,16 +368,10 @@ namespace RehabCV.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
-                    b.Property<string>("ChildId")
-                        .HasColumnType("text");
-
-                    b.Property<int>("NumberInQueue")
+                    b.Property<int>("NumberInReserv")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ChildId")
-                        .IsUnique();
 
                     b.ToTable("Reserves");
                 });
@@ -454,7 +453,12 @@ namespace RehabCV.Migrations
                 {
                     b.HasOne("RehabCV.Models.Group", "Group")
                         .WithMany("Children")
-                        .HasForeignKey("GroupId");
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("RehabCV.Models.Reserve", "Reserve")
+                        .WithMany("Children")
+                        .HasForeignKey("ReserveId");
 
                     b.HasOne("RehabCV.Models.User", "User")
                         .WithMany("Child")
@@ -462,6 +466,8 @@ namespace RehabCV.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Group");
+
+                    b.Navigation("Reserve");
 
                     b.Navigation("User");
                 });
@@ -486,21 +492,9 @@ namespace RehabCV.Migrations
                     b.Navigation("Child");
                 });
 
-            modelBuilder.Entity("RehabCV.Models.Reserve", b =>
-                {
-                    b.HasOne("RehabCV.Models.Child", "Child")
-                        .WithOne("Reserve")
-                        .HasForeignKey("RehabCV.Models.Reserve", "ChildId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("Child");
-                });
-
             modelBuilder.Entity("RehabCV.Models.Child", b =>
                 {
                     b.Navigation("Rehabilitation");
-
-                    b.Navigation("Reserve");
                 });
 
             modelBuilder.Entity("RehabCV.Models.Group", b =>
@@ -511,6 +505,11 @@ namespace RehabCV.Migrations
             modelBuilder.Entity("RehabCV.Models.Rehabilitation", b =>
                 {
                     b.Navigation("Queue");
+                });
+
+            modelBuilder.Entity("RehabCV.Models.Reserve", b =>
+                {
+                    b.Navigation("Children");
                 });
 
             modelBuilder.Entity("RehabCV.Models.User", b =>

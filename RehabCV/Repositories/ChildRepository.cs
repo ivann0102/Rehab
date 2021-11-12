@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
+using RehabCV.Interfaces;
 
 namespace RehabCV.Repositories
 {

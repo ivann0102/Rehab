@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Text.Json;
 using RehabCV.Models;
 using RehabCV.Repositories;
+using RehabCV.Interfaces;
 
 namespace RehabCV.Controllers
 {
@@ -28,7 +29,6 @@ namespace RehabCV.Controllers
         public async Task<JsonResult> GetEvents()
         {
             var events = await _eventRepository.FindAll();
-            //var events = _context.Events.ToList();
 
             return Json(events, new JsonSerializerOptions
             {

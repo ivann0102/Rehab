@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using RehabCV.Models;
+using RehabCV.Interfaces;
 
 namespace RehabCV.Repositories
 {
@@ -40,6 +41,17 @@ namespace RehabCV.Repositories
                 }
                     
                 return rehabs;
+            }
+
+            return null;
+        }
+
+        public async Task<Rehabilitation> FindByChildId(string id)
+        {
+            if (_context != null)
+            {
+                return await _context.Rehabilitations
+                                            .FirstOrDefaultAsync(x => x.ChildId == id);
             }
 
             return null;

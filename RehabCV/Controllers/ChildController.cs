@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RehabCV.Database;
 using RehabCV.DTO;
+using RehabCV.Interfaces;
 using RehabCV.Models;
 using RehabCV.Repositories;
 using RehabCV.ViewModels;

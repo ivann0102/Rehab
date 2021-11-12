@@ -1,4 +1,5 @@
-﻿using RehabCV.Models;
+﻿using RehabCV.Interfaces;
+using RehabCV.Models;
 using RehabCV.Repositories;
 using RehabCV.ViewModels;
 using System;
@@ -68,7 +69,8 @@ namespace RehabCV.Extension
                                                  IQueue<Queue> _queue, 
                                                  Rehabilitation rehabilitation, 
                                                  IGroup<Group> _group,
-                                                 IRepository<Child> _child)
+                                                 IRepository<Child> _child,
+                                                 IReserv<Reserve> _reserv)
         {
             var queue = new Queue
             {
@@ -83,31 +85,9 @@ namespace RehabCV.Extension
             }
             else
             {
-                if (await _group.AreSeats("Неврологія"))
-                {
-                    queue.GroupOfDisease = "Неврологія";
-                }
-                else if (await _group.AreSeats("Ортопедія"))
-                {
-                    queue.GroupOfDisease = "Ортопедія";
-                }
-                else if (await _group.AreSeats("Інше"))
-                {
-                    queue.GroupOfDisease = "Інше";
-                }
-                else if (await _group.AreSeats("Генетика"))
-                {
-                    queue.GroupOfDisease = "Генетика";
-                }
-                else
-                {
-                    queue.GroupOfDisease = "Психіатрія";
-                }
-
-                await _group.ChangeDisease(_child, rehabilitation.ChildId, queue.GroupOfDisease);
-
-                await _queue.AddToQueue(queue);
+                await _reserv.AddToReserv(_child, rehabilitation.ChildId, queue.GroupOfDisease);
             }
+            
         }
 
         public static async Task<bool> AreSeats(this IGroup<Group> _group, string nameOfDisease)
@@ -116,17 +96,52 @@ namespace RehabCV.Extension
             var numberOfBusySeats = group.Children.Count;
             var numberOfAllSeats = group.NumberOfChildren;
 
-            return numberOfAllSeats > numberOfBusySeats;
+            return numberOfAllSeats >= numberOfBusySeats;
         }
 
-        public static async Task ChangeDisease(this IGroup<Group> _group, IRepository<Child> _child, 
-                                               string childId, string nameOfDisease)
+        public static async Task ChangeDisease(this IGroup<Group> _group, 
+                                               IRepository<Child> _child,
+                                               Child child,
+                                               string childId, 
+                                               string nameOfDisease)
         {
             var group = await _group.FindByName(nameOfDisease);
 
+            child.GroupId = group.Id;
+            child.ReserveId = null;
+
+            await _child.UpdateAsync(childId, child);
+        }
+
+        public static async Task AddToReserv(this IReserv<Reserve> _reserv, 
+                                             IRepository<Child> _child,
+                                             string childId,
+                                             string groupOfDisease)
+        {
             var child = await _child.FindById(childId);
 
-            child.GroupId = group.Id;
+            var reserv =  await _reserv.GetReserv();
+
+            if (reserv == null)
+            {
+                reserv = new Reserve()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    NumberInReserv = 1
+                };
+                
+                await _reserv.AddToReserv(reserv);
+
+                child.ReserveId = reserv.Id;
+            }
+            else
+            {
+                reserv.NumberInReserv = reserv.Children.Count + 1;
+
+                await _reserv.UpdateReserv(reserv.Id, reserv);
+
+                child.ReserveId = reserv.Id;
+            }
 
             await _child.UpdateAsync(childId, child);
         }

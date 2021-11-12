@@ -8,8 +8,7 @@ namespace RehabCV.Models
     public class Reserve
     {
         public string Id { get; set; }
-        public string ChildId { get; set; }
-        public Child Child { get; set; }
-        public int NumberInQueue { get; set; }
+        public int NumberInReserv { get; set; }
+        public List<Child> Children { get; set; }
     }
 }

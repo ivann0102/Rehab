@@ -49,7 +49,6 @@ namespace RehabCV.Controllers
 
         public async Task<IActionResult> Index(string id)
         {
-            //var user = await _userManager.FindByNameAsync(User.Identity.Name);
 
             var user = await _userManager.FindByIdAsync(id);
 
@@ -65,8 +64,17 @@ namespace RehabCV.Controllers
         public async Task<IActionResult> Create(string id)
         {
             var @event = await _event.FindAll();
+            var dates = new List<Event>();
 
-            ViewBag.dates = new SelectList(@event, "Id", "Start");
+            foreach (var item in @event)
+            {
+                if (DateTime.UtcNow.AddDays(7) < item.Start)
+                {
+                    dates.Add(item);
+                }
+            }
+
+            ViewBag.dates = new SelectList(dates, "Id", "Start");
 
             ViewBag.children = id;
 
@@ -80,13 +88,15 @@ namespace RehabCV.Controllers
             {
                 var duration = rehabDTO.Form == "Амбулаторна" ? rehabDTO.DurationAmbylator : rehabDTO.DurationStatsionar;
 
+                var dateOfRehab = await _event.FindById(rehabDTO.EventId);
+
                 var rehab = new Rehabilitation
                 {
                     Id = Guid.NewGuid().ToString(),
                     ChildId = rehabDTO.ChildId,
                     Form = rehabDTO.Form,
                     Duration = duration,
-                    DateOfRehab = rehabDTO.DateOfRehab
+                    DateOfRehab = dateOfRehab.Start
                 };
 
                 var resultRehab = await _rehabilitation.CreateAsync(rehab);

@@ -14,7 +14,10 @@ using RehabCV.Models;
 using Microsoft.AspNetCore.Identity;
 using AutoMapper;
 using RehabCV.Repositories;
+using RehabCV.Interfaces;
 using RehabCV.DTO;
+using RehabCV.HostServices;
+using RehabCV.Working;
 
 namespace RehabCV
 {
@@ -44,6 +47,10 @@ namespace RehabCV
             services.AddScoped<IQueue<Queue>, QueueRepository>();
             services.AddScoped<IGroup<Group>, GroupRepository>();
             services.AddScoped<INumberOfCh<NumberOfChildren>, NumberOfChRepository>();
+            services.AddScoped<IReserv<Reserve>, ReservRepository>();
+
+            services.AddHostedService<OneDayHostedService>();
+            services.AddSingleton<IWorker, Worker>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

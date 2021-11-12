@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RehabCV.DTO;
 using RehabCV.Extension;
+using RehabCV.Interfaces;
 using RehabCV.Models;
 using RehabCV.Repositories;
 using System;

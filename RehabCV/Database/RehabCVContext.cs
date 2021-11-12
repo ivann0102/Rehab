@@ -28,10 +28,9 @@ namespace RehabCV.Database
                 .HasOne(x => x.Rehabilitation)
                 .WithOne(x => x.Child)
                 .OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity<Child>()
-                .HasOne(x => x.Reserve)
-                .WithOne(x => x.Child)
-                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Reserve>()
+                .HasMany(x => x.Children)
+                .WithOne(x => x.Reserve); 
             modelBuilder.Entity<Group>()
                 .HasMany(x => x.Children)
                 .WithOne(x => x.Group)

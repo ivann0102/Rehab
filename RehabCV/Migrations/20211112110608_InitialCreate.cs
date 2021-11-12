@@ -96,6 +96,18 @@ namespace RehabCV.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Reserves",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    NumberInReserv = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reserves", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -212,7 +224,8 @@ namespace RehabCV.Migrations
                     LastName = table.Column<string>(type: "text", nullable: true),
                     Birthday = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     GroupId = table.Column<string>(type: "text", nullable: true),
-                    HomeAddress = table.Column<string>(type: "text", nullable: true)
+                    HomeAddress = table.Column<string>(type: "text", nullable: true),
+                    ReserveId = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -227,6 +240,12 @@ namespace RehabCV.Migrations
                         name: "FK_Children_Groups_GroupId",
                         column: x => x.GroupId,
                         principalTable: "Groups",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Children_Reserves_ReserveId",
+                        column: x => x.ReserveId,
+                        principalTable: "Reserves",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -246,25 +265,6 @@ namespace RehabCV.Migrations
                     table.PrimaryKey("PK_Rehabilitations", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Rehabilitations_Children_ChildId",
-                        column: x => x.ChildId,
-                        principalTable: "Children",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Reserves",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "text", nullable: false),
-                    ChildId = table.Column<string>(type: "text", nullable: true),
-                    NumberInQueue = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Reserves", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Reserves_Children_ChildId",
                         column: x => x.ChildId,
                         principalTable: "Children",
                         principalColumn: "Id",
@@ -334,6 +334,11 @@ namespace RehabCV.Migrations
                 column: "GroupId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Children_ReserveId",
+                table: "Children",
+                column: "ReserveId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Children_UserId",
                 table: "Children",
                 column: "UserId");
@@ -347,12 +352,6 @@ namespace RehabCV.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Rehabilitations_ChildId",
                 table: "Rehabilitations",
-                column: "ChildId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Reserves_ChildId",
-                table: "Reserves",
                 column: "ChildId",
                 unique: true);
         }
@@ -384,9 +383,6 @@ namespace RehabCV.Migrations
                 name: "Queues");
 
             migrationBuilder.DropTable(
-                name: "Reserves");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -400,6 +396,9 @@ namespace RehabCV.Migrations
 
             migrationBuilder.DropTable(
                 name: "Groups");
+
+            migrationBuilder.DropTable(
+                name: "Reserves");
         }
     }
 }
