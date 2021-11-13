@@ -27,7 +27,7 @@ namespace RehabCV.Working
                 using var scope = _serviceScopeFactory.CreateScope();
 
                 var _events = scope.ServiceProvider.GetService<IEvent<Event>>();
-                var _reserv = scope.ServiceProvider.GetService<IReserv<Reserve>>();
+                var _reserve = scope.ServiceProvider.GetService<IReserve<Reserve>>();
                 var _rehabilitation = scope.ServiceProvider.GetService<IRehabilitation<Rehabilitation>>();
                 var _queue = scope.ServiceProvider.GetService<IQueue<Queue>>();
                 var _group = scope.ServiceProvider.GetService<IGroup<Group>>();
@@ -37,16 +37,16 @@ namespace RehabCV.Working
 
                 foreach (var item in dates)
                 {
-                    if (DateTime.UtcNow.AddDays(7) >= item.Start)
+                    if (DateTime.Now.AddDays(7) >= item.Start)
                     {
-                        var reserv = await _reserv.GetReserv();
+                        var reserve = await _reserve.GetReserve();
 
-                        if (reserv == null)
+                        if (reserve == null)
                         {
                             break;
                         }
 
-                        var children = reserv.Children;
+                        var children = reserve.Children.OrderBy(x => x.DateOfReserv).ToList();
 
                         foreach (var child in children)
                         {
@@ -63,23 +63,23 @@ namespace RehabCV.Working
                                     GroupOfDisease = group.NameOfDisease
                                 };
 
-                                if (await _group.AreSeats("Неврологія", "reserv"))
+                                if (await _group.AreSeats("Неврологія", "reserv", rehab.DateOfRehab, _rehabilitation))
                                 {
                                     queue.GroupOfDisease = "Неврологія";
                                 }
-                                else if (await _group.AreSeats("Ортопедія", "reserv"))
+                                else if (await _group.AreSeats("Ортопедія", "reserv", rehab.DateOfRehab, _rehabilitation))
                                 {
                                     queue.GroupOfDisease = "Ортопедія";
                                 }
-                                else if (await _group.AreSeats("Інше", "reserv"))
+                                else if (await _group.AreSeats("Інше", "reserv", rehab.DateOfRehab, _rehabilitation))
                                 {
                                     queue.GroupOfDisease = "Інше";
                                 }
-                                else if (await _group.AreSeats("Генетика", "reserv"))
+                                else if (await _group.AreSeats("Генетика", "reserv", rehab.DateOfRehab, _rehabilitation))
                                 {
                                     queue.GroupOfDisease = "Генетика";
                                 }
-                                else if (await _group.AreSeats("Психіатрія", "reserv"))
+                                else if (await _group.AreSeats("Психіатрія", "reserv", rehab.DateOfRehab, _rehabilitation))
                                 {
                                     queue.GroupOfDisease = "Психіатрія";
                                 }
@@ -97,7 +97,7 @@ namespace RehabCV.Working
                 }
 
                 
-                await Task.Delay(TimeSpan.FromMinutes(145), cancellationToken);
+                await Task.Delay(TimeSpan.FromDays(1), cancellationToken);
             }   
         }
     }

@@ -20,7 +20,7 @@ namespace RehabCV.Controllers
         private readonly IRepository<Child> _child;
         private readonly IQueue<Queue> _queue;
         private readonly IGroup<Group> _group;
-        private readonly IReserv<Reserve> _reserv;
+        private readonly IReserve<Reserve> _reserve;
         private readonly IEvent<Event> _event;
 
         public RehabController(IRehabilitation<Rehabilitation> rehabilitation, 
@@ -28,7 +28,7 @@ namespace RehabCV.Controllers
                                IRepository<Child> child,
                                IQueue<Queue> queue,
                                IGroup<Group> group,
-                               IReserv<Reserve> reserv,
+                               IReserve<Reserve> reserve,
                                IEvent<Event> @event)
         {
             _rehabilitation = rehabilitation;
@@ -36,27 +36,17 @@ namespace RehabCV.Controllers
             _child = child;
             _queue = queue;
             _group = group;
-            _reserv = reserv;
+            _reserve = reserve;
             _event = @event;
         }
 
-        public async Task<IActionResult> Parent()
+        public async Task<IActionResult> Index()
         {
-            var parents = await _userManager.GetUsersInRoleAsync("Parent");
+            var children = await _child.FindAll();
 
-            return View(parents);
-        }
+            var childList = children.Where(x => x.ReserveId == null).ToList();
 
-        public async Task<IActionResult> Index(string id)
-        {
-
-            var user = await _userManager.FindByIdAsync(id);
-
-            var rehabilitations = await _rehabilitation.FindAllByParentId(user.Id);
-
-            var children = await _child.FindByParentId(user.Id);
-
-            var rehabViewModel = await rehabilitations.GetRehabViewModel(children, _group);
+            var rehabViewModel = await childList.GetRehabViewModel(_group, _rehabilitation);
 
             return View(rehabViewModel);
         }
@@ -105,7 +95,7 @@ namespace RehabCV.Controllers
 
                 var group = await _group.FindById(child.GroupId);
 
-                await group.AddChildToQueue(_queue, rehab, _group, _child, _reserv);
+                await group.AddChildToQueue(_queue, rehab, _group, _child, _reserve, _rehabilitation);
 
                 if (resultRehab != null)
                 {

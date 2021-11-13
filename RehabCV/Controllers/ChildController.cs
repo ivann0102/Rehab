@@ -29,14 +29,17 @@ namespace RehabCV.Controllers
             _repository = repository;
             _group = group;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string id)
         {
-            //var user = await _userManager.FindByNameAsync(User.Identity.Name);
-
-            //var children = await _repository.FindByParentId(user.Id);
-            var children = await _repository.FindAll();
+            var children = await _repository.FindByParentId(id);
 
             return View(children);
+        }
+        public async Task<IActionResult> Parent()
+        {
+            var parents = await _userManager.GetUsersInRoleAsync("Parent");
+
+            return View(parents);
         }
         public async Task<IActionResult> Create()
         {

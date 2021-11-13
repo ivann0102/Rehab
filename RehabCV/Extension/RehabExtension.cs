@@ -11,27 +11,29 @@ namespace RehabCV.Extension
 {
     public static class RehabExtension
     {
-        public static async Task<IEnumerable<RehabViewModel>> GetRehabViewModel(this IEnumerable<Rehabilitation> rehabilitations,
-                                                                    IEnumerable<Child> children,
-                                                                    IGroup<Group> _group)
+        public static async Task<IEnumerable<RehabViewModel>> GetRehabViewModel(this IEnumerable<Child> children,
+                                                                                IGroup<Group> _group,
+                                                                                IRehabilitation<Rehabilitation> _rehabilitation)
         {
             var rehabs = new List<RehabViewModel>();
 
-            if (rehabilitations != null)
+            if (children != null)
             {
-                foreach (var value in rehabilitations)
+                foreach (var child in children)
                 {
-                    var child = children.FirstOrDefault(x => x.Id == value.ChildId);
+                    var rehabilitation = await _rehabilitation.FindByChildId(child.Id);
+
                     var group = await _group.FindById(child.GroupId);
+
                     var rehab = new RehabViewModel
                     {
                         FirstNameOfChild = child.FirstName,
                         MiddleNameOfChild = child.MiddleName,
                         LastNameOfChild = child.LastName,
                         NameOfDisease = group.NameOfDisease,
-                        Form = value.Form,
-                        Duration = value.Duration,
-                        DateOfRehab = value.DateOfRehab
+                        Form = rehabilitation.Form,
+                        Duration = rehabilitation.Duration,
+                        DateOfRehab = rehabilitation.DateOfRehab
                     };
 
                     rehabs.Add(rehab);
@@ -70,7 +72,8 @@ namespace RehabCV.Extension
                                                  Rehabilitation rehabilitation, 
                                                  IGroup<Group> _group,
                                                  IRepository<Child> _child,
-                                                 IReserv<Reserve> _reserv)
+                                                 IReserve<Reserve> _reserve,
+                                                 IRehabilitation<Rehabilitation> _rehabilitation)
         {
             var queue = new Queue
             {
@@ -79,22 +82,34 @@ namespace RehabCV.Extension
                 GroupOfDisease = group.NameOfDisease
             };
 
-            if (await _group.AreSeats(group.NameOfDisease, null))
+            if (await _group.AreSeats(group.NameOfDisease, null, rehabilitation.DateOfRehab, _rehabilitation))
             {
                 await _queue.AddToQueue(queue);
             }
             else
             {
-                await _reserv.AddToReserv(_child, rehabilitation.ChildId, queue.GroupOfDisease);
+                await _reserve.AddToReserve(_child, rehabilitation.ChildId, queue.GroupOfDisease);
             }
             
         }
 
-        public static async Task<bool> AreSeats(this IGroup<Group> _group, string nameOfDisease, string reserv)
+        public static async Task<bool> AreSeats(this IGroup<Group> _group, string nameOfDisease, string reserv,
+                                                DateTime dateOfRehab, IRehabilitation<Rehabilitation> _rehabilitation)
         {
             var group = await _group.FindByName(nameOfDisease);
-            var numberOfBusySeats = group.Children.Count;
+
             var numberOfAllSeats = group.NumberOfChildren;
+            var children = group.Children;
+            var numberOfBusySeats = 0;
+
+            foreach (var child in children)
+            {
+                var rehab = await _rehabilitation.FindByChildId(child.Id);
+                if (rehab.DateOfRehab == dateOfRehab)
+                {
+                    numberOfBusySeats++;
+                }
+            }
 
             if (reserv != null)
             {
@@ -118,35 +133,36 @@ namespace RehabCV.Extension
             await _child.UpdateAsync(child.Id, child);
         }
 
-        public static async Task AddToReserv(this IReserv<Reserve> _reserv, 
+        public static async Task AddToReserve(this IReserve<Reserve> _reserve, 
                                              IRepository<Child> _child,
                                              string childId,
                                              string groupOfDisease)
         {
             var child = await _child.FindById(childId);
 
-            var reserv =  await _reserv.GetReserv();
+            var reserve =  await _reserve.GetReserve();
 
-            if (reserv == null)
+            if (reserve == null)
             {
-                reserv = new Reserve()
+                reserve = new Reserve()
                 {
                     Id = Guid.NewGuid().ToString(),
                     NumberInReserv = 1
                 };
                 
-                await _reserv.AddToReserv(reserv);
+                await _reserve.AddToReserve(reserve);
 
-                child.ReserveId = reserv.Id;
+                
             }
             else
             {
-                reserv.NumberInReserv = reserv.Children.Count + 1;
+                reserve.NumberInReserv = reserve.Children.Count + 1;
 
-                await _reserv.UpdateReserv(reserv.Id, reserv);
-
-                child.ReserveId = reserv.Id;
+                await _reserve.UpdateReserve(reserve.Id, reserve);
             }
+
+            child.ReserveId = reserve.Id;
+            child.DateOfReserv = DateTime.Now;
 
             await _child.UpdateAsync(childId, child);
         }

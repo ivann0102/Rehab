@@ -10,16 +10,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace RehabCV.Repositories
 {
-    public class ReservRepository : IReserv<Reserve>
+    public class ReserveRepository : IReserve<Reserve>
     {
         public readonly RehabCVContext _context;
 
-        public ReservRepository(RehabCVContext context)
+        public ReserveRepository(RehabCVContext context)
         {
             _context = context;
         }
 
-        public async Task<Reserve> GetReserv()
+        public async Task<Reserve> GetReserve()
          {
             if (_context != null)
             {
@@ -33,7 +33,7 @@ namespace RehabCV.Repositories
             return null;
         }
 
-        public async Task AddToReserv(Reserve reserve)
+        public async Task AddToReserve(Reserve reserve)
         {
             if (_context != null)
             {
@@ -43,7 +43,7 @@ namespace RehabCV.Repositories
             }   
         }
 
-        public async Task UpdateReserv(string id, Reserve reserve)
+        public async Task UpdateReserve(string id, Reserve reserve)
         {
             if (_context != null)
             {

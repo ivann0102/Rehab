@@ -76,7 +76,9 @@ namespace RehabCV.Migrations
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
                     NameOfDisease = table.Column<string>(type: "text", nullable: true),
-                    NumberOfChildren = table.Column<int>(type: "integer", nullable: false)
+                    NumberOfChildren = table.Column<int>(type: "integer", nullable: false),
+                    PercentOfChildren = table.Column<int>(type: "integer", nullable: false),
+                    Priority = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -225,7 +227,8 @@ namespace RehabCV.Migrations
                     Birthday = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     GroupId = table.Column<string>(type: "text", nullable: true),
                     HomeAddress = table.Column<string>(type: "text", nullable: true),
-                    ReserveId = table.Column<string>(type: "text", nullable: true)
+                    ReserveId = table.Column<string>(type: "text", nullable: true),
+                    DateOfReserv = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {

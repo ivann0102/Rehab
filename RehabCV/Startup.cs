@@ -47,7 +47,7 @@ namespace RehabCV
             services.AddScoped<IQueue<Queue>, QueueRepository>();
             services.AddScoped<IGroup<Group>, GroupRepository>();
             services.AddScoped<INumberOfCh<NumberOfChildren>, NumberOfChRepository>();
-            services.AddScoped<IReserv<Reserve>, ReservRepository>();
+            services.AddScoped<IReserve<Reserve>, ReserveRepository>();
 
             services.AddHostedService<OneDayHostedService>();
             services.AddSingleton<IWorker, Worker>();

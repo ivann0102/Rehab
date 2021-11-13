@@ -17,5 +17,6 @@ namespace RehabCV.Models
         public Rehabilitation Rehabilitation { get; set; }
         public string ReserveId { get; set; }
         public Reserve Reserve { get; set; }
+        public DateTime DateOfReserv { get; set; }
     }
 }

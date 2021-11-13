@@ -17,20 +17,23 @@
             </li>
         </ul>
     }
-    @if (User.IsInRole("Doctor") || User.IsInRole("Admin"))
+    @if (User.IsInRole("Admin"))
     {
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
                 <a class="nav-link" asp-area="" asp-controller="Event" asp-action="Index">Календар</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" asp-area="" asp-controller="Child" asp-action="Index">Діти</a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link" asp-area="" asp-controller="Group" asp-action="Index">Групи захворювань</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" asp-area="" asp-controller="Rehab" asp-action="Parent">Батьки</a>
+                <a class="nav-link" asp-area="" asp-controller="Child" asp-action="Parent">Батьки</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-controller="Rehab" asp-action="Index">Реабілітація</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-controller="Reserve" asp-action="Index">Резерв</a>
             </li>
         </ul>
     }

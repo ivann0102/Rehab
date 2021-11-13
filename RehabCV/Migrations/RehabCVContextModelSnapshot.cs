@@ -227,6 +227,9 @@ namespace RehabCV.Migrations
                     b.Property<DateTime>("Birthday")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<DateTime>("DateOfReserv")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<string>("FirstName")
                         .HasColumnType("text");
 
@@ -296,6 +299,12 @@ namespace RehabCV.Migrations
                         .HasColumnType("text");
 
                     b.Property<int>("NumberOfChildren")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("PercentOfChildren")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Priority")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
