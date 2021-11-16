@@ -70,5 +70,17 @@ namespace RehabCV.Repositories
 
             return null;
         }
+
+        public async Task UpdateAsync(string id, Rehabilitation rehabilitation)
+        {
+            if (_context != null)
+            {
+                rehabilitation.Id = id;
+
+                _context.Rehabilitations.Update(rehabilitation);
+
+                await _context.SaveChangesAsync();
+            }
+        }
     }
 }

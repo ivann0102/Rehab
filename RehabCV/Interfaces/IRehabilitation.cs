@@ -10,5 +10,6 @@ namespace RehabCV.Interfaces
         public Task<IEnumerable<TEntity>> FindAllByParentId(string id);
         public Task<TEntity> FindByChildId(string id);
         public Task<string> CreateAsync(TEntity entity);
+        public Task UpdateAsync(string id, TEntity entity);
     }
 }

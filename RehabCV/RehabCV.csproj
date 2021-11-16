@@ -45,6 +45,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="BootstrapNotifications" Version="0.3.2" />
     <PackageReference Include="Calabonga.Microservices.BackgroundWorkers" Version="1.0.4" />
     <PackageReference Include="EntityFramework" Version="6.4.4" />
     <PackageReference Include="MailKit" Version="2.13.0" />

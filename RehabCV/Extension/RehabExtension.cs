@@ -67,7 +67,7 @@ namespace RehabCV.Extension
             return group;
         }
 
-        public static async Task AddChildToQueue(this Group group, 
+        public static async Task<bool> AddChildToQueue(this Group group, 
                                                  IQueue<Queue> _queue, 
                                                  Rehabilitation rehabilitation, 
                                                  IGroup<Group> _group,
@@ -85,10 +85,12 @@ namespace RehabCV.Extension
             if (await _group.AreSeats(group.NameOfDisease, null, rehabilitation.DateOfRehab, _rehabilitation))
             {
                 await _queue.AddToQueue(queue);
+                return true;
             }
             else
             {
                 await _reserve.AddToReserve(_child, rehabilitation.ChildId, queue.GroupOfDisease);
+                return false;
             }
             
         }

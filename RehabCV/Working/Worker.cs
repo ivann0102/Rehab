@@ -97,7 +97,7 @@ namespace RehabCV.Working
                 }
 
                 
-                await Task.Delay(TimeSpan.FromDays(1), cancellationToken);
+                await Task.Delay(TimeSpan.FromMinutes(145), cancellationToken);
             }   
         }
     }

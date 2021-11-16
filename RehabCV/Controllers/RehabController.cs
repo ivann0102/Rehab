@@ -23,7 +23,7 @@ namespace RehabCV.Controllers
         private readonly IReserve<Reserve> _reserve;
         private readonly IEvent<Event> _event;
 
-        public RehabController(IRehabilitation<Rehabilitation> rehabilitation, 
+        public RehabController(IRehabilitation<Rehabilitation> rehabilitation,
                                UserManager<User> userManager,
                                IRepository<Child> child,
                                IQueue<Queue> queue,
@@ -64,7 +64,7 @@ namespace RehabCV.Controllers
                 }
             }
 
-            ViewBag.dates = new SelectList(dates, "Id", "Start");
+            ViewBag.dates = new SelectList(@event, "Id", "Start");
 
             ViewBag.children = id;
 
@@ -95,17 +95,88 @@ namespace RehabCV.Controllers
 
                 var group = await _group.FindById(child.GroupId);
 
-                await group.AddChildToQueue(_queue, rehab, _group, _child, _reserve, _rehabilitation);
+                var addedToGroup = await group.AddChildToQueue(_queue, rehab, _group, _child, _reserve, _rehabilitation);
 
                 if (resultRehab != null)
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Notification", new { addedToGroup, dateTime = rehab.DateOfRehab, childId = rehab.ChildId });
                 }
 
                 await _child.DeleteAsync(rehabDTO.ChildId);
             }
-    
+
             return View(rehabDTO);
+        }
+
+        public async Task<IActionResult> Notification(bool addedToGroup, DateTime dateTime, string childId)
+        {
+            var notification = new NotificationDTO();
+            if (addedToGroup)
+            {
+                notification.Notification = $"Запис на реаблітацію пройшов успішно, дата реабілітації {dateTime}";
+                notification.AddedToGroup = true;
+            }
+            else
+            {
+                var @event = await _event.FindAll();
+                var dates = new List<Event>();
+
+                foreach (var item in @event)
+                {
+                    if (DateTime.UtcNow.AddDays(7) < item.Start)
+                    {
+                        dates.Add(item);
+                    }
+                }
+
+                ViewBag.dates = new SelectList(@event, "Id", "Start");
+
+                notification.Notification = $"В даній групі на дату {dateTime} вже немає місць, " +
+                                            $"записатись можна в резерв, або на наступну дату";
+                notification.AddedToGroup = false;
+
+                ViewBag.children = childId;
+            }
+
+            return PartialView(notification);
+        }
+
+        [HttpPost, ActionName("Notification")]
+        public async Task<IActionResult> Notification(NotificationDTO notificationDTO)
+        {
+            if (notificationDTO.AddToAnotherDate)
+            {
+                var dateOfRehab = await _event.FindById(notificationDTO.DateId);
+
+                var child = await _child.FindById(notificationDTO.ChildId);
+
+                var rehab = await _rehabilitation.FindByChildId(notificationDTO.ChildId);
+
+                var group = await _group.FindById(child.GroupId);
+
+                var areSeats = await _group.AreSeats(group.NameOfDisease, "anoherDate", dateOfRehab.Start, _rehabilitation);
+
+                if (areSeats)
+                {
+                    rehab.DateOfRehab = dateOfRehab.Start;
+
+                    await _rehabilitation.UpdateAsync(rehab.Id, rehab);
+
+                    child.Reserve = null;
+                    child.ReserveId = null;
+
+                    await _child.UpdateAsync(child.Id, child);
+                }
+
+                return RedirectToAction("Notification", new { addedToGroup = areSeats, dateTime = dateOfRehab.Start, rehab });
+            }
+
+            if (notificationDTO.AddToReserve)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            return View(notificationDTO);
         }
     }
 }
