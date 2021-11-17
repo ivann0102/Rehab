@@ -10,7 +10,7 @@ using RehabCV.Database;
 namespace RehabCV.Migrations
 {
     [DbContext(typeof(RehabCVContext))]
-    [Migration("20211113152956_InitialCreate")]
+    [Migration("20211117134444_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

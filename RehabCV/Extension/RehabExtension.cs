@@ -45,25 +45,9 @@ namespace RehabCV.Extension
 
         public static Group DivisionChildrenInGroups(this Group group, int numberOfChildren)
         {
-            switch (group.NameOfDisease)
-            {
-                case "Неврологія":
-                    group.NumberOfChildren = (int)Math.Round(numberOfChildren * 0.4, MidpointRounding.AwayFromZero);
-                    break;
-                case "Ортопедія":
-                    group.NumberOfChildren = (int)Math.Round(numberOfChildren * 0.08, MidpointRounding.AwayFromZero);
-                    break;
-                case "Інше":
-                    group.NumberOfChildren = (int)Math.Round(numberOfChildren * 0.02, MidpointRounding.AwayFromZero);
-                    break;
-                case "Генетика":
-                    group.NumberOfChildren = (int)Math.Round(numberOfChildren * 0.2, MidpointRounding.AwayFromZero);
-                    break;
-                case "Психіатрія":
-                    group.NumberOfChildren = (int)Math.Round(numberOfChildren * 0.3, MidpointRounding.AwayFromZero);
-                    break;
-            }
-
+            var percent = (double)group.PercentOfChildren / 100;
+            group.NumberOfChildren = (int)Math.Round(numberOfChildren * percent, MidpointRounding.AwayFromZero);
+            
             return group;
         }
 

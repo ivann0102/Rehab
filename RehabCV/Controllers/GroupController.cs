@@ -45,7 +45,9 @@ namespace RehabCV.Controllers
                 var group = new Group
                 {
                     Id = Guid.NewGuid().ToString(),
-                    NameOfDisease = groupDTO.NameOfDisease
+                    NameOfDisease = groupDTO.NameOfDisease,
+                    PercentOfChildren = groupDTO.PercentOfChildren,
+                    Priority = groupDTO.Priority
                 };
 
                 group = group.DivisionChildrenInGroups(numberOfChildren.NumberOfChildrenInGroup);

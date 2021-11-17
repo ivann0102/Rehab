@@ -64,7 +64,7 @@ namespace RehabCV.Controllers
                 }
             }
 
-            ViewBag.dates = new SelectList(@event, "Id", "Start");
+            ViewBag.dates = new SelectList(dates, "Id", "Start");
 
             ViewBag.children = id;
 

@@ -54,6 +54,10 @@ namespace RehabCV.Working
 
                             var group = await _group.FindById(child.GroupId);
 
+                            var groups = await _group.FindAll();
+
+                            var groupOrdered = groups.OrderBy(x => x.Priority).ToList();
+
                             if (rehab.DateOfRehab == item.Start)
                             {
                                 var queue = new Queue
@@ -63,41 +67,26 @@ namespace RehabCV.Working
                                     GroupOfDisease = group.NameOfDisease
                                 };
 
-                                if (await _group.AreSeats("Неврологія", "reserv", rehab.DateOfRehab, _rehabilitation))
+                                foreach (var g in groupOrdered)
                                 {
-                                    queue.GroupOfDisease = "Неврологія";
-                                }
-                                else if (await _group.AreSeats("Ортопедія", "reserv", rehab.DateOfRehab, _rehabilitation))
-                                {
-                                    queue.GroupOfDisease = "Ортопедія";
-                                }
-                                else if (await _group.AreSeats("Інше", "reserv", rehab.DateOfRehab, _rehabilitation))
-                                {
-                                    queue.GroupOfDisease = "Інше";
-                                }
-                                else if (await _group.AreSeats("Генетика", "reserv", rehab.DateOfRehab, _rehabilitation))
-                                {
-                                    queue.GroupOfDisease = "Генетика";
-                                }
-                                else if (await _group.AreSeats("Психіатрія", "reserv", rehab.DateOfRehab, _rehabilitation))
-                                {
-                                    queue.GroupOfDisease = "Психіатрія";
-                                }
-                                else
-                                {
-                                    break;
-                                }
+                                    if (await _group.AreSeats(g.NameOfDisease, "reserv", rehab.DateOfRehab, _rehabilitation))
+                                    {
+                                        queue.GroupOfDisease = g.NameOfDisease;
 
-                                await _group.ChangeDisease(_child, child, queue.GroupOfDisease);
+                                        await _group.ChangeDisease(_child, child, queue.GroupOfDisease);
 
-                                await _queue.AddToQueue(queue);
+                                        await _queue.AddToQueue(queue);
+
+                                        break;
+                                    }
+                                }
                             }
                         }
                     }
                 }
 
                 
-                await Task.Delay(TimeSpan.FromMinutes(145), cancellationToken);
+                await Task.Delay(TimeSpan.FromDays(1), cancellationToken);
             }   
         }
     }

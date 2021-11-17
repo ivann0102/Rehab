@@ -18,6 +18,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.NameOfDisease)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PercentOfChildren)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Priority)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -28,7 +34,13 @@
             <td>
                 @Html.DisplayFor(modelItem => item.NameOfDisease)
             </td>
-    
+            <td>
+                @Html.DisplayFor(modelItem => item.PercentOfChildren)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Priority)
+            </td>
+
             <td>
                 <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger" style="width: 60%">Видалити</a>
             </td>
