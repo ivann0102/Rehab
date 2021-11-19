@@ -13,6 +13,5 @@ namespace RehabCV.Models
         public string MiddleName { get; set; }
         public string LastName { get; set; }
         public string Phone { get; set; }
-        public string Specialization { get; set; }
     }
 }

@@ -32,7 +32,6 @@ namespace RehabCV.Migrations
                     MiddleName = table.Column<string>(type: "text", nullable: true),
                     LastName = table.Column<string>(type: "text", nullable: true),
                     Phone = table.Column<string>(type: "text", nullable: true),
-                    Specialization = table.Column<string>(type: "text", nullable: true),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -226,7 +225,10 @@ namespace RehabCV.Migrations
                     LastName = table.Column<string>(type: "text", nullable: true),
                     Birthday = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     GroupId = table.Column<string>(type: "text", nullable: true),
-                    HomeAddress = table.Column<string>(type: "text", nullable: true),
+                    Region = table.Column<string>(type: "text", nullable: true),
+                    District = table.Column<string>(type: "text", nullable: true),
+                    Location = table.Column<string>(type: "text", nullable: true),
+                    Street = table.Column<string>(type: "text", nullable: true),
                     ReserveId = table.Column<string>(type: "text", nullable: true),
                     DateOfReserv = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
@@ -261,7 +263,8 @@ namespace RehabCV.Migrations
                     ChildId = table.Column<string>(type: "text", nullable: true),
                     Form = table.Column<string>(type: "text", nullable: true),
                     Duration = table.Column<string>(type: "text", nullable: true),
-                    DateOfRehab = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                    DateOfRehab = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    DateOfCommission = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {

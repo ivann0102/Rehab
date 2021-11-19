@@ -29,9 +29,24 @@ namespace RehabCV.DTO
         [Display(Name = "Виберіть групу захворювання")]
         public string GroupId { get; set; }
 
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Вкажіть домашню адресу.")]
-        [StringLength(100, ErrorMessage = "В полі домашня адреса має бути мінімум 1 символ і максимум 100", MinimumLength = 1)]
-        [Display(Name = "Домашня адреса")]
-        public string HomeAddress { get; set; }
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Вкажіть область проживання.")]
+        [StringLength(100, ErrorMessage = "В полі область проживання має бути мінімум 1 символ і максимум 100", MinimumLength = 1)]
+        [Display(Name = "Область проживання")]
+        public string Region { get; set; }
+
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Вкажіть район проживання.")]
+        [StringLength(100, ErrorMessage = "В полі район проживання має бути мінімум 1 символ і максимум 100", MinimumLength = 1)]
+        [Display(Name = "Район проживання")]
+        public string District { get; set; }
+
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Вкажіть населений пункт.")]
+        [StringLength(100, ErrorMessage = "В полі населений пункт має бути мінімум 1 символ і максимум 100", MinimumLength = 1)]
+        [Display(Name = "Населений пункт")]
+        public string Location { get; set; }
+
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Вкажіть вулицю проживання.")]
+        [StringLength(100, ErrorMessage = "В полі вулиця проживання має бути мінімум 1 символ і максимум 100", MinimumLength = 1)]
+        [Display(Name = "Вулиця проживання")]
+        public string Street { get; set; }
     }
 }

@@ -13,6 +13,7 @@ namespace RehabCV.Models
         public string Form { get; set; }
         public string Duration { get; set; }
         public DateTime DateOfRehab { get; set; }
+        public DateTime DateOfCommission { get; set; }
         public Queue Queue { get; set; }
     }
 }

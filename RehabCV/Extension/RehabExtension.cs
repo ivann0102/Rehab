@@ -33,7 +33,8 @@ namespace RehabCV.Extension
                         NameOfDisease = group.NameOfDisease,
                         Form = rehabilitation.Form,
                         Duration = rehabilitation.Duration,
-                        DateOfRehab = rehabilitation.DateOfRehab
+                        DateOfRehab = rehabilitation.DateOfRehab,
+                        DateOfCommission = rehabilitation.DateOfCommission
                     };
 
                     rehabs.Add(rehab);

@@ -230,22 +230,31 @@ namespace RehabCV.Migrations
                     b.Property<DateTime>("DateOfReserv")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<string>("District")
+                        .HasColumnType("text");
+
                     b.Property<string>("FirstName")
                         .HasColumnType("text");
 
                     b.Property<string>("GroupId")
                         .HasColumnType("text");
 
-                    b.Property<string>("HomeAddress")
+                    b.Property<string>("LastName")
                         .HasColumnType("text");
 
-                    b.Property<string>("LastName")
+                    b.Property<string>("Location")
                         .HasColumnType("text");
 
                     b.Property<string>("MiddleName")
                         .HasColumnType("text");
 
+                    b.Property<string>("Region")
+                        .HasColumnType("text");
+
                     b.Property<string>("ReserveId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Street")
                         .HasColumnType("text");
 
                     b.Property<string>("UserId")
@@ -355,6 +364,9 @@ namespace RehabCV.Migrations
                     b.Property<string>("ChildId")
                         .HasColumnType("text");
 
+                    b.Property<DateTime>("DateOfCommission")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<DateTime>("DateOfRehab")
                         .HasColumnType("timestamp without time zone");
 
@@ -399,9 +411,6 @@ namespace RehabCV.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Phone")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Specialization")
                         .HasColumnType("text");
 
                     b.HasDiscriminator().HasValue("User");

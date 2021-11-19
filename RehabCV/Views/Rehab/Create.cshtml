@@ -44,10 +44,16 @@
                     <span asp-validation-for="DurationStatsionar" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="EventId"></label>
-                    <select name="EventId" id="EventId" form="rehab" class="custom-select" asp-items="ViewBag.dates">
+                    <label asp-for="DateOfRehabId"></label>
+                    <select name="DateOfRehabId" id="DateOfRehabId" form="rehab" class="custom-select" asp-items="ViewBag.datesRehab">
                     </select>
-                    <span asp-validation-for="EventId" class="text-danger"></span>
+                    <span asp-validation-for="DateOfRehabId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DateOfCommissionId"></label>
+                    <select name="DateOfCommissionId" id="DateOfCommissionId" form="rehab" class="custom-select" asp-items="ViewBag.datesCommiss">
+                    </select>
+                    <span asp-validation-for="DateOfCommissionId" class="text-danger"></span>
                 </div>
                 <button type="submit" class="btn btn-primary" style="width: 100%">Додати</button>
             </form>

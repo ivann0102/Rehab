@@ -30,6 +30,10 @@
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="IsEmail"></label>
+                <input asp-for="IsEmail" type="checkbox" id="isEmail" onclick="checkIsEmail()" />
+            </div>
+            <div class="form-group" id="email" style="display:none">
                 <label asp-for="Email"></label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
@@ -50,5 +54,17 @@
 </div>
 
 @await Html.PartialAsync("_IndexFooter")
+
+<script>
+    function checkIsEmail() {
+        var checkBox = document.getElementById("isEmail");
+        var email = document.getElementById("email");
+        if (checkBox.checked == true) {
+            email.style.display = "block";
+        } else {
+            email.style.display = "none";
+        }
+    }
+</script>
 
 

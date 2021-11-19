@@ -90,8 +90,7 @@ namespace RehabCV.Controllers
                         MiddleName = model.MiddleNameOfUser,
                         LastName = model.LastNameOfUser,
                         Email = model.Email,
-                        Phone = model.PhoneNumber,
-                        Specialization = model.Specialization
+                        Phone = model.PhoneNumber
                     };
 
                     var result = await _userManager.CreateAsync(user, model.Password);

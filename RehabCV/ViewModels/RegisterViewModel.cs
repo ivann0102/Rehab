@@ -24,7 +24,9 @@ namespace RehabCV.ViewModels
         [Display(Name = "Прізвище")]
         public string LastNameOfUser { get; set; }
 
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Вкажіть електронну пошту.")]
+        [Display(Name = "Чи є у Вас електронна адреса?")]
+        public bool IsEmail { get; set; }
+
         [EmailAddress(ErrorMessage = "Електронна адреса не відповідає стандартним вимогам")]
         [Display(Name = "Електронна пошта")]
         public string Email { get; set; }
@@ -33,9 +35,6 @@ namespace RehabCV.ViewModels
         [StringLength(13, ErrorMessage = "Номер телефону має містити 13 символів.", MinimumLength = 13)]
         [Display(Name = "Номер телефону")]
         public string PhoneNumber { get; set; }
-
-        [Display(Name = "Вкажіть спеціалізацію")]
-        public string Specialization { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Вкажіть пароль.")]
         [StringLength(100, ErrorMessage = "Пароль має містити мінімум {2} символів верхнього та нижнього регістру, спеціальні символи та цифри.", MinimumLength = 6)]

@@ -54,17 +54,24 @@ namespace RehabCV.Controllers
         public async Task<IActionResult> Create(string id)
         {
             var @event = await _event.FindAll();
-            var dates = new List<Event>();
+            var datesRehab = new List<Event>();
+            var datesCommiss = new List<Event>();
 
             foreach (var item in @event)
             {
-                if (DateTime.UtcNow.AddDays(7) < item.Start)
+                if (DateTime.UtcNow.AddDays(7) < item.Start && item.Subject == "Реабілітація")
                 {
-                    dates.Add(item);
+                    datesRehab.Add(item);
+                }
+                if (item.Subject == "Комісія")
+                {
+                    datesCommiss.Add(item);
                 }
             }
 
-            ViewBag.dates = new SelectList(dates, "Id", "Start");
+            ViewBag.datesRehab = new SelectList(@event, "Id", "Start");
+
+            ViewBag.datesCommiss = new SelectList(datesCommiss, "Id", "Start");
 
             ViewBag.children = id;
 
@@ -78,7 +85,7 @@ namespace RehabCV.Controllers
             {
                 var duration = rehabDTO.Form == "Амбулаторна" ? rehabDTO.DurationAmbylator : rehabDTO.DurationStatsionar;
 
-                var dateOfRehab = await _event.FindById(rehabDTO.EventId);
+                var dateOfRehab = await _event.FindById(rehabDTO.DateOfRehabId);
 
                 var rehab = new Rehabilitation
                 {
@@ -123,7 +130,7 @@ namespace RehabCV.Controllers
 
                 foreach (var item in @event)
                 {
-                    if (DateTime.UtcNow.AddDays(7) < item.Start)
+                    if (DateTime.UtcNow.AddDays(7) < item.Start && item.Subject == "Реабілітація")
                     {
                         dates.Add(item);
                     }

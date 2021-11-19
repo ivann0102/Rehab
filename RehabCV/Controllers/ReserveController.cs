@@ -31,27 +31,30 @@ namespace RehabCV.Controllers
         {
             var reserves = await _reserve.GetReserve();
 
-            var children = reserves.Children.OrderBy(x => x.DateOfReserv).ToList();
+            var children = reserves?.Children.OrderBy(x => x.DateOfReserv).ToList();
 
             var reserveList = new List<ReservViewModel>();
 
-            foreach (var child in children)
+            if (reserves != null)
             {
-                var rehab = await _rehabilitation.FindByChildId(child.Id);
-
-                var group = await _group.FindById(child.GroupId);
-
-                var reservViewModel = new ReservViewModel
+                foreach (var child in children)
                 {
-                    FirstName = child.FirstName,
-                    MiddleName = child.MiddleName,
-                    LastName = child.LastName,
-                    NameOfDisease = group.NameOfDisease,
-                    DateOfRehab = rehab.DateOfRehab,
-                    DateOfReserv = child.DateOfReserv
-                };
+                    var rehab = await _rehabilitation.FindByChildId(child.Id);
 
-                reserveList.Add(reservViewModel);
+                    var group = await _group.FindById(child.GroupId);
+
+                    var reservViewModel = new ReservViewModel
+                    {
+                        FirstName = child.FirstName,
+                        MiddleName = child.MiddleName,
+                        LastName = child.LastName,
+                        NameOfDisease = group.NameOfDisease,
+                        DateOfRehab = rehab.DateOfRehab,
+                        DateOfReserv = child.DateOfReserv
+                    };
+
+                    reserveList.Add(reservViewModel);
+                }
             }
 
             return View(reserveList);

@@ -66,7 +66,10 @@ namespace RehabCV.Controllers
                     LastName = childDTO.LastNameOfChild,
                     Birthday = childDTO.BirthdayOfChild,
                     GroupId = childDTO.GroupId,
-                    HomeAddress = childDTO.HomeAddress
+                    Region = childDTO.Region,
+                    District = childDTO.District,
+                    Location = childDTO.Location,
+                    Street = childDTO.Street
                 };
 
                 var result = await _repository.CreateAsync(child);
@@ -97,7 +100,10 @@ namespace RehabCV.Controllers
                 MiddleNameOfChild = child.MiddleName,
                 BirthdayOfChild = child.Birthday,
                 GroupId = child.GroupId,
-                HomeAddress = child.HomeAddress
+                Region = child.Region,
+                District = child.District,
+                Location = child.Location,
+                Street = child.Street
             };
 
             var groups = await _group.FindAll();
@@ -119,7 +125,10 @@ namespace RehabCV.Controllers
                 child.MiddleName = childDTO.MiddleNameOfChild;
                 child.Birthday = childDTO.BirthdayOfChild;
                 child.GroupId = childDTO.GroupId;
-                child.HomeAddress = childDTO.HomeAddress;
+                child.Region = childDTO.Region;
+                child.District = childDTO.District;
+                child.Location = childDTO.Location;
+                child.Street = childDTO.Street;
 
                 await _repository.UpdateAsync(id, child);
 

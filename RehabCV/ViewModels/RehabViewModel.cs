@@ -26,6 +26,9 @@ namespace RehabCV.ViewModels
         [Display(Name = "Дата початку реабілітації")]
         public DateTime DateOfRehab { get; set; }
 
+        [Display(Name = "Дата комісії")]
+        public DateTime DateOfCommission { get; set; }
+
         [Display(Name = "Група захворювання")]
         public string NameOfDisease { get; set; }
     }

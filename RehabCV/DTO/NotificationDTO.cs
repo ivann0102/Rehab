@@ -18,7 +18,7 @@ namespace RehabCV.DTO
         [Display(Name = "Додати в резерв?")]
         public bool AddToReserve { get; set; }
 
-        [Display(Name = "Записати на іншу дату")]
+        [Display(Name = "Записати на іншу дату?")]
         public bool AddToAnotherDate { get; set; }
         public string ChildId { get; set; }
     }
