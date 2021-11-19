@@ -24,12 +24,16 @@ namespace RehabCV.ViewModels
         [Display(Name = "Прізвище")]
         public string LastNameOfUser { get; set; }
 
-        [Display(Name = "Чи є у Вас електронна адреса?")]
+        [Display(Name = "Чи є у Вас електронна пошта?")]
         public bool IsEmail { get; set; }
 
-        [EmailAddress(ErrorMessage = "Електронна адреса не відповідає стандартним вимогам")]
+        [EmailAddress(ErrorMessage = "Електронна пошта не відповідає стандартним вимогам")]
         [Display(Name = "Електронна пошта")]
         public string Email { get; set; }
+
+        [Display(Name = "Логін латинськими літерами")]
+        [StringLength(100, ErrorMessage = "В полі прізвище має бути мінімум 1 символ і максимум 100", MinimumLength = 1)]
+        public string Login { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Вкажіть номер телефону.")]
         [StringLength(13, ErrorMessage = "Номер телефону має містити 13 символів.", MinimumLength = 13)]

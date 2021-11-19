@@ -8,9 +8,8 @@ namespace RehabCV.ViewModels
 {
     public class LoginViewModel
     {
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Вкажіть електронну пошту.")]
-        [EmailAddress(ErrorMessage = "Електронна адреса не відповідає стандартним вимогам")]
-        [Display(Name = "Електронна пошта")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Вкажіть електронну пошту/логін.")]
+        [Display(Name = "Електронна пошта/Логін")]
         public string Email { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Вкажіть пароль.")]

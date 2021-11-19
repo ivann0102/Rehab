@@ -77,7 +77,8 @@ namespace RehabCV.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            var userWithSameEmail = await _userManager.FindByEmailAsync(model.Email);
+            var userWithSameEmail = model.Email == null ? await _userManager.FindByNameAsync(model.Login)
+                                                        : await _userManager.FindByEmailAsync(model.Email);
 
             if (ModelState.IsValid)
             {
@@ -85,7 +86,7 @@ namespace RehabCV.Controllers
                 {
                     var user = new User
                     {
-                        UserName = model.Email,
+                        UserName = model.Email ?? model.Login,
                         FirstName = model.FirstNameOfUser,
                         MiddleName = model.MiddleNameOfUser,
                         LastName = model.LastNameOfUser,
@@ -99,21 +100,32 @@ namespace RehabCV.Controllers
                     {
                         await _userManager.AddToRoleAsync(user, "Parent");
 
-                        // установка куки
-                        await _signInManager.SignInAsync(user, false);
-                        // генерация токена для пользователя
-                        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                        if (model.Email != null)
+                        {
+                            // установка куки
+                            await _signInManager.SignInAsync(user, false);
+                            // генерация токена для пользователя
+                            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
-                        var callbackUrl = Url.Action(
-                            "ConfirmEmail",
-                            "Account",
-                            new { userId = user.Id, code },
-                            protocol: HttpContext.Request.Scheme);
-                        EmailService emailService = new EmailService();
-                        await emailService.SendEmailAsync(model.Email, "Confirm your account",
-                            $"Підтвердіть реєстрацію, перейшовши за посиланням: <a href='{callbackUrl}'>link</a>");
+                            var callbackUrl = Url.Action(
+                                "ConfirmEmail",
+                                "Account",
+                                new { userId = user.Id, code },
+                                protocol: HttpContext.Request.Scheme);
+                            EmailService emailService = new EmailService();
+                            await emailService.SendEmailAsync(model.Email, "Confirm your account",
+                                $"Підтвердіть реєстрацію, перейшовши за посиланням: <a href='{callbackUrl}'>link</a>");
 
-                        return Content("Для завершення реєстрації перевірте електронну пошту та перейдіть за посиланням, зазначеної в листі");
+                            return Content("Для завершення реєстрації перевірте електронну пошту та перейдіть за посиланням, зазначеної в листі");
+                        }
+                        else
+                        {
+                            user.EmailConfirmed = true;
+
+                            await _userManager.UpdateAsync(user);
+
+                            return RedirectToAction("Login");
+                        }
                     }
                     else
                     {
@@ -125,7 +137,7 @@ namespace RehabCV.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("Email", "Користувач з даною електронною поштою вже існує");
+                    ModelState.AddModelError("Email", "Користувач з даною електронною поштою/логіном вже існує");
                 }
             }
 
