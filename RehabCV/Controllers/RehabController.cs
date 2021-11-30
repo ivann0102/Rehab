@@ -63,7 +63,7 @@ namespace RehabCV.Controllers
                 {
                     datesRehab.Add(item);
                 }
-                if (item.Subject == "Комісія")
+                if (DateTime.UtcNow < item.Start && item.Subject == "Комісія")
                 {
                     datesCommiss.Add(item);
                 }
@@ -87,13 +87,16 @@ namespace RehabCV.Controllers
 
                 var dateOfRehab = await _event.FindById(rehabDTO.DateOfRehabId);
 
+                var dateOfCommis = await _event.FindById(rehabDTO.DateOfCommissionId);
+
                 var rehab = new Rehabilitation
                 {
                     Id = Guid.NewGuid().ToString(),
                     ChildId = rehabDTO.ChildId,
                     Form = rehabDTO.Form,
                     Duration = duration,
-                    DateOfRehab = dateOfRehab.Start
+                    DateOfRehab = dateOfRehab.Start,
+                    DateOfCommission = dateOfCommis.Start
                 };
 
                 var resultRehab = await _rehabilitation.CreateAsync(rehab);
