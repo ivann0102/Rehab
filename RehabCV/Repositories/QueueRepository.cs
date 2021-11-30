@@ -30,15 +30,5 @@ namespace RehabCV.Repositories
 
             return null;
         }
-
-        public int GetLastNumberOfQueue()
-        {
-            if (_context != null)
-            {
-                return _context.Queues.OrderByDescending(x => x.NumberInQueue).FirstOrDefault()?.NumberInQueue ?? 0;
-            }
-
-            return 0;
-        }
     }
 }

@@ -18,34 +18,6 @@ namespace RehabCV.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Rehabilitation>> FindAllByParentId(string parentId)
-        {
-            if (_context != null)
-            {
-                var children = await _context.Children
-                                             .AsNoTracking()
-                                             .AsQueryable()
-                                             .Where(x => x.UserId == parentId).ToListAsync();
-
-                var rehabs = new List<Rehabilitation>();
-                var rehab = new Rehabilitation();
-
-                foreach (var value in children)
-                {
-                    rehab = await _context.Rehabilitations.FirstOrDefaultAsync(x => x.ChildId == value.Id);
-
-                    if (rehab != null)
-                    {
-                        rehabs.Add(rehab);
-                    }
-                }
-                    
-                return rehabs;
-            }
-
-            return null;
-        }
-
         public async Task<Rehabilitation> FindByChildId(string id)
         {
             if (_context != null)

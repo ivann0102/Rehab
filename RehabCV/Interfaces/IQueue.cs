@@ -8,6 +8,5 @@ namespace RehabCV.Interfaces
     public interface IQueue<TEntity>
     {
         public Task<string> AddToQueue(TEntity entity);
-        public int GetLastNumberOfQueue();
     }
 }
