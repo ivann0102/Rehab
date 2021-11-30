@@ -84,7 +84,6 @@ namespace RehabCV.Working
                         }
                     }
                 }
-
                 
                 await Task.Delay(TimeSpan.FromDays(1), cancellationToken);
             }   
