@@ -7,11 +7,7 @@ namespace RehabCV.Interfaces
 {
     public interface IRepository<TEntity>
     {
-        Task<IEnumerable<TEntity>> FindAll();
-        Task<TEntity> FindById(string id);
-        Task<IEnumerable<TEntity>> FindByParentId(string id);
-        Task<string> CreateAsync(TEntity entity);
-        Task UpdateAsync(string id, TEntity entity);
-        Task<int> DeleteAsync(string id);
+        public Task<string> CreateAsync(TEntity entity);
+        public Task UpdateAsync(string id, TEntity entity);
     }
 }

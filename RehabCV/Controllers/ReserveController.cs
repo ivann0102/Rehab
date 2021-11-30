@@ -12,12 +12,12 @@ namespace RehabCV.Controllers
     public class ReserveController : Controller
     {
         private readonly IReserve<Reserve> _reserve;
-        private readonly IRepository<Child> _child;
+        private readonly IClild<Child> _child;
         private readonly IGroup<Group> _group;
         private readonly IRehabilitation<Rehabilitation> _rehabilitation;
 
         public ReserveController(IReserve<Reserve> reserve,
-                                IRepository<Child> child,
+                                IClild<Child> child,
                                 IGroup<Group> group,
                                 IRehabilitation<Rehabilitation> rehabilitation)
         {

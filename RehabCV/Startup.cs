@@ -41,7 +41,7 @@ namespace RehabCV
             .AddEntityFrameworkStores<RehabCVContext>()
             .AddDefaultTokenProviders();
 
-            services.AddScoped<IRepository<Child>, ChildRepository>();
+            services.AddScoped<IClild<Child>, ChildRepository>();
             services.AddScoped<IEvent<Event>, EventRepository>();
             services.AddScoped<IRehabilitation<Rehabilitation>, RehabRepository>();
             services.AddScoped<IQueue<Queue>, QueueRepository>();

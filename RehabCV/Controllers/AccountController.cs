@@ -51,7 +51,6 @@ namespace RehabCV.Controllers
 
                 if (result.Succeeded)
                 {
-                    // проверяем, принадлежит ли URL приложению
                     if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
                     {
                         return Redirect(model.ReturnUrl);
@@ -112,7 +111,7 @@ namespace RehabCV.Controllers
                                 "Account",
                                 new { userId = user.Id, code },
                                 protocol: HttpContext.Request.Scheme);
-                            EmailService emailService = new EmailService();
+                            var emailService = new EmailService();
                             await emailService.SendEmailAsync(model.Email, "Confirm your account",
                                 $"Підтвердіть реєстрацію, перейшовши за посиланням: <a href='{callbackUrl}'>link</a>");
 
@@ -148,7 +147,6 @@ namespace RehabCV.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
-            // удаляем аутентификационные куки
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
@@ -161,12 +159,16 @@ namespace RehabCV.Controllers
             {
                 return View("Error");
             }
+
             var user = await _userManager.FindByIdAsync(userId);
+
             if (user == null)
             {
                 return View("Error");
             }
+
             var result = await _userManager.ConfirmEmailAsync(user, code);
+
             if (result.Succeeded)
                 return RedirectToAction("Login", "Account");
             else

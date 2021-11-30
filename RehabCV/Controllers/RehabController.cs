@@ -17,7 +17,7 @@ namespace RehabCV.Controllers
     {
         private readonly IRehabilitation<Rehabilitation> _rehabilitation;
         private readonly UserManager<User> _userManager;
-        private readonly IRepository<Child> _child;
+        private readonly IClild<Child> _child;
         private readonly IQueue<Queue> _queue;
         private readonly IGroup<Group> _group;
         private readonly IReserve<Reserve> _reserve;
@@ -25,7 +25,7 @@ namespace RehabCV.Controllers
 
         public RehabController(IRehabilitation<Rehabilitation> rehabilitation,
                                UserManager<User> userManager,
-                               IRepository<Child> child,
+                               IClild<Child> child,
                                IQueue<Queue> queue,
                                IGroup<Group> group,
                                IReserve<Reserve> reserve,

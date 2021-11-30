@@ -56,7 +56,7 @@ namespace RehabCV.Extension
                                                  IQueue<Queue> _queue, 
                                                  Rehabilitation rehabilitation, 
                                                  IGroup<Group> _group,
-                                                 IRepository<Child> _child,
+                                                 IClild<Child> _child,
                                                  IReserve<Reserve> _reserve,
                                                  IRehabilitation<Rehabilitation> _rehabilitation)
         {
@@ -107,7 +107,7 @@ namespace RehabCV.Extension
         }
 
         public static async Task ChangeDisease(this IGroup<Group> _group, 
-                                               IRepository<Child> _child,
+                                               IClild<Child> _child,
                                                Child child,
                                                string nameOfDisease)
         {
@@ -121,7 +121,7 @@ namespace RehabCV.Extension
         }
 
         public static async Task AddToReserve(this IReserve<Reserve> _reserve, 
-                                             IRepository<Child> _child,
+                                             IClild<Child> _child,
                                              string childId,
                                              string groupOfDisease)
         {
@@ -137,7 +137,7 @@ namespace RehabCV.Extension
                     NumberInReserv = 1
                 };
                 
-                await _reserve.AddToReserve(reserve);
+                await _reserve.CreateAsync(reserve);
 
                 
             }
@@ -145,7 +145,7 @@ namespace RehabCV.Extension
             {
                 reserve.NumberInReserv = reserve.Children.Count + 1;
 
-                await _reserve.UpdateReserve(reserve.Id, reserve);
+                await _reserve.UpdateAsync(reserve.Id, reserve);
             }
 
             child.ReserveId = reserve.Id;

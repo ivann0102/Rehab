@@ -18,11 +18,11 @@ namespace RehabCV.Controllers
     public class ChildController : Controller
     {
         private readonly UserManager<User> _userManager;
-        private readonly IRepository<Child> _repository;
+        private readonly IClild<Child> _repository;
         private readonly IGroup<Group> _group;
 
         public ChildController(UserManager<User> userManager, 
-                               IRepository<Child> repository,
+                               IClild<Child> repository,
                                IGroup<Group> group)
         {
             _userManager = userManager;

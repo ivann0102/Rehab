@@ -5,12 +5,10 @@ using System.Threading.Tasks;
 
 namespace RehabCV.Interfaces
 {
-    public interface IEvent<TEntity>
+    public interface IEvent<TEntity> : IRepository<TEntity>
     {
-        Task<IEnumerable<TEntity>> FindAll();
-        Task<TEntity> FindById(string id);
-        Task<string> CreateAsync(TEntity entity);
-        Task UpdateAsync(string id, TEntity entity);
-        Task<int> DeleteAsync(string id);
+        public Task<IEnumerable<TEntity>> FindAll();
+        public Task<TEntity> FindById(string id);
+        public Task<int> DeleteAsync(string id);
     }
 }

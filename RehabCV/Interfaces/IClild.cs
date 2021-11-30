@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace RehabCV.Interfaces
 {
-    public interface IReserve<TEntity> : IRepository<TEntity>
+    public interface IClild<TEntity> : IEvent<TEntity>
     {
-        public Task<TEntity> GetReserve();
+        public Task<IEnumerable<TEntity>> FindByParentId(string id);
     }
 }

@@ -13,11 +13,9 @@ namespace RehabCV.Controllers
 {
     public class EventController : Controller
     {
-        private readonly RehabCVContext _context;
         private readonly IEvent<Event> _eventRepository;
-        public EventController(RehabCVContext context, IEvent<Event> eventRepository)
+        public EventController(IEvent<Event> eventRepository)
         {
-            _context = context;
             _eventRepository = eventRepository;
         }
         public ActionResult Index()
@@ -68,10 +66,6 @@ namespace RehabCV.Controllers
                 }
             }
             return Json(status);
-            /*return Json(status, new JsonSerializerOptions
-            {
-                WriteIndented = true,
-            });*/
         }
 
         [HttpPost]

@@ -33,17 +33,21 @@ namespace RehabCV.Repositories
             return null;
         }
 
-        public async Task AddToReserve(Reserve reserve)
+        public async Task<string> CreateAsync(Reserve reserve)
         {
             if (_context != null)
             {
                 await _context.Reserves.AddAsync(reserve);
 
                 await _context.SaveChangesAsync();
-            }   
+
+                return reserve.Id;
+            }
+
+            return null;
         }
 
-        public async Task UpdateReserve(string id, Reserve reserve)
+        public async Task UpdateAsync(string id, Reserve reserve)
         {
             if (_context != null)
             {
