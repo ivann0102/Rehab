@@ -37,7 +37,7 @@ namespace RehabCV.Working
 
                 foreach (var item in dates)
                 {
-                    if (DateTime.Now.AddDays(7) >= item.Start)
+                    if (DateTime.Now.AddDays(7) >= item.Start && item.Subject == "Реабілітація")
                     {
                         var reserve = await _reserve.GetReserve();
 

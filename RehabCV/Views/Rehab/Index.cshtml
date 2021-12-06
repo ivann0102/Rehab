@@ -6,6 +6,11 @@
 
 <h2 style="text-align: center">@ViewData["Title"]</h2>
 
+@using (Html.BeginForm("Index", "Rehab", FormMethod.Get))
+{
+    @Html.TextBox("searchDate")<input type="submit" value="Знайти"/>
+}
+
 <table class="table">
     <thead>
         <tr>

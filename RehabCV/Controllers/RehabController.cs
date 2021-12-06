@@ -40,7 +40,7 @@ namespace RehabCV.Controllers
             _event = @event;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(DateTime searchDate)
         {
             var children = await _child.FindAll();
 
@@ -48,7 +48,10 @@ namespace RehabCV.Controllers
 
             var rehabViewModel = await childList.GetRehabViewModel(_group, _rehabilitation);
 
-            return View(rehabViewModel);
+            var dt = new DateTime();
+
+            return View(rehabViewModel.Where(x => x.DateOfRehab == searchDate || x.DateOfCommission == searchDate
+                                             || searchDate == dt).ToList());
         }
 
         public async Task<IActionResult> Create(string id)
