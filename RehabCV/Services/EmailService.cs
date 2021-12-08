@@ -1,16 +1,18 @@
 ﻿using MailKit.Net.Smtp;
 using MimeKit;
+using RehabCV.Interfaces;
 using System.Threading.Tasks;
 
-namespace RehabCV
+namespace RehabCV.Services
 {
-    public class EmailService
+    public class EmailService : IEmailService
     {
-        public async Task SendEmailAsync(string email, string subject, string message)
+        public async Task SendEmailAsync(string email, string subject, string message, 
+                                         string emailOfCenter, string passwordOfEmail)
         {
             var emailMessage = new MimeMessage();
 
-            emailMessage.From.Add(new MailboxAddress("Реабілітаційний центр м. Чернівці", "tourismgreen501@gmail.com"));
+            emailMessage.From.Add(new MailboxAddress("Реабілітаційний центр м. Чернівці", emailOfCenter));
             emailMessage.To.Add(new MailboxAddress("", email));
             emailMessage.Subject = subject;
             emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
@@ -21,7 +23,7 @@ namespace RehabCV
             using (var client = new SmtpClient())
             {
                 await client.ConnectAsync("smtp.gmail.com", 465, true);
-                await client.AuthenticateAsync("tourismgreen501@gmail.com", "_tourism501");
+                await client.AuthenticateAsync(emailOfCenter, passwordOfEmail);
                 await client.SendAsync(emailMessage);
 
                 await client.DisconnectAsync(true);

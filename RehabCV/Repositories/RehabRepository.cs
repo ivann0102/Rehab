@@ -16,43 +16,35 @@ namespace RehabCV.Repositories
         public RehabRepository(RehabCVContext context)
         {
             _context = context;
+
+            if (_context == null)
+            {
+                throw new ArgumentNullException(nameof(_context));
+            }
         }
 
         public async Task<Rehabilitation> FindByChildId(string id)
         {
-            if (_context != null)
-            {
-                return await _context.Rehabilitations
+            return await _context.Rehabilitations
                                             .FirstOrDefaultAsync(x => x.ChildId == id);
-            }
-
-            return null;
         }
 
         public async Task<string> CreateAsync(Rehabilitation rehab)
         {
-            if (_context != null)
-            {
-                await _context.Rehabilitations.AddAsync(rehab);
+            await _context.Rehabilitations.AddAsync(rehab);
 
-                await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
-                return rehab.ChildId;
-            }
-
-            return null;
+            return rehab.ChildId;
         }
 
         public async Task UpdateAsync(string id, Rehabilitation rehabilitation)
         {
-            if (_context != null)
-            {
-                rehabilitation.Id = id;
+            rehabilitation.Id = id;
 
-                _context.Rehabilitations.Update(rehabilitation);
+            _context.Rehabilitations.Update(rehabilitation);
 
-                await _context.SaveChangesAsync();
-            }
+            await _context.SaveChangesAsync();
         }
     }
 }

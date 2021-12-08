@@ -16,87 +16,64 @@ namespace RehabCV.Repositories
         public GroupRepository(RehabCVContext context)
         {
             _context = context;
+
+            if (_context == null)
+            {
+                throw new ArgumentNullException(nameof(_context));
+            }
         }
 
         public async Task<IEnumerable<Group>> FindAll()
         {
-            if (_context != null)
-            {
-                return await _context.Groups.ToListAsync();
-            }
-
-            return null;
+            return await _context.Groups.ToListAsync();
         }
 
         public async Task<Group> FindById(string id)
         {
-            if (_context != null)
-            {
-                return await _context.Groups
+            return await _context.Groups
                                  .AsNoTracking()
                                  .AsQueryable()
                                  .Include(c => c.Children)
                                  .FirstOrDefaultAsync(x => x.Id == id);
-            }
-
-            return null;
         }
 
         public async Task<Group> FindByName(string name)
         {
-            if (_context != null)
-            {
-                return await _context.Groups
+            return await _context.Groups
                                  .AsNoTracking()
                                  .AsQueryable()
                                  .Include(c => c.Children)
                                  .FirstOrDefaultAsync(x => x.NameOfDisease == name);
-            }
-
-            return null;
         }
 
         public async Task<string> CreateAsync(Group group)
         {
-            if (_context != null)
-            {
-                await _context.Groups.AddAsync(group);
+            await _context.Groups.AddAsync(group);
 
-                await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
-                return group.Id;
-            }
-
-            return null;
+            return group.Id;
         }
 
         public async Task UpdateAsync(string id, Group group)
         {
-            if (_context != null)
-            {
-                group.Id = id;
+            group.Id = id;
 
-                _context.Groups.Update(group);
+            _context.Groups.Update(group);
 
-                await _context.SaveChangesAsync();
-            }
+            await _context.SaveChangesAsync();
         }
 
         public async Task<int> DeleteAsync(string id)
         {
             var result = 0;
-            if (_context != null)
+            var group = _context.Groups.FirstOrDefault(x => x.Id == id);
+
+            if (group != null)
             {
-                var group = _context.Groups.FirstOrDefault(x => x.Id == id);
+                _context.Groups.Remove(group);
 
-                if (group != null)
-                {
-                    _context.Groups.Remove(group);
-
-                    result = await _context.SaveChangesAsync();
-                }
-
-                return result;
+                 result = await _context.SaveChangesAsync();
             }
 
             return result;

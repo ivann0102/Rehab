@@ -16,70 +16,52 @@ namespace RehabCV.Repositories
         public EventRepository(RehabCVContext context)
         {
             _context = context;
+
+            if (_context == null)
+            {
+                throw new ArgumentNullException(nameof(_context));
+            }
         }
 
         public async Task<IEnumerable<Event>> FindAll()
         {
-            if (_context != null)
-            {
-                return await _context.Events.ToListAsync();
-            }
-
-            return null;
+            return await _context.Events.ToListAsync();
         }
 
         public async Task<Event> FindById(string id)
         {
-            if (_context != null)
-            {
-                return await _context.Events.FirstOrDefaultAsync(x => x.Id == id);
-            }
-
-            return null;
+            return await _context.Events.FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<string> CreateAsync(Event @event)
         {
-            if (_context != null)
-            {
-                await _context.Events.AddAsync(@event);
+            await _context.Events.AddAsync(@event);
 
-                await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
-                return @event.Id;
-            }
-
-            return null;
+            return @event.Id;
         }
 
         public async Task UpdateAsync(string id, Event e)
         {
-            if (_context != null)
-            {
-                e.Id = id;
+            e.Id = id;
 
-                _context.Events.Update(e);
+            _context.Events.Update(e);
 
-                await _context.SaveChangesAsync();
-            }
+            await _context.SaveChangesAsync();
         }
 
         public async Task<int> DeleteAsync(string id)
         {
             var result = 0;
 
-            if (_context != null)
+            var @event = _context.Events.FirstOrDefault(x => x.Id == id);
+
+            if (@event != null)
             {
-                var @event = _context.Events.FirstOrDefault(x => x.Id == id);
+                _context.Events.Remove(@event);
 
-                if (@event != null)
-                {
-                    _context.Events.Remove(@event);
-
-                    result = await _context.SaveChangesAsync();
-                }
-
-                return result;
+                result = await _context.SaveChangesAsync();
             }
 
             return result;

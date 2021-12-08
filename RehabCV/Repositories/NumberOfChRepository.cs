@@ -16,40 +16,32 @@ namespace RehabCV.Repositories
         public NumberOfChRepository(RehabCVContext context)
         {
             _context = context;
+
+            if (_context == null)
+            {
+                throw new ArgumentNullException(nameof(_context));
+            }
         }
 
         public async Task<NumberOfChildren> GetNumber()
         {
-            if (_context != null)
-            {
-                return await _context.NumberOfChildren.FirstOrDefaultAsync();
-            }
-
-            return null;
+            return await _context.NumberOfChildren.FirstOrDefaultAsync();
         }
 
         public async Task<string> CreateAsync(NumberOfChildren numberOfChildren)
         {
-            if (_context != null)
-            {
-                await _context.NumberOfChildren.AddAsync(numberOfChildren);
+            await _context.NumberOfChildren.AddAsync(numberOfChildren);
 
-                await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
-                return numberOfChildren.Id;
-            }
-
-            return null;
+            return numberOfChildren.Id;
         }
 
         public async Task UpdateAsync(NumberOfChildren numberOfChildren)
         {
-            if (_context != null)
-            {
-                _context.NumberOfChildren.Update(numberOfChildren);
+            _context.NumberOfChildren.Update(numberOfChildren);
 
-                await _context.SaveChangesAsync();
-            }
+            await _context.SaveChangesAsync();
         }
     }
 }

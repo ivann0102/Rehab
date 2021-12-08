@@ -16,83 +16,61 @@ namespace RehabCV.Repositories
         public ChildRepository(RehabCVContext context)
         {
             _context = context;
+
+            if (_context == null)
+            {
+                throw new ArgumentNullException(nameof(_context));
+            }
         }
 
         public async Task<IEnumerable<Child>> FindAll()
         {
-            if (_context != null)
-            {
-                return await _context.Children.ToListAsync();
-            }
-
-            return null;
+            return await _context.Children.ToListAsync();
         }
 
         public async Task<Child> FindById(string id)
         {
-            if (_context != null)
-            {
-                return await _context.Children.FirstOrDefaultAsync(x => x.Id == id);
-            }
-
-            return null;
+            return await _context.Children.FirstOrDefaultAsync(x => x.Id == id);
+            
         }
 
         public async Task<IEnumerable<Child>> FindByParentId(string parentId)
         {
-            if (_context != null)
-            {
-                return await _context.Children
+            return await _context.Children
                                     .AsNoTracking()
                                     .AsQueryable()
                                     .Where(x => x.UserId == parentId).ToListAsync();
-            }
-
-            return null;
+            
         }
 
         public async Task<string> CreateAsync(Child child)
         {
-            if (_context != null)
-            {
-                await _context.Children.AddAsync(child);
+            await _context.Children.AddAsync(child);
 
-                await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
-                return child.Id;
-            }
-
-            return null;
+            return child.Id;
         }
 
         public async Task UpdateAsync(string id, Child child)
         {
-            if (_context != null)
-            {
-                child.Id = id;
+            child.Id = id;
 
-                _context.Children.Update(child);
+            _context.Children.Update(child);
 
-                await _context.SaveChangesAsync();
-            }
+            await _context.SaveChangesAsync();
         }
 
         public async Task<int> DeleteAsync(string id)
         {
             var result = 0;
+            var child = _context.Children.FirstOrDefault(x => x.Id == id);
 
-            if (_context != null)
+            if (child != null)
             {
-                var child = _context.Children.FirstOrDefault(x => x.Id == id);
+                _context.Children.Remove(child);
 
-                if (child != null)
-                {
-                    _context.Children.Remove(child);
-
-                    result =  await _context.SaveChangesAsync();
-                }
-
-                return result;
+                result =  await _context.SaveChangesAsync();
             }
 
             return result;

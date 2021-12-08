@@ -3,7 +3,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Options;
+using RehabCV.Configurations;
 using RehabCV.Database;
+using RehabCV.Interfaces;
 using RehabCV.Models;
 using RehabCV.ViewModels;
 using System;
@@ -17,11 +20,17 @@ namespace RehabCV.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly IEmailService _emailService;
+        private readonly IOptions<ApplicationConfiguration> _optionsApplicationConfiguration;
         public AccountController(UserManager<User> userManager,
-                                 SignInManager<User> signInManager)
+                                 SignInManager<User> signInManager,
+                                 IEmailService emailService,
+                                 IOptions<ApplicationConfiguration> o)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _emailService = emailService;
+            _optionsApplicationConfiguration = o;
         }
 
         [HttpGet]
@@ -106,14 +115,16 @@ namespace RehabCV.Controllers
                             // генерация токена для пользователя
                             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
+                            var emailOfCenter = _optionsApplicationConfiguration.Value.EmailOfCenter;
+                            var passwordOfEmail = _optionsApplicationConfiguration.Value.PasswordOfEmail;
+
                             var callbackUrl = Url.Action(
                                 "ConfirmEmail",
                                 "Account",
                                 new { userId = user.Id, code },
                                 protocol: HttpContext.Request.Scheme);
-                            var emailService = new EmailService();
-                            await emailService.SendEmailAsync(model.Email, "Confirm your account",
-                                $"Підтвердіть реєстрацію, перейшовши за посиланням: <a href='{callbackUrl}'>link</a>");
+                            await _emailService.SendEmailAsync(model.Email, "Confirm your account",
+                                $"Підтвердіть реєстрацію, перейшовши за посиланням: <a href='{callbackUrl}'>link</a>", emailOfCenter, passwordOfEmail);
 
                             return Content("Для завершення реєстрації перевірте електронну пошту та перейдіть за посиланням, зазначеної в листі");
                         }

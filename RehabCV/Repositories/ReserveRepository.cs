@@ -17,46 +17,38 @@ namespace RehabCV.Repositories
         public ReserveRepository(RehabCVContext context)
         {
             _context = context;
+
+            if (_context == null)
+            {
+                throw new ArgumentNullException(nameof(_context));
+            }
         }
 
         public async Task<Reserve> GetReserve()
-         {
-            if (_context != null)
-            {
-                return await _context.Reserves
+        {
+            return await _context.Reserves
                                  .AsNoTracking()
                                  .AsQueryable()
                                  .Include(c => c.Children)
                                  .FirstOrDefaultAsync();
-            }
-
-            return null;
         }
 
         public async Task<string> CreateAsync(Reserve reserve)
         {
-            if (_context != null)
-            {
-                await _context.Reserves.AddAsync(reserve);
+            await _context.Reserves.AddAsync(reserve);
 
-                await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
-                return reserve.Id;
-            }
-
-            return null;
+            return reserve.Id;
         }
 
         public async Task UpdateAsync(string id, Reserve reserve)
         {
-            if (_context != null)
-            {
-                reserve.Id = id;
+            reserve.Id = id;
 
-                _context.Reserves.Update(reserve);
+            _context.Reserves.Update(reserve);
 
-                await _context.SaveChangesAsync();
-            }
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -18,6 +18,8 @@ using RehabCV.Interfaces;
 using RehabCV.DTO;
 using RehabCV.HostServices;
 using RehabCV.Working;
+using RehabCV.Services;
+using RehabCV.Configurations;
 
 namespace RehabCV
 {
@@ -33,6 +35,7 @@ namespace RehabCV
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<ApplicationConfiguration>(Configuration.GetSection("ApplicationConfiguration"));
             services.AddDbContext<RehabCVContext>(options =>
                     options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllersWithViews();
@@ -48,6 +51,7 @@ namespace RehabCV
             services.AddScoped<IGroup<Group>, GroupRepository>();
             services.AddScoped<INumberOfCh<NumberOfChildren>, NumberOfChRepository>();
             services.AddScoped<IReserve<Reserve>, ReserveRepository>();
+            services.AddScoped<IEmailService, EmailService>();
 
             services.AddHostedService<OneDayHostedService>();
             services.AddSingleton<IWorker, Worker>();
@@ -102,18 +106,21 @@ namespace RehabCV
                 }
             }
 
-            var _user = await UserManager.FindByEmailAsync("admin@gmail.com");
+            var loginOfAdmin = Configuration["ApplicationConfiguration:LoginOfAdmin"];
+            var passwordOfAdmin = Configuration["ApplicationConfiguration:PasswordOfAdmin"];
+
+            var _user = await UserManager.FindByEmailAsync(loginOfAdmin);
 
             if (_user == null)
             {
                 var poweruser = new User
                 {
-                    UserName = "admin@gmail.com",
-                    Email = "admin@gmail.com",
+                    UserName = loginOfAdmin,
+                    Email = loginOfAdmin,
                     EmailConfirmed = true
                 };
 
-                string adminPassword = "P@$$w0rd";
+                string adminPassword = passwordOfAdmin;
 
                 var createPowerUser = await UserManager.CreateAsync(poweruser, adminPassword);
 

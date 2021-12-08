@@ -15,20 +15,20 @@ namespace RehabCV.Repositories
         public QueueRepository(RehabCVContext context)
         {
             _context = context;
+
+            if (_context == null)
+            {
+                throw new ArgumentNullException(nameof(_context));
+            }
         }
 
         public async Task<string> AddToQueue(Queue queue)
         {
-            if (_context != null)
-            {
-                await _context.Queues.AddAsync(queue);
+            await _context.Queues.AddAsync(queue);
 
-                await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
-                return queue.Id;
-            }
-
-            return null;
+            return queue.Id;
         }
     }
 }
