@@ -4,37 +4,37 @@
 
 @await Html.PartialAsync("_IndexHeader")
 
-<h2 style="text-align: center">@ViewData["Title"]</h2>
+<h2 style="margin-top: 12%; text-align: center; font-family: Geometria; font-weight: 700; font-size: 50px; color: #061e37;">@ViewData["Title"]</h2>
 
-<table class="table">
+<table class="table ">
     <thead>
         <tr>
             <th>
                 №
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
+                Ім'я
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.MiddleName)
+                По-батькові
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastName)
+                Прізвище
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Birthday)
+                Дата народження
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Region)
+                Область
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.District)
+                Район
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Location)
+                Місто, село, смт
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Street)
+                Вулиця
             </th>
             <th></th>
         </tr>

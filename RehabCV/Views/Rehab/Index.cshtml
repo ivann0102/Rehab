@@ -4,13 +4,13 @@
 
 @await Html.PartialAsync("_IndexHeader")
 
-<h2 style="text-align: center">@ViewData["Title"]</h2>
+<h2 style="margin-top: 12%; text-align: center; font-family: Geometria; font-weight: 700; font-size: 50px; color: #061e37;">@ViewData["Title"]</h2>
 
 @using (Html.BeginForm("Index", "Rehab", FormMethod.Get))
 {
-    @Html.TextBox("searchDate")<input type="submit" value="Знайти"/>
+    @Html.TextBox("searchDate")<input type="submit" class="btn btn-primary" style="margin-left: 2%;" value="Знайти"/>
 }
-
+<br/>
 <table class="table">
     <thead>
         <tr>
@@ -18,28 +18,28 @@
                 №
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FirstNameOfChild)
+                Ім'я
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.MiddleNameOfChild)
+                По-батькові
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastNameOfChild)
+               Прізвище
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NameOfDisease)
+                Захворювання
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Form)
+                Форма
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Duration)
+               Тривалість
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DateOfRehab)
+                Дата реабілітації
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DateOfCommission)
+                Дата комісії
             </th>
             <th></th>
         </tr>

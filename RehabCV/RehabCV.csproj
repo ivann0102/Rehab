@@ -12,25 +12,6 @@
     <None Include="wwwroot\fonts\maicons.svg" />
     <None Include="wwwroot\fonts\maicons.ttf" />
     <None Include="wwwroot\fonts\maicons.woff" />
-    <None Include="wwwroot\img\ajax-loader.gif" />
-    <None Include="wwwroot\img\app_store.svg" />
-    <None Include="wwwroot\img\banner-pattern.svg" />
-    <None Include="wwwroot\img\bg-doctor.png" />
-    <None Include="wwwroot\img\bg_image_1.jpg" />
-    <None Include="wwwroot\img\blog\blog_1.jpg" />
-    <None Include="wwwroot\img\blog\blog_2.jpg" />
-    <None Include="wwwroot\img\blog\blog_3.jpg" />
-    <None Include="wwwroot\img\blog\blog_4.jpg" />
-    <None Include="wwwroot\img\blog\blog_5.jpg" />
-    <None Include="wwwroot\img\doctors\doctor_1.jpg" />
-    <None Include="wwwroot\img\doctors\doctor_2.jpg" />
-    <None Include="wwwroot\img\doctors\doctor_3.jpg" />
-    <None Include="wwwroot\img\google_play.svg" />
-    <None Include="wwwroot\img\mobile_app.png" />
-    <None Include="wwwroot\img\person\person_1.jpg" />
-    <None Include="wwwroot\img\person\person_2.jpg" />
-    <None Include="wwwroot\img\person\person_3.jpg" />
-    <None Include="wwwroot\img\person\person_4.jpg" />
     <None Include="wwwroot\js\bootstrap.bundle.min.js" />
     <None Include="wwwroot\js\google-maps.js" />
     <None Include="wwwroot\js\jquery-3.5.1.min.js" />
@@ -48,6 +29,7 @@
     <PackageReference Include="BootstrapNotifications" Version="0.3.2" />
     <PackageReference Include="Calabonga.Microservices.BackgroundWorkers" Version="1.0.4" />
     <PackageReference Include="EntityFramework" Version="6.4.4" />
+    <PackageReference Include="JavaScriptEngineSwitcher.Core" Version="3.3.0" />
     <PackageReference Include="MailKit" Version="2.13.0" />
     <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.7" />
     <PackageReference Include="Microsoft.AspNet.Web.Optimization" Version="1.1.3" />
@@ -60,6 +42,8 @@
     </PackageReference>
     <PackageReference Include="MimeKit" Version="2.13.0" />
     <PackageReference Include="ncrontab" Version="3.3.1" />
+    <PackageReference Include="React.AspNet" Version="5.2.12" />
+    <PackageReference Include="Redux.NET" Version="2.0.0" />
   </ItemGroup>
 
 </Project>
