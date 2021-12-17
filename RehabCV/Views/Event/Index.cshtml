@@ -2,7 +2,7 @@
 
 @await Html.PartialAsync("_IndexHeader")
 
-<h2>Календар</h2>
+<h2 style="margin-top: 12%; text-align: center; font-family: Geometria; font-weight: 700; font-size: 50px; color: #061e37;">Календар</h2>
 <div id="calender"></div>
 
 <div id="myModal" class="modal" role="dialog">
@@ -39,7 +39,7 @@
                 <form class="form-horizontal">
                     <input type="hidden" id="hdEventID" value="0" />
                     <div class="form-group">
-                        <label>Тема</label>
+                        <label>ПІБ дитини</label>
                         <input type="text" id="txtSubject" class="form-control" />
                     </div>
                     <div class="form-group">
@@ -105,6 +105,7 @@
                 $.ajax({
                     type: "GET",
                     url: "/event/GetEvents",
+                    lang: 'uk',
                     success: function (data) {
                         $.each(data, function (i, v) {
                             events.push({
@@ -132,11 +133,15 @@
                     contentHeight: 450,
                     defaultDate: new Date(),
                     timeFormat: 'h(:mm)a',
+                    lang: 'uk',
+                    themeSystem: 'bootstrap',
+                    
                     header: {
-                        left: 'prev,next',
-                        center: 'title',
-                        right: 'prev,next'
+                        left: 'prev,next, title',
+                        center: '',
+                        right: 'dayGridMonth,timeGridWeek,timeGridDay'
                     },
+                   
                     eventLimit: true,
                     eventColor: '#378006',
                     events: events,

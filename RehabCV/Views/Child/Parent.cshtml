@@ -4,7 +4,7 @@
 
 @await Html.PartialAsync("_IndexHeader")
 
-<h2 style="text-align: center">@ViewData["Title"]</h2>
+<h2 style="margin-top: 12%; text-align: center; font-family: Geometria; font-weight: 700; font-size: 50px; color: #061e37;">@ViewData["Title"]</h2>
 
 <table class="table">
     <thead>
@@ -13,19 +13,19 @@
                 №
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
+               Ім'я
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.MiddleName)
+               По-батькові
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastName)
+                Прізвище
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email)
+               Елетронна пошта
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Phone)
+                Номер телефону
             </th>
             <th></th>
         </tr>
@@ -54,7 +54,7 @@
                 @Html.DisplayFor(modelItem => item.Phone)
             </td>
             <td>
-                <a asp-action="Index" asp-route-id="@item.Id" class="btn btn-info" style="width: 60%">Діти</a>
+                <a asp-action="Index" asp-route-id="@item.Id" class="btn btn-primary">Діти</a>
             </td>
         </tr>}
     </tbody>
