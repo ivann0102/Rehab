@@ -20,7 +20,7 @@
                 <label asp-for="FirstNameOfUser" style="font-family: Geometria; font-size: 20px; color: #061e37;"></label>
                 <input asp-for="FirstNameOfUser" class="form-control" />
                 <span asp-validation-for="FirstNameOfUser" class="text-danger"></span>
-                
+
             </div>
             <div class="form-group">
                 <label asp-for="MiddleNameOfUser" style="font-family: Geometria; font-size: 20px; color: #061e37;"></label>
@@ -39,9 +39,18 @@
                 <p style="color: gray">*номер телефону має містити 13 символів, вказавши код +380</p>
             </div>
             <div class="form-group">
+                <label asp-for="IsEmail" style="font-family: Geometria;  font-size: 20px; color: #061e37;"></label>
+                <input asp-for="IsEmail" type="checkbox" id="isEmail" onclick="checkIsEmail()" />
+            </div>
+            <div class="form-group" id="email" style="display:none">
                 <label asp-for="Email" style="font-family: Geometria;  font-size: 20px; color: #061e37;"></label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group" id="login">
+                <label asp-for="Login" style="font-family: Geometria;  font-size: 20px; color: #061e37;"></label>
+                <input asp-for="Login" class="form-control" />
+                <span asp-validation-for="Login" class="text-danger"></span>
             </div>
 
             <div class="form-group">
@@ -62,3 +71,18 @@
 <br />
 
 @await Html.PartialAsync("_IndexFooter")
+
+<script>
+    function checkIsEmail() {
+        var checkBox = document.getElementById("isEmail");
+        var email = document.getElementById("email");
+        var login = document.getElementById("login");
+        if (checkBox.checked == true) {
+            email.style.display = "block";
+            login.style.display = "none";
+        } else {
+            email.style.display = "none";
+            login.style.display = "block";
+        }
+    }
+</script>

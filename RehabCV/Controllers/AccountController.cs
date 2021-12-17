@@ -126,7 +126,7 @@ namespace RehabCV.Controllers
                             await _emailService.SendEmailAsync(model.Email, "Confirm your account",
                                 $"Підтвердіть реєстрацію, перейшовши за посиланням: <a href='{callbackUrl}'>link</a>", emailOfCenter, passwordOfEmail);
 
-                            return Content("Для завершення реєстрації перевірте електронну пошту та перейдіть за посиланням, зазначеної в листі");
+                            return RedirectToAction("Notice");
                         }
                         else
                         {
@@ -152,6 +152,12 @@ namespace RehabCV.Controllers
             }
 
             return View(model);
+        }
+
+        [HttpGet]
+        public ActionResult Notice()
+        {
+            return View();
         }
 
         [HttpPost]

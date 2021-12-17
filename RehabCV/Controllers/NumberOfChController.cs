@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RehabCV.DTO;
 using RehabCV.Extension;
 using RehabCV.Interfaces;
@@ -15,6 +16,7 @@ namespace RehabCV.Controllers
     {
         private readonly INumberOfCh<NumberOfChildren> _numberOfCh;
         private readonly IGroup<Group> _group;
+        private const string policy = "RequireAdminRole";
 
         public NumberOfChController(INumberOfCh<NumberOfChildren> numberOfCh,
                                    IGroup<Group> group)
@@ -23,6 +25,7 @@ namespace RehabCV.Controllers
             _group = group;
         }
 
+        [HttpGet, Authorize(Policy = policy)]
         public async Task<IActionResult> Index()
         {
             var numberOfCh = await _numberOfCh.GetNumber();
@@ -30,12 +33,13 @@ namespace RehabCV.Controllers
             return View(numberOfCh);
         }
 
+        [HttpGet, Authorize(Policy = policy)]
         public IActionResult Create()
         {
             return View();
         }
 
-        [HttpPost, ActionName("Create")]
+        [HttpPost, Authorize(Policy = policy), ActionName("Create")]
         public async Task<IActionResult> Create(NumberOfChildrenDTO numberOfChildrenDTO)
         {
             var numberOfCh = await _numberOfCh.GetNumber();
@@ -64,6 +68,7 @@ namespace RehabCV.Controllers
             return View(numberOfChildrenDTO);
         }
 
+        [HttpGet, Authorize(Policy = policy)]
         public async Task<ActionResult> Update()
         {
             var numberOfChildren = await _numberOfCh.GetNumber();
@@ -81,7 +86,7 @@ namespace RehabCV.Controllers
             return View(numberOfChildrenDTO);
         }
 
-        [HttpPost, ActionName("Update")]
+        [HttpPost, Authorize(Policy = policy), ActionName("Update")]
         public async Task<IActionResult> Update(NumberOfChildrenDTO numberOfChildrenDTO)
         {
             if (ModelState.IsValid)

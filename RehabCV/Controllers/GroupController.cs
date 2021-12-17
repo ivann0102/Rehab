@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RehabCV.DTO;
 using RehabCV.Extension;
 using RehabCV.Interfaces;
@@ -15,6 +16,7 @@ namespace RehabCV.Controllers
     {
         private readonly IGroup<Group> _group;
         private readonly INumberOfCh<NumberOfChildren> _numberOfCh;
+        private const string policy = "RequireAdminRole";
 
         public GroupController(IGroup<Group> group,
                                INumberOfCh<NumberOfChildren> numberOfCh)
@@ -23,6 +25,7 @@ namespace RehabCV.Controllers
             _numberOfCh = numberOfCh;
         }
 
+        [HttpGet, Authorize(Policy = policy)]
         public async Task<IActionResult> Index()
         {
             var groups = await _group.FindAll();
@@ -30,12 +33,13 @@ namespace RehabCV.Controllers
             return View(groups);
         }
 
+        [HttpGet, Authorize(Policy = policy)]
         public IActionResult Create()
         {
             return View();
         }
 
-        [HttpPost, ActionName("Create")]
+        [HttpPost, Authorize(Policy = policy), ActionName("Create")]
         public async Task<IActionResult> Create(GroupDTO groupDTO)
         {
             if (ModelState.IsValid)
@@ -63,7 +67,7 @@ namespace RehabCV.Controllers
             return View(groupDTO);
         }
 
-        [HttpGet]
+        [HttpGet, Authorize(Policy = policy)]
         public async Task<ActionResult> Delete(string id)
         {
             var group = await _group.FindById(id);
@@ -76,7 +80,7 @@ namespace RehabCV.Controllers
             return View(groupDTO);
         }
 
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, Authorize(Policy = policy), ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             if (id == null)

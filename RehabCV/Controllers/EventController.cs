@@ -8,22 +8,26 @@ using System.Text.Json;
 using RehabCV.Models;
 using RehabCV.Repositories;
 using RehabCV.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RehabCV.Controllers
 {
     public class EventController : Controller
     {
         private readonly IEvent<Event> _eventRepository;
+        private const string policy = "RequireAdminRole";
         public EventController(IEvent<Event> eventRepository)
         {
             _eventRepository = eventRepository;
         }
+
+        [HttpGet, Authorize(Policy = policy)]
         public ActionResult Index()
         {
             return View();
         }
 
-        [HttpGet]
+        [HttpGet, Authorize(Policy = policy)]
         public async Task<JsonResult> GetEvents()
         {
             var events = await _eventRepository.FindAll();
@@ -34,7 +38,7 @@ namespace RehabCV.Controllers
             });
         }
 
-        [HttpPost]
+        [HttpPost, Authorize(Policy = policy)]
         public async Task<JsonResult> SaveEvent(Event e)
         {
             var status = false;
@@ -68,7 +72,7 @@ namespace RehabCV.Controllers
             return Json(status);
         }
 
-        [HttpPost]
+        [HttpPost, Authorize(Policy = policy)]
         public async Task<JsonResult> DeleteEvent(string id)
         {
             var status = false;

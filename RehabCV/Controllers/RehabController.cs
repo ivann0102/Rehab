@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RehabCV.DTO;
@@ -22,6 +23,7 @@ namespace RehabCV.Controllers
         private readonly IGroup<Group> _group;
         private readonly IReserve<Reserve> _reserve;
         private readonly IEvent<Event> _event;
+        private const string policy = "RequireAdminRole";
 
         public RehabController(IRehabilitation<Rehabilitation> rehabilitation,
                                UserManager<User> userManager,
@@ -40,6 +42,7 @@ namespace RehabCV.Controllers
             _event = @event;
         }
 
+        [HttpGet, Authorize(Policy = policy)]
         public async Task<IActionResult> Index(DateTime searchDate)
         {
             var children = await _child.FindAll();
@@ -54,6 +57,7 @@ namespace RehabCV.Controllers
                                              || searchDate == dt).ToList());
         }
 
+        [HttpGet, Authorize()]
         public async Task<IActionResult> Create(string id)
         {
             var @event = await _event.FindAll();
@@ -81,7 +85,7 @@ namespace RehabCV.Controllers
             return View();
         }
 
-        [HttpPost, ActionName("Create")]
+        [HttpPost, Authorize(), ActionName("Create")]
         public async Task<IActionResult> Create(RehabDTO rehabDTO)
         {
             if (ModelState.IsValid)
@@ -121,6 +125,7 @@ namespace RehabCV.Controllers
             return View(rehabDTO);
         }
 
+        [HttpGet, Authorize()]
         public async Task<IActionResult> Notification(bool addedToGroup, DateTime dateTime, string childId)
         {
             var notification = new NotificationDTO();
@@ -154,7 +159,7 @@ namespace RehabCV.Controllers
             return PartialView(notification);
         }
 
-        [HttpPost, ActionName("Notification")]
+        [HttpPost, Authorize(), ActionName("Notification")]
         public async Task<IActionResult> Notification(NotificationDTO notificationDTO)
         {
             if (notificationDTO.AddToAnotherDate)

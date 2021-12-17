@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RehabCV.Interfaces;
 using RehabCV.Models;
 using RehabCV.ViewModels;
@@ -14,6 +15,7 @@ namespace RehabCV.Controllers
         private readonly IReserve<Reserve> _reserve;
         private readonly IGroup<Group> _group;
         private readonly IRehabilitation<Rehabilitation> _rehabilitation;
+        private const string policy = "RequireAdminRole";
 
         public ReserveController(IReserve<Reserve> reserve,
                                 IGroup<Group> group,
@@ -24,6 +26,7 @@ namespace RehabCV.Controllers
             _rehabilitation = rehabilitation;
         }
 
+        [HttpGet, Authorize(Policy = policy)]
         public async Task<IActionResult> Index()
         {
             var reserves = await _reserve.GetReserve();

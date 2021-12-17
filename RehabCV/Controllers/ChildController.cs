@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -20,6 +21,7 @@ namespace RehabCV.Controllers
         private readonly UserManager<User> _userManager;
         private readonly IClild<Child> _repository;
         private readonly IGroup<Group> _group;
+        private const string policy = "RequireAdminRole";
 
         public ChildController(UserManager<User> userManager, 
                                IClild<Child> repository,
@@ -29,18 +31,24 @@ namespace RehabCV.Controllers
             _repository = repository;
             _group = group;
         }
+
+        [HttpGet, Authorize(Policy = policy)]
         public async Task<IActionResult> Index(string id)
         {
             var children = await _repository.FindByParentId(id);
 
             return View(children);
         }
+
+        [HttpGet, Authorize(Policy = policy)]
         public async Task<IActionResult> Parent()
         {
             var parents = await _userManager.GetUsersInRoleAsync("Parent");
 
             return View(parents);
         }
+
+        [HttpGet, Authorize()]
         public async Task<IActionResult> Create()
         {
             var groups = await _group.FindAll();
@@ -50,7 +58,7 @@ namespace RehabCV.Controllers
             return View();
         }
 
-        [HttpPost, ActionName("Create")]
+        [HttpPost, Authorize(), ActionName("Create")]
         public async Task<IActionResult> Create(ChildDTO childDTO)
         {
             if (ModelState.IsValid)
@@ -84,6 +92,7 @@ namespace RehabCV.Controllers
             return View(childDTO);
         }
 
+        [HttpGet, Authorize(Policy = policy)]
         public async Task<ActionResult> Update(string id)
         {
             var child = await _repository.FindById(id);
@@ -113,7 +122,7 @@ namespace RehabCV.Controllers
             return View(childDTO);
         }
 
-        [HttpPost, ActionName("Update")]
+        [HttpPost, Authorize(Policy = policy), ActionName("Update")]
         public async Task<IActionResult> Update(string id, ChildDTO childDTO)
         {
             if (ModelState.IsValid)
@@ -138,7 +147,7 @@ namespace RehabCV.Controllers
             return View(childDTO);
         }
 
-        [HttpGet]
+        [HttpGet, Authorize(Policy = policy)]
         public async Task<ActionResult> Delete(string id)
         {
             var child = await _repository.FindById(id);
@@ -153,7 +162,7 @@ namespace RehabCV.Controllers
             return View(childDTO);
         }
 
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, Authorize(Policy = policy), ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             if (id == null)

@@ -44,6 +44,11 @@ namespace RehabCV
             .AddEntityFrameworkStores<RehabCVContext>()
             .AddDefaultTokenProviders();
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
+            });
+
             services.AddScoped<IClild<Child>, ChildRepository>();
             services.AddScoped<IEvent<Event>, EventRepository>();
             services.AddScoped<IRehabilitation<Rehabilitation>, RehabRepository>();
