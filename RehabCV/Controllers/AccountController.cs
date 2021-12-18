@@ -77,6 +77,12 @@ namespace RehabCV.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public ActionResult Notice()
+        {
+            return View();
+        }
+
         public IActionResult Register()
         {
             return View();
@@ -110,9 +116,8 @@ namespace RehabCV.Controllers
 
                         if (model.Email != null)
                         {
-                            // установка куки
                             await _signInManager.SignInAsync(user, false);
-                            // генерация токена для пользователя
+
                             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
                             var emailOfCenter = _optionsApplicationConfiguration.Value.EmailOfCenter;
@@ -152,12 +157,6 @@ namespace RehabCV.Controllers
             }
 
             return View(model);
-        }
-
-        [HttpGet]
-        public ActionResult Notice()
-        {
-            return View();
         }
 
         [HttpPost]

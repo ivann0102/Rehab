@@ -22,7 +22,7 @@ namespace RehabCV.Services
 
             using (var client = new SmtpClient())
             {
-                await client.ConnectAsync("smtp.gmail.com", 465, true);
+                await client.ConnectAsync("smtp.gmail.com", 587, false);
                 await client.AuthenticateAsync(emailOfCenter, passwordOfEmail);
                 await client.SendAsync(emailMessage);
 
