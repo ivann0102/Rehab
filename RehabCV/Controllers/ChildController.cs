@@ -117,7 +117,7 @@ namespace RehabCV.Controllers
 
             var groups = await _group.FindAll();
 
-            ViewBag.groups = new SelectList(groups, "Id", "Name");
+            ViewBag.groups = new SelectList(groups, "Id", "NameOfDisease");
 
             return View(childDTO);
         }
@@ -141,7 +141,7 @@ namespace RehabCV.Controllers
 
                 await _repository.UpdateAsync(id, child);
 
-                return RedirectToAction("Index", "Child");
+                return RedirectToAction("Parent");
             }
 
             return View(childDTO);
