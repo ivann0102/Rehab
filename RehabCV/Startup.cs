@@ -57,6 +57,7 @@ namespace RehabCV
             services.AddScoped<INumberOfCh<NumberOfChildren>, NumberOfChRepository>();
             services.AddScoped<IReserve<Reserve>, ReserveRepository>();
             services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<ITherapist<Therapist>, TherapistRepository>();
 
             services.AddHostedService<OneDayHostedService>();
             services.AddSingleton<IWorker, Worker>();
