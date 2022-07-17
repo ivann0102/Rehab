@@ -18,7 +18,6 @@ namespace RehabCV.Controllers
 {
     public class TherapistController : Controller
     {
-
         private readonly ITherapist<Therapist> _repository;
 
         private const string policy = "RequireAdminRole";
@@ -27,7 +26,6 @@ namespace RehabCV.Controllers
                         ITherapist<Therapist> repository)
         {
             _repository = repository;
-
         }
 
         [HttpGet, Authorize(Policy = policy)]
@@ -37,9 +35,6 @@ namespace RehabCV.Controllers
 
             return View(therapists);
         }
-
-
-
     }
 
 }
