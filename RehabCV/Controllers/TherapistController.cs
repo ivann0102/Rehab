@@ -36,5 +36,4 @@ namespace RehabCV.Controllers
             return View(therapists);
         }
     }
-
 }
