@@ -65,7 +65,7 @@ namespace RehabCV.Controllers
 
                 if (result != null)
                 {
-                    return RedirectToAction("Create", "Rehab", new { id = therapist.Id });
+                    return RedirectToAction("Index", "Therapist");
                 }
 
             }
@@ -79,7 +79,7 @@ namespace RehabCV.Controllers
 
             if (therapist == null)
             {
-                return BadRequest();
+                Response.StatusCode = 404;
             }
 
             var therapistDTO = new TherapistDTO
@@ -94,10 +94,6 @@ namespace RehabCV.Controllers
                 Street = therapist.Street,
                 Post = therapist.Post
             };
-
-            var therapists = await _repository.FindAll();
-
-            ViewBag.therapists = new SelectList(therapists, "Id", "FirstName", "LastName", "MiddleName");
 
             return View(therapistDTO);
         }
