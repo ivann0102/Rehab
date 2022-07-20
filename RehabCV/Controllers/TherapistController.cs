@@ -79,7 +79,7 @@ namespace RehabCV.Controllers
 
             if (therapist == null)
             {
-                Response.StatusCode = 404;
+                return NotFound();
             }
 
             var therapistDTO = new TherapistDTO
