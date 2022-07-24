@@ -23,14 +23,28 @@ namespace RehabCV.Repositories
             }
         }
 
-        public Task<string> CreateAsync(Therapist entity)
+        public async Task<string> CreateAsync(Therapist therapist)
         {
-            throw new NotImplementedException();
+            await _context.Therapists.AddAsync(therapist);
+
+            await _context.SaveChangesAsync();
+
+            return therapist.Id;
         }
 
-        public Task<int> DeleteAsync(string id)
+        public async Task<int> DeleteAsync(string id)
         {
-            throw new NotImplementedException();
+            var result = 0;
+            var therapist = _context.Therapists.FirstOrDefault(x => x.Id == id);
+
+            if (therapist != null)
+            {
+                _context.Therapists.Remove(therapist);
+
+                result = await _context.SaveChangesAsync();
+            }
+
+            return result;
         }
 
         public async Task<IEnumerable<Therapist>> FindAll()
@@ -38,14 +52,18 @@ namespace RehabCV.Repositories
             return await _context.Therapists.ToListAsync();
         }
 
-        public Task<Therapist> FindById(string id)
+        public async Task<Therapist> FindById(string id)
         {
-            throw new NotImplementedException();
+            return await _context.Therapists.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public Task UpdateAsync(string id, Therapist entity)
+        public async Task UpdateAsync(string id, Therapist therapist)
         {
-            throw new NotImplementedException();
+            therapist.Id = id;
+
+            _context.Therapists.Update(therapist);
+
+            await _context.SaveChangesAsync();
         }
     }
 }
