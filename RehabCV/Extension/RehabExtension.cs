@@ -23,6 +23,11 @@ namespace RehabCV.Extension
                 {
                     var rehabilitation = await _rehabilitation.FindByChildId(child.Id);
 
+                    if (rehabilitation == null)
+                    {
+                        continue;
+                    }
+
                     var group = await _group.FindById(child.GroupId);
 
                     var rehab = new RehabViewModel
