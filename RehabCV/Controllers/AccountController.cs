@@ -49,6 +49,12 @@ namespace RehabCV.Controllers
             {
                 var user = await _userManager.FindByNameAsync(model.Email);
 
+                if (user == null)
+                {
+                    ModelState.AddModelError("", "Невірний логін або пароль");
+                    return View(model);              
+                }
+
                 if (!await _userManager.IsEmailConfirmedAsync(user))
                 {
                     ModelState.AddModelError(string.Empty, "Ви не підтвердили свою електронну пошту!");
