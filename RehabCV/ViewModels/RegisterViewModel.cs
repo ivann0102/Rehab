@@ -15,7 +15,6 @@ namespace RehabCV.ViewModels
         [Display(Name = "Ім'я")]
         public string FirstNameOfUser { get; set; }
 
-        //[Required(AllowEmptyStrings = false, ErrorMessage = "Вкажіть по батькові.")]
         [RegularExpression(@"(^[a-z,A-Z,а-я,А-Я]+$)", ErrorMessage = "В полі по батькові мають бути лише літери .")]
         [StringLength(100, ErrorMessage = "В полі по батькові має бути мінімум 1 символ і максимум 100", MinimumLength = 1)]
         [Display(Name = "По батькові")]

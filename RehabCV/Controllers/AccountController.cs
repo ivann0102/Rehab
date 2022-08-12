@@ -97,11 +97,12 @@ namespace RehabCV.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            var userWithSameEmail = model.Email == null ? await _userManager.FindByNameAsync(model.Login)
-                                                        : await _userManager.FindByEmailAsync(model.Email);
 
             if (ModelState.IsValid)
             {
+                var userWithSameEmail = model.Email == null ? await _userManager.FindByNameAsync(model.Login)
+                                                        : await _userManager.FindByEmailAsync(model.Email);
+
                 if (userWithSameEmail == null)
                 {
                     var user = new User
