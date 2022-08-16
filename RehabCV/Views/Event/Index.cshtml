@@ -195,7 +195,7 @@
                 openAddEditForm();
             })
             $('#btnDelete').click(function () {
-                if (selectedEvent != null && confirm('Are you sure?')) {
+                if (selectedEvent != null && confirm('Ви впевнені?')) {
                     $.ajax({
                         type: "POST",
                         url: '/event/DeleteEvent',
