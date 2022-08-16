@@ -74,7 +74,7 @@
                         <select id="ddThemeColor" class="form-control">
                             <option value="">По замовчуванню</option>
                             <option value="red">Червоний</option>
-                            <option value="blue">Голубий</option>
+                            <option value="blue">Блакитний</option>
                             <option value="black">Чорний</option>
                             <option value="green">Зелений</option>
                         </select>
@@ -153,7 +153,9 @@
                         if (calEvent.end != null) {
                             $description.append($('<p/>').html('<b>Кінець:</b>' + calEvent.end.format("MM-DD-YYYY HH:mm a")));
                         }
+                        if (calEvent.description != null) {
                         $description.append($('<p/>').html('<b>Опис:</b>' + calEvent.description));
+                        }
                         $('#myModal #pDetails').empty().html($description);
 
                         $('#myModal').modal();
