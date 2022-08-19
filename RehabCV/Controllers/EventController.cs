@@ -9,6 +9,7 @@ using RehabCV.Models;
 using RehabCV.Repositories;
 using RehabCV.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 
 namespace RehabCV.Controllers
 {
@@ -39,37 +40,28 @@ namespace RehabCV.Controllers
         }
 
         [HttpPost, Authorize(Policy = policy)]
-        public async Task<JsonResult> SaveEvent(Event e)
+        public async Task<IActionResult> SaveEvent(Event e)
         {
-            var status = false;
-            if (_eventRepository != null)
+            if (!String.IsNullOrEmpty(e.Id))
             {
-                if (!String.IsNullOrEmpty(e.Id))
-                {
-                    var v = await _eventRepository.FindById(e.Id);
+                var v = await _eventRepository.FindById(e.Id);
 
-                    v.Subject = e.Subject;
-                    v.Start = e.Start;
-                    v.End = e.End;
-                    v.Description = e.Description;
-                    v.IsFullDay = e.IsFullDay;
-                    v.ThemeColor = e.ThemeColor;
+                v.Subject = e.Subject;
+                v.Start = e.Start;
+                v.End = e.End;
+                v.Description = e.Description;
+                v.IsFullDay = e.IsFullDay;
+                v.ThemeColor = e.ThemeColor;
 
-                    await _eventRepository.UpdateAsync(e.Id, v);
-                }
-                else
-                {
-                    e.Id = Guid.NewGuid().ToString();
-
-                    var result = await _eventRepository.CreateAsync(e);
-
-                    if (result != null)
-                    {
-                        status = true;
-                    }
-                }
+                await _eventRepository.UpdateAsync(e.Id, v);
+                return Ok();
             }
-            return Json(status);
+            e.Id = Guid.NewGuid().ToString();
+
+            var createdId = await _eventRepository.CreateAsync(e);
+            return createdId == null
+                ? BadRequest()
+                : new StatusCodeResult(StatusCodes.Status201Created);
         }
 
         [HttpPost, Authorize(Policy = policy)]
