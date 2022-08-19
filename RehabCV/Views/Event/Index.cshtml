@@ -141,9 +141,9 @@
                     themeSystem: 'bootstrap',
                     
                     header: {
-                        left: 'prev,next, title',
-                        center: '',
-                        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'month,agendaWeek,agendaDay'
                     },
                    
                     eventLimit: true,
@@ -283,11 +283,9 @@
                     url: '/event/SaveEvent',
                     data: data,
                     success: function (data) {
-                        if (data) {
-                            //Refresh the calender
-                            FetchEventAndRenderCalendar();
-                            $('#myModalSave').modal('hide');
-                        }
+                        //Refresh the calender
+                        FetchEventAndRenderCalendar();
+                        $('#myModalSave').modal('hide');
                     },
                     error: function () {
                         alert('Failed');
