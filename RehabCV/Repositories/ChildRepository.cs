@@ -9,7 +9,7 @@ using RehabCV.Interfaces;
 
 namespace RehabCV.Repositories
 {
-    public class ChildRepository : IClild<Child>
+    public class ChildRepository : IChild<Child>
     {
         private readonly RehabCVContext _context;
 
