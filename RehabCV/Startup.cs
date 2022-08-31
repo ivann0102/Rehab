@@ -49,7 +49,7 @@ namespace RehabCV
                 options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
             });
 
-            services.AddScoped<IClild<Child>, ChildRepository>();
+            services.AddScoped<IChild<Child>, ChildRepository>();
             services.AddScoped<IEvent<Event>, EventRepository>();
             services.AddScoped<IRehabilitation<Rehabilitation>, RehabRepository>();
             services.AddScoped<IQueue<Queue>, QueueRepository>();

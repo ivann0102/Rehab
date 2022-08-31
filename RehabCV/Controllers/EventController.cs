@@ -16,10 +16,14 @@ namespace RehabCV.Controllers
     public class EventController : Controller
     {
         private readonly IEvent<Event> _eventRepository;
+        private readonly IChild<Child> _childRepository;
+        private readonly ITherapist<Therapist> _therapistRepository;
         private const string policy = "RequireAdminRole";
-        public EventController(IEvent<Event> eventRepository)
+        public EventController(IEvent<Event> eventRepository, IChild<Child> childRepository, ITherapist<Therapist> therapistRepository)
         {
             _eventRepository = eventRepository;
+            _childRepository = childRepository;
+            _therapistRepository = therapistRepository;
         }
 
         [HttpGet, Authorize(Policy = policy)]
