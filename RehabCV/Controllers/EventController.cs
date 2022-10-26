@@ -10,6 +10,8 @@ using RehabCV.Repositories;
 using RehabCV.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using RehabCV.ViewModels;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace RehabCV.Controllers
 {
@@ -27,9 +29,14 @@ namespace RehabCV.Controllers
         }
 
         [HttpGet, Authorize(Policy = policy)]
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View();
+            var viewModel = new EventViewModel
+            {
+                TherapistList = await GetTherapistItems(),
+                ChildList = await GetClildItems()
+            };
+            return View(viewModel);
         }
 
         [HttpGet, Authorize(Policy = policy)]
@@ -90,6 +97,26 @@ namespace RehabCV.Controllers
             {
                 WriteIndented = true,
             });
+        }
+
+        private async Task<List<SelectListItem>> GetTherapistItems()
+        {
+            var therapistList = (await _therapistRepository.FindAll()).ToList();
+            return therapistList.Select(x => new SelectListItem
+            {
+                Value = x.Id,
+                Text = $"{x.FirstName} {x.MiddleName} {x.LastName}"
+            }).ToList();
+        }
+
+        private async Task<List<SelectListItem>> GetClildItems()
+        {
+            var childList = (await _childRepository.FindAll()).ToList();
+            return childList.Select(x => new SelectListItem
+            {
+                Value = x.Id,
+                Text = $"{x.FirstName} {x.MiddleName} {x.LastName}"
+            }).ToList();
         }
     }
 }

@@ -1,8 +1,4 @@
-﻿@{
-	ViewBag.Title = "Index";
-}
-
-@await Html.PartialAsync("_IndexHeader")
+﻿@await Html.PartialAsync("_IndexHeader")
 
 <h2 style="margin-top: 12%; text-align: center; font-family: Geometria; font-weight: 700; font-size: 50px; color: #061e37;">Календар</h2>
 <div id="calender"></div>
@@ -43,6 +39,18 @@
 					<div class="form-group">
 						<label>Тема</label>
 						<input type="text" id="txtSubject" class="form-control" />
+					</div>
+					<div class="form-group">
+						<label>Лікар</label>
+						<select id="drpTherapistList" class="form-control" asp-items="@Model.TherapistList">  
+							<option value="">--Select--</option>  
+						</select>
+					</div>
+					<div class="form-group">
+						<label>Паціент</label>
+						<select id="drpChildList" class="form-control" asp-items="@Model.ChildList">  
+							<option value="">--Select--</option>  
+						</select>
 					</div>
 					<div class="form-group">
 						<label>Початок</label>
@@ -236,6 +244,7 @@
 					}
 				});
 				function openAddEditForm() {
+					console.log(selectedEvent)
 					if (selectedEvent != null) {
 						$('#hdEventID').val(selectedEvent.id);
 						$('#txtSubject').val(selectedEvent.title);
@@ -252,22 +261,27 @@
 				$('#btnSave').click(function () {
 					//Validation/
 					if ($('#txtSubject').val().trim() == "") {
-						alert('Subject required');
+						alert('Введіть тему');
 						return;
 					}
 					if ($('#txtStart').val().trim() == "") {
-						alert('Start date required');
+						alert('Введіть початкову дату');
 						return;
 					}
 					if ($('#chkIsFullDay').is(':checked') == false && $('#txtEnd').val().trim() == "") {
-						alert('End date required');
+						alert('Введіть кінцеву дату');
 						return;
 					}
 					else {
 						var startDate = moment($('#txtStart').val(), "DD/MM/YYYY HH:mm").toDate();
 						var endDate = moment($('#txtEnd').val(), "DD/MM/YYYY HH:mm").toDate();
+						var mid = moment().subtract(1,'days').endOf('day').toDate()
 						if (startDate > endDate) {
-							alert('Invalid end date');
+							alert('Неправильно вказана дата');
+							return;
+						}
+						if (startDate == mid) {
+							alert('Неправильно вказана дата');
 							return;
 						}
 					}
@@ -285,6 +299,7 @@
 					// call function for submit data to the server
 				})
 				function SaveEvent(data) {
+					console.log(data)
 					$.ajax({
 						type: "POST",
 						url: '/event/SaveEvent',
