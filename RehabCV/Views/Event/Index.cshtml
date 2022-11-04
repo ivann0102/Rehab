@@ -275,12 +275,7 @@
 					else {
 						var startDate = moment($('#txtStart').val(), "DD/MM/YYYY HH:mm").toDate();
 						var endDate = moment($('#txtEnd').val(), "DD/MM/YYYY HH:mm").toDate();
-						var mid = moment().subtract(1,'days').endOf('day').toDate()
 						if (startDate > endDate) {
-							alert('Неправильно вказана дата');
-							return;
-						}
-						if (startDate == mid) {
 							alert('Неправильно вказана дата');
 							return;
 						}
