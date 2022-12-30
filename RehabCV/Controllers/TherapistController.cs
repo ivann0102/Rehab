@@ -113,6 +113,7 @@ namespace RehabCV.Controllers
                 therapist.District = therapistDTO.District;
                 therapist.Location = therapistDTO.Location;
                 therapist.Street = therapistDTO.Street;
+                therapist.Post = therapistDTO.Post;
 
                 await _repository.UpdateAsync(id, therapist);
             }
