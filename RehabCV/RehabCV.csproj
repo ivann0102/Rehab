@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
-
   <ItemGroup>
     <None Include="wwwroot\css\bootstrap.css" />
     <None Include="wwwroot\css\maicons.css" />
@@ -25,28 +25,28 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="BootstrapNotifications" Version="0.3.2" />
-    <PackageReference Include="Calabonga.Microservices.BackgroundWorkers" Version="1.0.4" />
+    <PackageReference Include="Calabonga.Microservices.BackgroundWorkers" Version="1.0.5" />
     <PackageReference Include="EntityFramework" Version="6.4.4" />
-    <PackageReference Include="JavaScriptEngineSwitcher.Core" Version="3.3.0" />
-    <PackageReference Include="MailKit" Version="2.13.0" />
-    <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.7" />
-    <PackageReference Include="Microsoft.AspNet.Web.Optimization" Version="1.1.3" />
+    <PackageReference Include="JavaScriptEngineSwitcher.Core" Version="3.19.0" />
+    <PackageReference Include="MailKit" Version="3.5.0" />
+    <!-- <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.9" /> -->
+    <!-- <PackageReference Include="Microsoft.AspNet.Web.Optimization" Version="1.1.3" /> -->
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.7" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.7">
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.7">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="MimeKit" Version="2.13.0" />
+    <PackageReference Include="MimeKit" Version="3.5.0" />
     <PackageReference Include="ncrontab" Version="3.3.1" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.7" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.1" />
     <PackageReference Include="React.AspNet" Version="5.2.12" />
     <PackageReference Include="Redux.NET" Version="2.0.0" />
   </ItemGroup>
