@@ -21,5 +21,9 @@ namespace RehabCV.Models
         public string ReserveId { get; set; }
         public Reserve Reserve { get; set; }
         public DateTime DateOfReserv { get; set; }
+
+
+        public List<Card> Cards { get;set; }
+
     }
 }

@@ -15,5 +15,8 @@ namespace RehabCV.Models
         public string Street { get; set; }
         public string Post { get; set; }
 
+        public List<Card> Cards { get;set; }
+
+
     }
 }

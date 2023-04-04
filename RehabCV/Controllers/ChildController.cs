@@ -37,7 +37,8 @@ namespace RehabCV.Controllers
         {
             var children = await _repository.FindByParentId(id);
 
-            return View(children);
+            //return View(children);
+            return Ok(children);
         }
 
         [HttpGet, Authorize(Policy = policy)]
@@ -45,7 +46,8 @@ namespace RehabCV.Controllers
         {
             var parents = await _userManager.GetUsersInRoleAsync("Parent");
 
-            return View(parents);
+           // return View(parents);
+            return Ok(parents);
         }
 
         [HttpGet, Authorize()]

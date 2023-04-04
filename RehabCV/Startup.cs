@@ -21,6 +21,9 @@ using RehabCV.Working;
 using RehabCV.Services;
 using RehabCV.Configurations;
 
+using Microsoft.OpenApi.Models;
+
+
 namespace RehabCV
 {
     public class Startup
@@ -61,6 +64,14 @@ namespace RehabCV
 
             services.AddHostedService<OneDayHostedService>();
             services.AddSingleton<IWorker, Worker>();
+
+
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -94,6 +105,14 @@ namespace RehabCV
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
+
         }
 
         private async Task CreateRoles(IServiceProvider serviceProvider)

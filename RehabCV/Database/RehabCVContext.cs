@@ -18,6 +18,7 @@ namespace RehabCV.Database
         public DbSet<Group> Groups { get; set; }
         public DbSet<Therapist> Therapists { get; set; }
         public DbSet<NumberOfChildren> NumberOfChildren { get; set;}
+        public DbSet<Card> Cards{ get;set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -39,6 +40,22 @@ namespace RehabCV.Database
             modelBuilder.Entity<User>()
                 .HasMany(x => x.Child)
                 .WithOne(x => x.User)
+                .OnDelete(DeleteBehavior.Cascade);
+                
+
+            modelBuilder.Entity<Card>()
+                .HasKey(c => c.Id);
+
+            modelBuilder.Entity<Card>()
+                .HasOne(c => c.Child)
+                .WithMany(ch => ch.Cards)
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Card>()
+                .HasOne(c => c.Therapist)
+                .WithMany(th => th.Cards)
+                .HasForeignKey(c => c.TherapistId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }
