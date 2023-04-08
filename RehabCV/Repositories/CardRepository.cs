@@ -9,7 +9,7 @@ using RehabCV.Interfaces;
 
 namespace RehabCV.Repositories
 {
-    public class CardRepository : IChild<Child>
+    public class CardRepository : ICard<Card>
     {
         private readonly RehabCVContext _context;
 
@@ -23,39 +23,30 @@ namespace RehabCV.Repositories
             }
         }
 
-        public async Task<IEnumerable<Child>> FindAll()
+        public async Task<string> CreateAsync(Card card)
         {
-            return await _context.Children.ToListAsync();
-        }
-
-        public async Task<Child> FindById(string id)
-        {
-            return await _context.Children.FirstOrDefaultAsync(x => x.Id == id);
-        }
-
-        public async Task<IEnumerable<Child>> FindByParentId(string parentId)
-        {
-            return await _context.Children
-                                    .AsNoTracking()
-                                    .AsQueryable()
-                                    .Where(x => x.UserId == parentId).ToListAsync();
-            
-        }
-
-        public async Task<string> CreateAsync(Child child)
-        {
-            await _context.Children.AddAsync(child);
+            await _context.Cards.AddAsync(card);
 
             await _context.SaveChangesAsync();
 
-            return child.Id;
+            return card.Id;
         }
 
-        public async Task UpdateAsync(string id, Child child)
+        public async Task<IEnumerable<Card>> FindAll()
         {
-            child.Id = id;
+            return await _context.Cards.ToListAsync();
+        }
 
-            _context.Children.Update(child);
+        public async Task<Card> FindById(string id)
+        {
+            return await _context.Cards.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task UpdateAsync(string id, Card card)
+        {
+            card.Id = id;
+
+            _context.Cards.Update(card);
 
             await _context.SaveChangesAsync();
         }
@@ -63,13 +54,13 @@ namespace RehabCV.Repositories
         public async Task<int> DeleteAsync(string id)
         {
             var result = 0;
-            var child = _context.Children.FirstOrDefault(x => x.Id == id);
+            var card = _context.Cards.FirstOrDefault(x => x.Id == id);
 
-            if (child != null)
+            if (card!= null)
             {
-                _context.Children.Remove(child);
+                _context.Cards.Remove(card);
 
-                result =  await _context.SaveChangesAsync();
+                result = await _context.SaveChangesAsync();
             }
 
             return result;

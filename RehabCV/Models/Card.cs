@@ -13,9 +13,5 @@ namespace RehabCV.Models
     public string Diagnosis{ get; set; }
     public List<DateTime > Lessons {get; set;}
     public List<string> Symptoms { get; set; }
-
-    public List<Card> Cards { get;set; }
-
     }
-
 }

@@ -42,6 +42,7 @@ namespace RehabCV.Database
                 .WithOne(x => x.User)
                 .OnDelete(DeleteBehavior.Cascade);
                 
+                
 
             modelBuilder.Entity<Card>()
                 .HasKey(c => c.Id);
