@@ -1,4 +1,4 @@
-﻿using RehabCV.Interfaces;
+using RehabCV.Interfaces;
 using RehabCV.Models;
 using RehabCV.Repositories;
 using RehabCV.ViewModels;
@@ -97,7 +97,7 @@ namespace RehabCV.Extension
             foreach (var child in children)
             {
                 var rehab = await _rehabilitation.FindByChildId(child.Id);
-                if (rehab.DateOfRehab == dateOfRehab)
+                if (rehab != null && rehab.DateOfRehab == dateOfRehab)
                 {
                     numberOfBusySeats++;
                 }
