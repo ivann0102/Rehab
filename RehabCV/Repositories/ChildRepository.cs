@@ -39,7 +39,12 @@ namespace RehabCV.Repositories
                                     .AsNoTracking()
                                     .AsQueryable()
                                     .Where(x => x.UserId == parentId).ToListAsync();
-            
+
+        }
+
+        public async Task<IEnumerable<Child>> FindByRehabDate(DateTime date)
+        {
+            return await _context.Children.Where(x => x.Rehabilitation.DateOfRehab == date).ToListAsync();
         }
 
         public async Task<string> CreateAsync(Child child)
@@ -69,7 +74,7 @@ namespace RehabCV.Repositories
             {
                 _context.Children.Remove(child);
 
-                result =  await _context.SaveChangesAsync();
+                result = await _context.SaveChangesAsync();
             }
 
             return result;

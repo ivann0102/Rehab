@@ -14,6 +14,8 @@ namespace RehabCV.Models
         public string Location { get; set; }
         public string Street { get; set; }
         public string Post { get; set; }
+        public List<Plan> Plans { get; set; }
+        public List<Event> Events { get; set; }
 
     }
 }

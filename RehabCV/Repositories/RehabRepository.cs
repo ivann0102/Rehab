@@ -23,6 +23,17 @@ namespace RehabCV.Repositories
             }
         }
 
+        public async Task<IEnumerable<Rehabilitation>> FindAll()
+        {
+            return await _context.Rehabilitations.ToListAsync();
+        }
+
+        public async Task<Rehabilitation> FindById(string id)
+        {
+            return await _context.Rehabilitations
+                                            .FirstOrDefaultAsync(x => x.Id == id);
+        }
+
         public async Task<Rehabilitation> FindByChildId(string id)
         {
             return await _context.Rehabilitations

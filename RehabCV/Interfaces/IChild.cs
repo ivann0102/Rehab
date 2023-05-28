@@ -8,5 +8,6 @@ namespace RehabCV.Interfaces
     public interface IChild<TEntity> : IEvent<TEntity>
     {
         public Task<IEnumerable<TEntity>> FindByParentId(string id);
+        public Task<IEnumerable<TEntity>> FindByRehabDate(DateTime date);
     }
 }

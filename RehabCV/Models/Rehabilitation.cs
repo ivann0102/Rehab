@@ -12,5 +12,6 @@ namespace RehabCV.Models
         public DateTime DateOfRehab { get; set; }
         public DateTime DateOfCommission { get; set; }
         public Queue Queue { get; set; }
+        public List<Plan> Plans { get; set; }
     }
 }

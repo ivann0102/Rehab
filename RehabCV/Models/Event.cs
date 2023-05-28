@@ -12,5 +12,9 @@ namespace RehabCV.Models
         public DateTime End { get; set; }
         public string ThemeColor { get; set; }
         public bool IsFullDay { get; set; }
+        public string ChildId { get; set; }
+        public Child Child { get; set; }
+        public string TherapistId { get; set; }
+        public Therapist Therapist { get; set; }
     }
 }

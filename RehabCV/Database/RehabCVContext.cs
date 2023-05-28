@@ -17,7 +17,8 @@ namespace RehabCV.Database
         public DbSet<Event> Events { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<Therapist> Therapists { get; set; }
-        public DbSet<NumberOfChildren> NumberOfChildren { get; set;}
+        public DbSet<NumberOfChildren> NumberOfChildren { get; set; }
+        public DbSet<Plan> Plans { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -25,9 +26,14 @@ namespace RehabCV.Database
                 .HasOne(x => x.Rehabilitation)
                 .WithOne(x => x.Child)
                 .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Therapist>()
+                .HasMany(x => x.Plans)
+                .WithOne(x => x.Therapist)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Reserve>()
                 .HasMany(x => x.Children)
-                .WithOne(x => x.Reserve); 
+                .WithOne(x => x.Reserve);
             modelBuilder.Entity<Group>()
                 .HasMany(x => x.Children)
                 .WithOne(x => x.Group)
@@ -39,6 +45,26 @@ namespace RehabCV.Database
             modelBuilder.Entity<User>()
                 .HasMany(x => x.Child)
                 .WithOne(x => x.User)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Plan>()
+                .HasOne(x => x.Child)
+                .WithMany(x => x.IndividualPlans)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<Event>()
+                .HasOne(x => x.Child)
+                .WithMany(x => x.Events)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<Event>()
+                .HasOne(x => x.Therapist)
+                .WithMany(x => x.Events)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<Rehabilitation>()
+                .HasMany(x => x.Plans)
+                .WithOne(x => x.Rehab)
+                .IsRequired(false)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }
