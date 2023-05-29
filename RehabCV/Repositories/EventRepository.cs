@@ -33,6 +33,18 @@ namespace RehabCV.Repositories
             return await _context.Events.FirstOrDefaultAsync(x => x.Id == id);
         }
 
+        public async Task<int> DeleteBySubject(string subject)
+        {
+            var events = await _context.Events.Where(x => x.Subject == subject).ToListAsync();
+            foreach (var @event in events)
+            {
+                _context.Events.Remove(@event);
+            }
+            var result = await _context.SaveChangesAsync();
+
+            return result;
+        }
+
         public async Task<string> CreateAsync(Event @event)
         {
             await _context.Events.AddAsync(@event);
