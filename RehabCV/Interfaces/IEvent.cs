@@ -10,5 +10,6 @@ namespace RehabCV.Interfaces
         public Task<IEnumerable<TEntity>> FindAll();
         public Task<TEntity> FindById(string id);
         public Task<int> DeleteAsync(string id);
+        public Task<int> DeleteBySubject(string subject);
     }
 }
