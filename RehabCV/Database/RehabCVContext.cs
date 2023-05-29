@@ -46,11 +46,6 @@ namespace RehabCV.Database
                 .HasMany(x => x.Child)
                 .WithOne(x => x.User)
                 .OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity<Plan>()
-                .HasOne(x => x.Child)
-                .WithMany(x => x.IndividualPlans)
-                .IsRequired(false)
-                .OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<Event>()
                 .HasOne(x => x.Child)
                 .WithMany(x => x.Events)

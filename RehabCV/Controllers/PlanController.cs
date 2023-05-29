@@ -17,7 +17,7 @@ namespace RehabCV.Controllers
         private const string policy = "RequireAdminRole";
 
         private readonly IPlan<Plan> _plan;
-        
+
         public PlanController(IPlan<Plan> plan)
         {
             _plan = plan;
@@ -40,17 +40,15 @@ namespace RehabCV.Controllers
             var plan = new Plan
             {
                 Id = Guid.NewGuid().ToString(),
-                ChildId = planDTO.ChildId,
                 TherapistId = planDTO.TherapistId,
                 Description = planDTO.Description,
-                NumberOfAppointments = planDTO.NumberOfAppointments
+                NumberOfAppointments = planDTO.NumberOfAppointments,
+                RehabId = planDTO.RehabId,
             };
 
             var resultPlan = await _plan.CreateAsync(plan);
             if (resultPlan != null)
             {
-                // return Created(new Uri("/Home/Index", UriKind.Relative), plan);
-                // return ContentResult(plan);
                 return StatusCode(StatusCodes.Status201Created, plan);
             }
             return BadRequest();
@@ -60,7 +58,6 @@ namespace RehabCV.Controllers
         public async Task<IActionResult> Update(string id, PlanDTO planDTO)
         {
             var plan = await _plan.FindById(id);
-            plan.ChildId = planDTO.ChildId;
             plan.Description = planDTO.Description;
             plan.NumberOfAppointments = planDTO.NumberOfAppointments;
             plan.TherapistId = planDTO.TherapistId;
@@ -72,20 +69,12 @@ namespace RehabCV.Controllers
         public async Task<IActionResult> Delete(string id)
         {
             var plan = await _plan.DeleteAsync(id);
-            if(plan==1){
+            if (plan != 0)
+            {
                 return Ok("Deleted!");
             }
             return BadRequest();
         }
 
-        // [HttpDelete()]
-        // public async Task<IActionResult> DeleteGenerated(string id)
-        // {
-        //     var plan = await _plan.DeleteAsync(id);
-        //     if(plan==1){
-        //         return Ok("Deleted!");
-        //     }
-        //     // return BadRequest();
-        // }
     }
 }

@@ -5,8 +5,6 @@ namespace RehabCV.Models
     public class Plan
     {
         public string Id { get; set; }
-        public string ChildId { get; set; }
-        public Child Child { get; set; }
         public string TherapistId { get; set; }
         public Therapist Therapist { get; set; }
         public string Description { get; set; }

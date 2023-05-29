@@ -31,8 +31,12 @@ namespace RehabCV.Repositories
 
         public async Task<Plan> FindByChildId(string id)
         {
+
             return await _context.Plans
-                                            .FirstOrDefaultAsync(x => x.ChildId == id);
+                            .Include(x => x.Rehab)
+                            .Include(x => x.Rehab.Child)
+                            .Where(x => x.Rehab.ChildId == id)
+                            .FirstOrDefaultAsync();
         }
 
         public async Task<Plan> FindByTherapistId(string id)
@@ -77,7 +81,7 @@ namespace RehabCV.Repositories
 
         public async Task<IEnumerable<Plan>> FindByRehabDate(DateTime date)
         {
-            return await _context.Plans.Where(x => x.Rehab.DateOfRehab == date).ToListAsync();
+            return await _context.Plans.Include(x=>x.Rehab).Include(x=>x.Rehab.Child).Where(x => x.Rehab.DateOfRehab == date).ToListAsync();
         }
     }
 }
