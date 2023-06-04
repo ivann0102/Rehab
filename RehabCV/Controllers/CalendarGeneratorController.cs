@@ -13,7 +13,7 @@ using System.Text;
 
 namespace RehabCV.Controllers
 {
-    enum Days
+    enum WorkingDays
     {
         Monday = 1,
         Tuesday,
@@ -55,7 +55,7 @@ namespace RehabCV.Controllers
             var plans = await _plan.FindByRehabDate(DateTime.Parse(date));
             var children = await _child.FindByRehabDate(DateTime.Parse(date));
             var therapists = await _therapist.FindAll();
-            var timetable = new Dictionary<(Plan plan, int week, Days day, string timeslot), BoolVar>();
+            var timetable = new Dictionary<(Plan plan, int week, WorkingDays day, string timeslot), BoolVar>();
 
             CpModel model = new CpModel();
             int startDay = (int)DateTime.Parse(date).DayOfWeek;
@@ -80,7 +80,7 @@ namespace RehabCV.Controllers
                 for (int week = 0; week < duration; week++)
                 {
 
-                    foreach (Days day in Enum.GetValues(typeof(Days)))
+                    foreach (WorkingDays day in Enum.GetValues(typeof(WorkingDays)))
                     {
                         if ((int)day < startDay && week == 0)
                         {
@@ -88,7 +88,7 @@ namespace RehabCV.Controllers
                         }
                         foreach (string timeslot in timeslots)
                         {
-                            (Plan plan, int week, Days day, string timeslot) key = (plan, week, day, timeslot);
+                            (Plan plan, int week, WorkingDays day, string timeslot) key = (plan, week, day, timeslot);
                             timetable.Add(key, model.NewBoolVar($"x{plan.Id}{week}{day}{timeslot}"));
                         }
                     }
@@ -102,7 +102,7 @@ namespace RehabCV.Controllers
             {
                 for (int week = 0; week < MAX_WEEKS; week++)
                 {
-                    foreach (Days day in Enum.GetValues(typeof(Days)))
+                    foreach (WorkingDays day in Enum.GetValues(typeof(WorkingDays)))
                     {
                         foreach (var timeslot in timeslots)
                         {
@@ -131,7 +131,7 @@ namespace RehabCV.Controllers
             {
                 for (int week = 0; week < MAX_WEEKS; week++)
                 {
-                    foreach (Days day in Enum.GetValues(typeof(Days)))
+                    foreach (WorkingDays day in Enum.GetValues(typeof(WorkingDays)))
                     {
                         foreach (var timeslot in timeslots)
                         {
@@ -158,7 +158,7 @@ namespace RehabCV.Controllers
                 {
                     for (int week = 0; week < MAX_WEEKS; week++)
                     {
-                        foreach (Days day in Enum.GetValues(typeof(Days)))
+                        foreach (WorkingDays day in Enum.GetValues(typeof(WorkingDays)))
                         {
                             foreach (var timeslot in timeslots)
                             {
@@ -186,7 +186,7 @@ namespace RehabCV.Controllers
                 {
                     for (int week = 0; week < MAX_WEEKS; week++)
                     {
-                        foreach (Days day in Enum.GetValues(typeof(Days)))
+                        foreach (WorkingDays day in Enum.GetValues(typeof(WorkingDays)))
                         {
                             foreach (var timeslot in timeslots)
                             {
@@ -231,7 +231,7 @@ namespace RehabCV.Controllers
             IntVar objective = model.NewIntVar(0, 1000000, "objective");
             for (int week = 0; week < MAX_WEEKS; week++)
             {
-                foreach (Days day in Enum.GetValues(typeof(Days)))
+                foreach (WorkingDays day in Enum.GetValues(typeof(WorkingDays)))
                 {
                     foreach (var child in children)
                     {
@@ -245,14 +245,14 @@ namespace RehabCV.Controllers
                             sum.Add(prod);
                         }
                     }
-                    if (sum.Count() != 0)
-                    {
-                        model.Maximize(LinearExpr.Sum(sum));
-                        sum.Clear();
-                    }
+
                 }
             }
-
+            if (sum.Count() != 0)
+            {
+                model.Maximize(LinearExpr.Sum(sum));
+                sum.Clear();
+            }
             CpSolver solver = new CpSolver();
             CpSolverStatus status = solver.Solve(model);
 
