@@ -49,8 +49,8 @@ namespace RehabCV.Controllers
             _event = @event;
         }
 
-        [HttpGet("{date}")]
-        public async Task<IActionResult> Get(string date)
+        [HttpGet("{date}/{time}")]
+        public async Task<IActionResult> Get(string date, int time)
         {
             var plans = await _plan.FindByRehabDate(DateTime.Parse(date));
             var children = await _child.FindByRehabDate(DateTime.Parse(date));
@@ -254,6 +254,7 @@ namespace RehabCV.Controllers
                 sum.Clear();
             }
             CpSolver solver = new CpSolver();
+            solver.StringParameters = $"max_time_in_seconds:{time}.0";
             CpSolverStatus status = solver.Solve(model);
 
             Console.WriteLine(model.Validate());
@@ -262,25 +263,26 @@ namespace RehabCV.Controllers
                 startOfWeek = startOfWeek.AddDays(-1);
             startOfWeek = startOfWeek.Date;
             List<Event> events = new List<Event>();
-            foreach (var item in timetable)
-            {
-                if (solver.BooleanValue(item.Value) == true)
+            if (status == CpSolverStatus.Optimal || status == CpSolverStatus.Feasible)
+                foreach (var item in timetable)
                 {
-                    Console.WriteLine(item.Key.ToString());
-
-                    var @event = new Event()
+                    if (solver.BooleanValue(item.Value) == true)
                     {
-                        Id = Guid.NewGuid().ToString(),
-                        Subject = $"Generated",
-                        Description = $"{item.Key.plan.Description}; Therapist: {item.Key.plan.Rehab.Child.FirstName} {item.Key.plan.Rehab.Child.LastName}; Child:  {item.Key.plan.Therapist.FirstName} {item.Key.plan.Therapist.LastName};",
-                        TherapistId = item.Key.plan.TherapistId,
-                        ChildId = item.Key.plan.Rehab.ChildId,
-                        Start = startOfWeek.AddDays((item.Key.week) * 7).AddDays((int)item.Key.day - 1).Add(TimeSpan.Parse(item.Key.timeslot)),
-                        End = startOfWeek.AddDays((item.Key.week) * 7).AddDays((int)item.Key.day - 1).Add(TimeSpan.Parse(item.Key.timeslot)).AddMinutes(40),
-                    };
-                    await _event.CreateAsync(@event);
+                        Console.WriteLine(item.Key.ToString());
+
+                        var @event = new Event()
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            Subject = $"Generated",
+                            Description = $"{item.Key.plan.Description}; Therapist: {item.Key.plan.Rehab.Child.FirstName} {item.Key.plan.Rehab.Child.LastName}; Child:  {item.Key.plan.Therapist.FirstName} {item.Key.plan.Therapist.LastName};",
+                            TherapistId = item.Key.plan.TherapistId,
+                            ChildId = item.Key.plan.Rehab.ChildId,
+                            Start = startOfWeek.AddDays((item.Key.week) * 7).AddDays((int)item.Key.day - 1).Add(TimeSpan.Parse(item.Key.timeslot)),
+                            End = startOfWeek.AddDays((item.Key.week) * 7).AddDays((int)item.Key.day - 1).Add(TimeSpan.Parse(item.Key.timeslot)).AddMinutes(40),
+                        };
+                        await _event.CreateAsync(@event);
+                    }
                 }
-            }
             return Ok(status);
         }
     }
