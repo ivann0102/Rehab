@@ -2,6 +2,10 @@ using RehabCV.Database;
 using Microsoft.EntityFrameworkCore;
 using RehabCV.Models;
 using RehabCV.Interfaces;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System;
+using System.Linq;
 
 namespace RehabCV.Repositories
 {
@@ -21,59 +25,80 @@ namespace RehabCV.Repositories
 
         public async Task<IEnumerable<Plan>> FindAll()
         {
-            return await _context.Plans.ToListAsync();
+            if (_context != null)
+                return await _context.Plans.ToListAsync();
+            return null;
         }
 
         public async Task<Plan> FindById(string id)
         {
-            return await _context.Plans.FirstOrDefaultAsync(x => x.Id == id);
+            if (_context != null)
+                return await _context.Plans.FirstOrDefaultAsync(x => x.Id == id);
+            return null;
         }
 
         public async Task<Plan> FindByChildId(string id)
         {
-
-            return await _context.Plans
-                            .Include(x => x.Rehab)
-                            .Include(x => x.Rehab.Child)
-                            .Where(x => x.Rehab.ChildId == id)
-                            .FirstOrDefaultAsync();
+            if (_context != null)
+                return await _context.Plans
+                                .Include(x => x.Rehab)
+                                .Include(x => x.Rehab.Child)
+                                .Where(x => x.Rehab.ChildId == id)
+                                .FirstOrDefaultAsync();
+            return null;
         }
 
         public async Task<Plan> FindByTherapistId(string id)
         {
-            return await _context.Plans
-                                            .FirstOrDefaultAsync(x => x.TherapistId == id);
+            if (_context != null)
+                return await _context.Plans
+                        .FirstOrDefaultAsync(x => x.TherapistId == id);
+            return null;
         }
 
         public async Task<string> CreateAsync(Plan plan)
         {
-            await _context.Plans.AddAsync(plan);
+            int result = 0;
+            if (_context != null)
+            {
+                await _context.Plans.AddAsync(plan);
 
-            await _context.SaveChangesAsync();
+                result = await _context.SaveChangesAsync();
 
-            return plan.Id;
+                if (result != 0)
+                    return plan.Id;
+            }
+            return null;
         }
 
         public async Task UpdateAsync(string id, Plan plan)
         {
-            plan.Id = id;
+            if (_context != null)
+            {
+                plan.Id = id;
 
-            _context.Plans.Update(plan);
+                _context.Plans.Update(plan);
 
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
+            }
         }
 
         public async Task<int> DeleteAsync(string id)
         {
             var result = 0;
 
-            var @plan = _context.Plans.FirstOrDefault(x => x.Id == id);
-
-            if (@plan != null)
+            if (_context != null)
             {
-                _context.Plans.Remove(@plan);
 
-                result = await _context.SaveChangesAsync();
+                var plan = _context.Plans.FirstOrDefault(x => x.Id == id);
+
+                if (plan != null)
+                {
+                    _context.Plans.Remove(plan);
+
+                    result = await _context.SaveChangesAsync();
+                }
+                return result;
             }
 
             return result;
@@ -81,7 +106,13 @@ namespace RehabCV.Repositories
 
         public async Task<IEnumerable<Plan>> FindByRehabDate(DateTime date)
         {
-            return await _context.Plans.Include(x=>x.Rehab).Include(x=>x.Rehab.Child).Where(x => x.Rehab.DateOfRehab == date).ToListAsync();
+            if (_context != null)
+                return await _context.Plans
+                            .Include(x => x.Rehab)
+                            .Include(x => x.Rehab.Child)
+                            .Where(x => x.Rehab.DateOfRehab == date)
+                            .ToListAsync();
+            return null;
         }
     }
 }

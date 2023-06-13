@@ -1,6 +1,9 @@
+using System;
 using System.Text.Encodings.Web;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -29,11 +32,13 @@ namespace RehabCV.Controllers
             var all = await _plan.FindAll();
             return Ok(all);
         }
+
         [HttpGet("{id}")]
         public string Get(int id)
         {
             return HtmlEncoder.Default.Encode($"Hello {id}");
         }
+
         [HttpPost]
         public async Task<IActionResult> Create(PlanDTO planDTO)
         {
@@ -62,16 +67,16 @@ namespace RehabCV.Controllers
             plan.NumberOfAppointments = planDTO.NumberOfAppointments;
             plan.TherapistId = planDTO.TherapistId;
             await _plan.UpdateAsync(id, plan);
-
-            return Ok(plan);
+            return StatusCode(StatusCodes.Status204NoContent);
         }
+
         [HttpDelete("{id}"), ActionName("Delete")]
         public async Task<IActionResult> Delete(string id)
         {
             var plan = await _plan.DeleteAsync(id);
             if (plan != 0)
             {
-                return Ok("Deleted!");
+                return StatusCode(StatusCodes.Status204NoContent, "Deleted!");
             }
             return BadRequest();
         }

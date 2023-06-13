@@ -10,10 +10,11 @@ using RehabCV.Interfaces;
 using RehabCV.Models;
 using Google.OrTools.Sat;
 using System.Text;
+using RehabCV.Extension;
 
 namespace RehabCV.Controllers
 {
-    enum WorkingDays
+    public enum WorkingDays
     {
         Monday = 1,
         Tuesday,
@@ -35,7 +36,7 @@ namespace RehabCV.Controllers
         private readonly IRehabilitation<Rehabilitation> _rehab;
         private readonly ITherapist<Therapist> _therapist;
         private readonly IEvent<Event> _event;
-        private readonly List<string> timeslots = new List<string> { "08:20", "09:10", "10:00", "10:50", "11:40", "12:30", "13:20" };
+        private readonly List<string> timeslots = new List<string> { "08:20", "09:10", "10:00", "10:50", "11:40", "12:30", "13:20", "14:10", "15:00", "16:50" };
         private readonly int MAX_WEEKS = 8;
 
         public CalendarGeneratorController(IPlan<Plan> plan, IRehabilitation<Rehabilitation> rehab,
@@ -153,61 +154,14 @@ namespace RehabCV.Controllers
 
             foreach (Child child in children)
             {
-                int age = (int)((DateTime.Today - child.Birthday).TotalDays / 365.25);
+                int age = child.Birthday.GetAge();
                 if (age < 3)
                 {
-                    for (int week = 0; week < MAX_WEEKS; week++)
-                    {
-                        foreach (WorkingDays day in Enum.GetValues(typeof(WorkingDays)))
-                        {
-                            foreach (var timeslot in timeslots)
-                            {
-                                var tmp = timetable.Where(el => el.Key.plan.Rehab.ChildId == child.Id
-                                        && el.Key.week == week && el.Key.day == day
-                                        && el.Key.timeslot == timeslot);
-                                if (tmp.Count() == 0)
-                                    continue;
-                                foreach (var el in tmp)
-                                {
-                                    sum.Add(el.Value);
-                                }
-
-                            }
-                            if (sum.Count() != 0)
-                            {
-
-                                model.Add(LinearExpr.Sum(sum) <= 3);
-                                sum.Clear();
-                            }
-                        }
-                    }
+                    model = model.AddChildDayConstraint(child, MAX_WEEKS, timetable, 3);
                 }
                 else if (age < 5)
                 {
-                    for (int week = 0; week < MAX_WEEKS; week++)
-                    {
-                        foreach (WorkingDays day in Enum.GetValues(typeof(WorkingDays)))
-                        {
-                            foreach (var timeslot in timeslots)
-                            {
-                                var tmp = timetable.Where(el => el.Key.plan.Rehab.ChildId == child.Id
-                                        && el.Key.week == week && el.Key.day == day
-                                        && el.Key.timeslot == timeslot);
-                                if (tmp.Count() == 0)
-                                    continue;
-                                foreach (var el in tmp)
-                                {
-                                    sum.Add(el.Value);
-                                }
-
-                            }
-                            if (sum.Count() != 0)
-                            {
-                                model.Add(LinearExpr.Sum(sum) <= 4);
-                                sum.Clear();
-                            }
-                        }
-                    }
+                    model = model.AddChildDayConstraint(child, MAX_WEEKS, timetable, 4);
                 }
             }
 

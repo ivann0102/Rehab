@@ -35,7 +35,9 @@ namespace RehabCV.Repositories
 
         public async Task<int> DeleteBySubject(string subject)
         {
-            var events = await _context.Events.Where(x => x.Subject == subject).ToListAsync();
+            var events = await _context.Events
+                    .Where(x => x.Subject == subject)
+                    .ToListAsync();
             foreach (var @event in events)
             {
                 _context.Events.Remove(@event);
